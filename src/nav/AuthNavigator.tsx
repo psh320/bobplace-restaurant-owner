@@ -6,12 +6,14 @@ import {MainNavigator} from './MainNavigator';
 import Register from '../screens/Register';
 import RegisterForm from '../screens/RegisterForm';
 import {RegisterInterface} from '../data';
+import RegisterDone from '../screens/RegisterDone';
 
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   RegisterForm: {registerData: RegisterInterface};
-  RegisterCategory: {registerData: RegisterInterface};
+  RegisterDone: {status: number};
+  RegisterStore: undefined;
   MainNavigator: undefined;
 };
 
@@ -26,6 +28,7 @@ export const AuthNavigator = () => {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="RegisterForm" component={RegisterForm} />
+      <Stack.Screen name="RegisterDone" component={RegisterDone} />
       <Stack.Screen name="MainNavigator" component={MainNavigator} />
     </Stack.Navigator>
   );

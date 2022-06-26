@@ -92,7 +92,7 @@ const RegisterForm = ({navigation, route}: Props) => {
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           )}
 
-          {/* <Controller
+          <Controller
             control={control}
             rules={{
               required: true,
@@ -112,7 +112,7 @@ const RegisterForm = ({navigation, route}: Props) => {
           />
           {errors.birthDate?.type === 'required' && (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-          )} */}
+          )}
         </ScrollView>
       </KeyboardAvoidingView>
       <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
