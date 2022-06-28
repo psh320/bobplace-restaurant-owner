@@ -15,6 +15,7 @@ import {AuthStackParamList} from '../nav';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {ImageInterface} from '../data';
+import {RenderUploadImage} from '../components/common/RenderUploadImage';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStore'>;
 
@@ -31,48 +32,6 @@ const RegisterStore = ({navigation, route}: Props) => {
 
   const goNext = () => {
     navigation.navigate('RegisterStoreInfo', {storeData: registerStoreData, imageData: imageData});
-  };
-
-  const removeImage = (name: string) => {
-    setImageData((current) =>
-      current.filter((image) => {
-        // 👇️ remove object that has id equal to 2
-        return image.name !== name;
-      }),
-    );
-  };
-
-  const RenderedImageFiles = () => {
-    return (
-      <ScrollView horizontal style={{marginTop: 16}}>
-        {imageData.map((item, index) => {
-          return (
-            <View key={index} style={{marginRight: 16, borderColor: '#DFDFDF', borderWidth: 1}}>
-              <TouchableOpacity
-                onPress={() => {
-                  removeImage(item.name);
-                }}
-                style={{position: 'absolute', top: 5, right: 5, zIndex: 1}}
-              >
-                <View
-                  style={{
-                    backgroundColor: '#2A2A2A',
-                    width: 18,
-                    height: 18,
-                    borderRadius: 12,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Icon name="close" size={14} color="#DFDFDF" />
-                </View>
-              </TouchableOpacity>
-              <Image source={{uri: item.uri}} style={{width: 150, height: 150}} />
-            </View>
-          );
-        })}
-      </ScrollView>
-    );
   };
 
   const openImagePicker = () => {
@@ -159,7 +118,9 @@ const RegisterStore = ({navigation, route}: Props) => {
             <Icon name="plus" size={22} color="#C4C4C4" />
           </View>
         </TouchableOpacity>
-        <View>{RenderedImageFiles()}</View>
+        <View>
+          <RenderUploadImage imageData={imageData} setImageData={setImageData} />
+        </View>
       </View>
       <RegisterNextButton goNext={goNext} buttonState={1} />
     </SafeAreaView>
