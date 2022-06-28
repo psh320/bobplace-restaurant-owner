@@ -49,7 +49,7 @@ export const RegisterName: FC<RegisterNameProps> = ({
 
 const styles = StyleSheet.create({
   nameWrap: {
-    marginTop: 20,
+    marginTop: 24,
   },
   nameInput: {
     width: '100%',

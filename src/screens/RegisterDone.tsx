@@ -1,9 +1,11 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RegisterNextButton} from '../components';
 import {AuthStackParamList} from '../nav';
+import {RegisterStoreInterface} from '../data';
+import {createStore} from '../data';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterDone'>;
 
@@ -13,17 +15,19 @@ const RegisterDone = ({navigation, route}: Props) => {
   };
 
   const goRegisterStore = () => {
-    navigation.navigate('RegisterStore');
+    const data = createStore();
+    console.log('go Register Store!');
+    navigation.navigate('RegisterStore', {data: data});
   };
 
   const ownerRegister = () => {
     return (
       <>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Icon name="checkmark" size={50} color="#6C69FF" />
-          <Text>가입완료</Text>
+          <Icon name="check" size={50} color="#7879F7" />
+          <Text style={[styles.registerDoneText]}>가입완료</Text>
         </View>
-        <RegisterNextButton goNext={() => goRegisterStore} buttonState={2} />
+        <RegisterNextButton goNext={() => goRegisterStore()} buttonState={2} />
       </>
     );
   };
@@ -32,18 +36,30 @@ const RegisterDone = ({navigation, route}: Props) => {
     return (
       <>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Icon name="checkmark" size={50} color="#6C69FF" />
+          <Icon name="check" size={100} color="#7879F7" />
           <Text>가입완료</Text>
           <Text>가입완료</Text>
         </View>
-        <RegisterNextButton goNext={() => goMain} buttonState={2} />
+        <RegisterNextButton goNext={() => goMain()} buttonState={2} />
       </>
     );
   };
 
   return (
-    <SafeAreaView>{route.params.status === 0 ? ownerRegister() : storeRegister()}</SafeAreaView>
+    <SafeAreaView style={[styles.flex]}>
+      {route.params.status === 0 ? ownerRegister() : storeRegister()}
+    </SafeAreaView>
   );
 };
 
 export default RegisterDone;
+
+const styles = StyleSheet.create({
+  flex: {flex: 1},
+  registerDoneText: {
+    fontSize: 24,
+    lineHeight: 34,
+    fontWeight: '600',
+    color: '#7879F7',
+  },
+});

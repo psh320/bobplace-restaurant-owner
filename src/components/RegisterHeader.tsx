@@ -6,9 +6,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export type RegisterHeaderProps = {
   goBack: () => void;
   pageNum: number;
+  totalPage: number;
 };
 
-export const RegisterHeader: FC<RegisterHeaderProps> = ({goBack, pageNum}) => {
+export const RegisterHeader: FC<RegisterHeaderProps> = ({goBack, pageNum, totalPage}) => {
   return (
     <View style={[styles.headerWrap]}>
       <TouchableOpacity onPress={goBack}>
@@ -19,12 +20,17 @@ export const RegisterHeader: FC<RegisterHeaderProps> = ({goBack, pageNum}) => {
       {pageNum === 0 && <View />}
       {pageNum === 1 && (
         <View>
-          <Text style={[styles.progressText]}>1/2</Text>
+          <Text style={[styles.progressText]}>1/{totalPage}</Text>
         </View>
       )}
       {pageNum === 2 && (
         <View>
-          <Text style={[styles.progressText]}>2/2</Text>
+          <Text style={[styles.progressText]}>2/{totalPage}</Text>
+        </View>
+      )}
+      {pageNum === 3 && (
+        <View>
+          <Text style={[styles.progressText]}>3/{totalPage}</Text>
         </View>
       )}
       <View style={[styles.backButton, styles.disable]}>

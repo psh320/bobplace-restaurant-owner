@@ -38,6 +38,7 @@ const RegisterForm = ({navigation, route}: Props) => {
 
   const onSubmit = (data: any) => {
     console.log('다음 누름');
+    navigation.navigate('RegisterDone', {status: 0});
   };
 
   const goBack = () => {
@@ -46,9 +47,10 @@ const RegisterForm = ({navigation, route}: Props) => {
 
   return (
     <SafeAreaView style={[styles.flex]}>
-      <RegisterHeader goBack={goBack} pageNum={1} />
+      <RegisterHeader goBack={goBack} pageNum={1} totalPage={1} />
       <KeyboardAvoidingView style={[{flex: 1}]} behavior="padding">
         <ScrollView style={[styles.flex, styles.formWrap]}>
+          <Text style={[styles.RegisterFormTitle]}>가입자 정보</Text>
           <Controller
             control={control}
             rules={{
@@ -123,6 +125,13 @@ const RegisterForm = ({navigation, route}: Props) => {
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: '#FFFFFF'},
   formWrap: {marginLeft: 16, marginRight: 16},
+  RegisterFormTitle: {
+    marginTop: 8,
+    fontSize: 24,
+    lineHeight: 34,
+    color: '#2A2A2A',
+    fontWeight: '600',
+  },
   backButton: {
     zIndex: 1,
     justifyContent: 'center',
