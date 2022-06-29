@@ -10,7 +10,8 @@ import type {RouteProp, ParamListBase} from '@react-navigation/native';
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
 const icons: Record<string, string[]> = {
-  Mission: ['home', 'home-outline'],
+  Main: ['home', 'home-outline'],
+  Mission: ['food', 'food-outline'],
   Store: ['food', 'food-outline'],
   MyPage: ['account-settings', 'account-settings-outline'],
 };
