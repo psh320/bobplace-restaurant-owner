@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export type RegisterHeaderProps = {
   goBack: () => void;
   pageNum: number;
-  totalPage: number;
+  totalPage?: number;
 };
 
 export const RegisterHeader: FC<RegisterHeaderProps> = ({goBack, pageNum, totalPage}) => {

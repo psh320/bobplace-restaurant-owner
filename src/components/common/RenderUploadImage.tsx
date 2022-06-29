@@ -7,9 +7,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 type RenderUploadImageProps = {
   imageData: ImageInterface[];
   setImageData: React.Dispatch<React.SetStateAction<ImageInterface[]>>;
+  imageSize: number;
 };
 
-export const RenderUploadImage: FC<RenderUploadImageProps> = ({imageData, setImageData}) => {
+export const RenderUploadImage: FC<RenderUploadImageProps> = ({
+  imageData,
+  setImageData,
+  imageSize,
+}) => {
   const removeImage = (name: string) => {
     setImageData((current) =>
       current.filter((image) => {
@@ -19,10 +24,10 @@ export const RenderUploadImage: FC<RenderUploadImageProps> = ({imageData, setIma
   };
 
   return (
-    <ScrollView horizontal style={{marginTop: 16}}>
+    <ScrollView horizontal>
       {imageData.map((item, index) => {
         return (
-          <View key={index} style={{marginRight: 16, borderColor: '#DFDFDF', borderWidth: 1}}>
+          <View key={index} style={{marginRight: 8, borderColor: '#DFDFDF', borderWidth: 1}}>
             <TouchableOpacity
               onPress={() => {
                 removeImage(item.name);
@@ -42,7 +47,7 @@ export const RenderUploadImage: FC<RenderUploadImageProps> = ({imageData, setIma
                 <Icon name="close" size={14} color="#DFDFDF" />
               </View>
             </TouchableOpacity>
-            <Image source={{uri: item.uri}} style={{width: 150, height: 150}} />
+            <Image source={{uri: item.uri}} style={{width: imageSize, height: imageSize}} />
           </View>
         );
       })}

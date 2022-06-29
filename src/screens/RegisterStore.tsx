@@ -108,6 +108,7 @@ const RegisterStore = ({navigation, route}: Props) => {
             borderWidth: 1,
             height: 44,
             marginTop: 50,
+            marginBottom: 16,
             borderRadius: 10,
             justifyContent: 'center',
             padding: 10,
@@ -119,7 +120,7 @@ const RegisterStore = ({navigation, route}: Props) => {
           </View>
         </TouchableOpacity>
         <View>
-          <RenderUploadImage imageData={imageData} setImageData={setImageData} />
+          <RenderUploadImage imageData={imageData} setImageData={setImageData} imageSize={100} />
         </View>
       </View>
       <RegisterNextButton goNext={goNext} buttonState={1} />

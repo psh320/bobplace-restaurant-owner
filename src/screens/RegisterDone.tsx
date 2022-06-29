@@ -17,7 +17,7 @@ const RegisterDone = ({navigation, route}: Props) => {
   const goRegisterStore = () => {
     const data = createStore();
     console.log('go Register Store!');
-    navigation.navigate('RegisterStore', {data: data});
+    navigation.navigate('RegisterStore', {storeData: data, imageData: []});
   };
 
   const ownerRegister = () => {
