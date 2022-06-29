@@ -32,7 +32,7 @@ export const RegisterNextButton: FC<RegisterNextButtonProps> = ({
             buttonState === 0 ? styles.stateDisabledText : styles.stateNextText,
           ]}
         >
-          {buttonState === 2 ? '밥파서블 시작하기' : '다음'}
+          {buttonState === 2 ? '확인' : '다음'}
         </Text>
       </View>
     </TouchableOpacity>

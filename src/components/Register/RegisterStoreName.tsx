@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {RegisterInterface} from '../../data';
+import {RegisterStoreInterface} from '../../data';
 
-type RegisterNameProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterInterface>>;
-  registerData: RegisterInterface;
+type RegisterStoreNameProps = {
+  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
+  registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
   value: string;
   error: boolean;
 };
 
-export const RegisterName: FC<RegisterNameProps> = ({
+export const RegisterStoreName: FC<RegisterStoreNameProps> = ({
   setRegisterData,
   registerData,
   onChange,
@@ -21,7 +21,7 @@ export const RegisterName: FC<RegisterNameProps> = ({
   const [focusedName, setFocusedName] = useState(false);
   return (
     <View style={[styles.nameWrap]}>
-      <Text style={[styles.formHeadText]}>이름</Text>
+      <Text style={[styles.formHeadText]}>상호명</Text>
       <TextInput
         style={[
           styles.nameInput,
@@ -35,10 +35,10 @@ export const RegisterName: FC<RegisterNameProps> = ({
         ]}
         onChangeText={(text) => {
           onChange(text);
-          setRegisterData({...registerData, name: text});
+          setRegisterData({...registerData, storeName: text});
         }}
         value={value}
-        placeholder="이름을 입력"
+        placeholder="상호명 입력"
         selectionColor={'#6C69FF'}
         onBlur={() => setFocusedName(false)}
         onFocus={() => setFocusedName(true)}

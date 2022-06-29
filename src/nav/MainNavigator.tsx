@@ -38,8 +38,8 @@ const Tab = createBottomTabNavigator();
 export const MainNavigator = () => {
   return (
     <Tab.Navigator screenOptions={screenOptions} initialRouteName="Main">
-      <Tab.Screen name="Main" component={Mission} options={{tabBarLabel: '미션'}} />
-      <Tab.Screen name="Mission" component={Store} options={{tabBarLabel: '점포관리'}} />
+      <Tab.Screen name="Mission" component={Mission} options={{tabBarLabel: '미션'}} />
+      <Tab.Screen name="Store" component={Store} options={{tabBarLabel: '점포관리'}} />
       <Tab.Screen name="MyPage" component={MyPage} options={{tabBarLabel: '마이페이지'}} />
     </Tab.Navigator>
   );
