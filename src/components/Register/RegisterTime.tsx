@@ -18,7 +18,95 @@ type RegisterTimeProps = {
   registerData: RegisterStoreInterface;
 };
 
+const MapIndexToDay = ['월', '화', '수', '목', '금', '토', '일'];
+
+const processTime = (time: string) => {
+  return time.slice(undefined, 5);
+};
+
 export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerData}) => {
+  console.log(registerData);
+  const renderedTimeTable = () => {
+    return (
+      <>
+        {registerData.operationTimeVO.map((item, index) => {
+          if (item.isOpen) {
+            return (
+              <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]}>
+                <View
+                  style={{
+                    flex: 0.22,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CheckBoxRectangle
+                    title={MapIndexToDay[index]}
+                    onPress={() => {
+                      let tempData = {...registerData};
+                      tempData.operationTimeVO[index].isOpen = !item.isOpen;
+                      setRegisterData(tempData);
+                    }}
+                    isChecked={item.isOpen}
+                  />
+                </View>
+                <View
+                  style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
+                >
+                  <TouchableOpacity style={{height: 50, justifyContent: 'center'}}>
+                    <View>
+                      <Text>
+                        {processTime(item.startTime)}~{processTime(item.endTime)}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
+                >
+                  <TouchableOpacity style={{height: 50, justifyContent: 'center'}}>
+                    <View>
+                      <Text>
+                        {processTime(item.breakStartTime)}~{processTime(item.breakEndTime)}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          } else {
+            return (
+              <View style={[styles.tableContainer, {backgroundColor: '#F5F5F5'}]}>
+                <View
+                  style={{
+                    flex: 0.22,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CheckBoxRectangle
+                    title={MapIndexToDay[index]}
+                    onPress={() => {
+                      let tempData = {...registerData};
+                      tempData.operationTimeVO[index].isOpen = !item.isOpen;
+                      setRegisterData(tempData);
+                    }}
+                    isChecked={item.isOpen}
+                  />
+                </View>
+                <View
+                  style={{flex: 0.78, height: 30, alignItems: 'center', justifyContent: 'center'}}
+                >
+                  <Text>휴무</Text>
+                </View>
+              </View>
+            );
+          }
+        })}
+      </>
+    );
+  };
+
   return (
     <View style={[styles.TimeWrap]}>
       <Text style={[styles.formHeadText]}>운영시간</Text>
@@ -40,13 +128,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
           <Text>브레이크 타임</Text>
         </View>
       </View>
-      <UpdateMonday registerData={registerData} setRegisterData={setRegisterData} />
-      <UpdateTuesday registerData={registerData} setRegisterData={setRegisterData} />
-      <UpdateWednesday registerData={registerData} setRegisterData={setRegisterData} />
-      <UpdateThursday registerData={registerData} setRegisterData={setRegisterData} />
-      <UpdateFriday registerData={registerData} setRegisterData={setRegisterData} />
-      <UpdateSaturday registerData={registerData} setRegisterData={setRegisterData} />
-      <UpdateSunday registerData={registerData} setRegisterData={setRegisterData} />
+      {renderedTimeTable()}
     </View>
   );
 };
