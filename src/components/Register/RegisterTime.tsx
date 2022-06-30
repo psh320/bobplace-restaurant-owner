@@ -18,11 +18,13 @@ const processTime = (time: string) => {
 
 export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerData}) => {
   const [operationTimeModal, setOperationTimeModal] = useState(false);
-  const [operationTime, setOperationTime] = useState<OperationTime>(
-    registerData.operationTimeVO[0],
-  );
+  const [operationTime, setOperationTime] = useState<OperationTime[]>(registerData.operationTimeVO);
+  console.log(operationTime);
   const [dayIndex, setDayIndex] = useState<number>(0);
-  console.log(registerData);
+  console.log(dayIndex);
+  useEffect(() => {
+    setOperationTime(registerData.operationTimeVO);
+  }, [registerData]);
   const renderedTimeTable = () => {
     return (
       <>
@@ -54,7 +56,6 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
                     style={{height: 50, justifyContent: 'center'}}
                     onPress={() => {
                       setDayIndex(index);
-                      setOperationTime(item);
                       setOperationTimeModal(true);
                     }}
                   >
@@ -137,7 +138,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
         visible={operationTimeModal}
         closeOperationTimeModal={() => setOperationTimeModal(false)}
         index={dayIndex}
-        item={operationTime}
+        item={operationTime[dayIndex]}
         registerData={registerData}
         setRegisterData={setRegisterData}
       />

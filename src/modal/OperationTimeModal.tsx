@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import type {FC} from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {OperationTime, RegisterStoreInterface} from '../data';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import RNPickerSelect from 'react-native-picker-select';
+import {TimeList} from '../data/TimeList';
 
 type OperationTimeModalProps = {
   visible: boolean;
@@ -13,10 +15,6 @@ type OperationTimeModalProps = {
   registerData: RegisterStoreInterface;
 };
 
-const processTime = (time: string) => {
-  return time.slice(undefined, 5);
-};
-
 export const OperationTimeModal: FC<OperationTimeModalProps> = ({
   visible,
   closeOperationTimeModal,
@@ -25,13 +23,33 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
   setRegisterData,
   registerData,
 }) => {
-  const [operationData, setOperationData] = useState<OperationTime>({...item});
   const submitChangedDate = () => {
     const tempData = {...registerData};
+    if (
+      item.startTime === '00:00:00' &&
+      item.endTime === '00:00:00' &&
+      item.breakStartTime === '00:00:00' &&
+      item.breakEndTime === '00:00:00'
+    ) {
+      tempData.operationTimeVO.map((data, key) => {
+        tempData.operationTimeVO[key].breakEndTime = operationData.breakEndTime;
+        tempData.operationTimeVO[key].breakStartTime = operationData.breakStartTime;
+        tempData.operationTimeVO[key].endTime = operationData.endTime;
+        tempData.operationTimeVO[key].startTime = operationData.startTime;
+      });
+    }
+
     tempData.operationTimeVO[index] = operationData;
     setRegisterData(tempData);
+    closeOperationTimeModal();
   };
-
+  const [operationData, setOperationData] = useState<OperationTime>(
+    registerData.operationTimeVO[index],
+  );
+  useEffect(() => {
+    setOperationData(registerData.operationTimeVO[index]);
+  }, [index, registerData.operationTimeVO]);
+  console.log('OPERATION TIME', operationData);
   return (
     <Modal
       visible={visible}
@@ -71,37 +89,40 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
             >
-              <TouchableOpacity>
-                <View
-                  style={{
-                    width: 141,
-                    height: 48,
-                    borderRadius: 10,
-                    borderColor: '#949494',
-                    borderWidth: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text>{processTime(item?.startTime as string)}</Text>
-                </View>
-              </TouchableOpacity>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                onValueChange={(itemValue: string) => {
+                  const tempData = {...operationData};
+                  tempData.startTime = itemValue;
+                  setOperationData(tempData);
+                }}
+                useNativeAndroidPickerStyle={false}
+                placeholder={{}}
+                value={operationData.startTime}
+                items={TimeList}
+                //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
+                Icon={() => {
+                  return <Icon name="chevron-down" size={24} />;
+                }}
+              />
               <Text>~</Text>
-              <TouchableOpacity>
-                <View
-                  style={{
-                    width: 141,
-                    height: 48,
-                    borderRadius: 10,
-                    borderColor: '#949494',
-                    borderWidth: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text>{processTime(item?.endTime as string)}</Text>
-                </View>
-              </TouchableOpacity>
+
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                onValueChange={(itemValue: string) => {
+                  const tempData = {...operationData};
+                  tempData.endTime = itemValue;
+                  setOperationData(tempData);
+                }}
+                useNativeAndroidPickerStyle={false}
+                placeholder={{}}
+                value={operationData.endTime}
+                items={TimeList}
+                //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
+                Icon={() => {
+                  return <Icon name="chevron-down" size={24} />;
+                }}
+              />
             </View>
           </View>
 
@@ -110,37 +131,40 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
             >
-              <TouchableOpacity>
-                <View
-                  style={{
-                    width: 141,
-                    height: 48,
-                    borderRadius: 10,
-                    borderColor: '#949494',
-                    borderWidth: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text>{processTime(item?.startTime as string)}</Text>
-                </View>
-              </TouchableOpacity>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                onValueChange={(itemValue: string) => {
+                  const tempData = {...operationData};
+                  tempData.breakStartTime = itemValue;
+                  setOperationData(tempData);
+                }}
+                useNativeAndroidPickerStyle={false}
+                placeholder={{}}
+                value={operationData.breakStartTime}
+                items={TimeList}
+                //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
+                Icon={() => {
+                  return <Icon name="chevron-down" size={24} />;
+                }}
+              />
+
               <Text>~</Text>
-              <TouchableOpacity>
-                <View
-                  style={{
-                    width: 141,
-                    height: 48,
-                    borderRadius: 10,
-                    borderColor: '#949494',
-                    borderWidth: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text>{processTime(item?.endTime as string)}</Text>
-                </View>
-              </TouchableOpacity>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                onValueChange={(itemValue: string) => {
+                  const tempData = {...operationData};
+                  tempData.breakEndTime = itemValue;
+                  setOperationData(tempData);
+                }}
+                useNativeAndroidPickerStyle={false}
+                placeholder={{}}
+                value={operationData.breakEndTime}
+                items={TimeList}
+                //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
+                Icon={() => {
+                  return <Icon name="chevron-down" size={24} />;
+                }}
+              />
             </View>
           </View>
 
@@ -168,3 +192,39 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
     </Modal>
   );
 };
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 14,
+    width: 141,
+    height: 48,
+    borderRadius: 10,
+    borderColor: '#949494',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#000000',
+    paddingLeft: 50,
+  },
+  inputAndroid: {
+    fontSize: 14,
+    width: '100%',
+    height: 44,
+    color: '#000000',
+    borderColor: '#DFDFDF',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  iconContainer: {
+    top: 12,
+    right: 10,
+  },
+  textinput: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
