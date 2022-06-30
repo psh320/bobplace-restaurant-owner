@@ -3,15 +3,7 @@ import type {FC} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {OperationTime, RegisterStoreInterface} from '../../data';
 import {CheckBoxRectangle} from '../common/CheckBoxRectangle';
-import {
-  UpdateMonday,
-  UpdateTuesday,
-  UpdateWednesday,
-  UpdateThursday,
-  UpdateFriday,
-  UpdateSaturday,
-  UpdateSunday,
-} from '../';
+import {OperationTimeModal} from '../../modal';
 
 type RegisterTimeProps = {
   setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
@@ -25,6 +17,11 @@ const processTime = (time: string) => {
 };
 
 export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerData}) => {
+  const [operationTimeModal, setOperationTimeModal] = useState(false);
+  const [operationTime, setOperationTime] = useState<OperationTime>(
+    registerData.operationTimeVO[0],
+  );
+  const [dayIndex, setDayIndex] = useState<number>(0);
   console.log(registerData);
   const renderedTimeTable = () => {
     return (
@@ -53,7 +50,14 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
                 <View
                   style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
                 >
-                  <TouchableOpacity style={{height: 50, justifyContent: 'center'}}>
+                  <TouchableOpacity
+                    style={{height: 50, justifyContent: 'center'}}
+                    onPress={() => {
+                      setDayIndex(index);
+                      setOperationTime(item);
+                      setOperationTimeModal(true);
+                    }}
+                  >
                     <View>
                       <Text>
                         {processTime(item.startTime)}~{processTime(item.endTime)}
@@ -129,6 +133,14 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
         </View>
       </View>
       {renderedTimeTable()}
+      <OperationTimeModal
+        visible={operationTimeModal}
+        closeOperationTimeModal={() => setOperationTimeModal(false)}
+        index={dayIndex}
+        item={operationTime}
+        registerData={registerData}
+        setRegisterData={setRegisterData}
+      />
     </View>
   );
 };
