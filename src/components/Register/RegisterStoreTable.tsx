@@ -21,20 +21,18 @@ export const RegisterStoreTable: FC<RegisterAddressProps> = ({
   value,
   error,
 }) => {
-  const [selectedTable, setSelectedTable] = useState(registerData.storeTypeId);
-
   return (
     <View style={[styles.addressWrap]}>
       <Text style={[styles.formHeadText]}>테이블 수</Text>
       <RNPickerSelect
-        style={pickerSelectStyles}
+        style={error ? pickerSelectErrorStyles : pickerSelectStyles}
         onValueChange={(itemValue: number) => {
-          setSelectedTable(itemValue);
           onChange(itemValue);
+          setRegisterData({...registerData, tableNum: value});
         }}
         useNativeAndroidPickerStyle={false}
         placeholder={{label: '테이블 수 선택', value: -1}}
-        value={selectedTable}
+        value={value}
         items={[
           {label: '0~2개', value: 0},
           {label: '3개 이상', value: 1},
@@ -81,7 +79,7 @@ const styles = StyleSheet.create({
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 16,
+    fontSize: 14,
     width: '100%',
     height: 44,
     color: '#000000',
@@ -94,12 +92,44 @@ const pickerSelectStyles = StyleSheet.create({
     paddingBottom: 10,
   },
   inputAndroid: {
-    fontSize: 16,
+    fontSize: 14,
     width: '100%',
     height: 44,
     color: '#000000',
     borderColor: '#DFDFDF',
     borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  iconContainer: {
+    padding: 10,
+  },
+});
+
+const pickerSelectErrorStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 14,
+    width: '100%',
+    height: 44,
+    color: '#000000',
+    borderColor: '#E03D32',
+    borderWidth: 0.5,
+    borderRadius: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  inputAndroid: {
+    fontSize: 14,
+    width: '100%',
+    height: 44,
+    color: '#000000',
+    borderColor: '#E03D32',
+    borderWidth: 0.5,
     borderRadius: 10,
     paddingLeft: 8,
     paddingRight: 8,

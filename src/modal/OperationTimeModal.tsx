@@ -25,6 +25,7 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
 }) => {
   const submitChangedDate = () => {
     const tempData = {...registerData};
+    //첫 데이터 입력할때만 모든 다른 날에 일관적용
     if (
       item.startTime === '00:00:00' &&
       item.endTime === '00:00:00' &&

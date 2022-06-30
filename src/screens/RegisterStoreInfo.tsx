@@ -23,8 +23,8 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
     mode: 'onChange',
     defaultValues: {
       storeName: '',
-      storeTypeId: 0,
-      tableNum: '',
+      storeTypeId: -1,
+      tableNum: -1,
       address: '',
     },
   });
@@ -35,7 +35,7 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
     });
   };
 
-  const goNext = () => {
+  const onSubmit = () => {
     navigation.navigate('RegisterStoreTime', {
       storeData: registerStoreData,
       imageData: route.params.imageData,
@@ -94,7 +94,7 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
           <Controller
             control={control}
             rules={{
-              required: true,
+              min: 0,
             }}
             render={({field: {onChange, value}}) => {
               return (
@@ -109,14 +109,14 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
             }}
             name="storeTypeId"
           />
-          {errors.storeTypeId?.type === 'required' && (
+          {errors.storeTypeId?.type === 'min' && (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           )}
 
           <Controller
             control={control}
             rules={{
-              required: true,
+              min: 0,
             }}
             render={({field: {onChange, value}}) => {
               return (
@@ -131,13 +131,13 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
             }}
             name="tableNum"
           />
-          {errors.tableNum?.type === 'required' && (
+          {errors.tableNum?.type === 'min' && (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           )}
         </ScrollView>
       </KeyboardAvoidingView>
 
-      <RegisterNextButton goNext={goNext} buttonState={1} />
+      <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
     </SafeAreaView>
   );
 };

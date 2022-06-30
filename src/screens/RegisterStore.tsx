@@ -115,7 +115,7 @@ const RegisterStore = ({navigation, route}: Props) => {
           }}
         >
           <View style={[styles.spaceBetween, styles.flexRow]}>
-            <Text>파일 첨부</Text>
+            <Text>이미지 첨부</Text>
             <Icon name="plus" size={22} color="#C4C4C4" />
           </View>
         </TouchableOpacity>

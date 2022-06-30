@@ -7,6 +7,7 @@ export type RegisterNextButtonProps = {
   goNext: () => void;
   disabled?: boolean;
   buttonState: number;
+  title?: string;
 };
 
 export const RegisterNextButton: FC<RegisterNextButtonProps> = ({
