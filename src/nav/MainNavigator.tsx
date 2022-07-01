@@ -6,12 +6,13 @@ import Mission from '../screens/Mission';
 import Store from '../screens/Store';
 import MyPage from '../screens/MyPage';
 
-import type {RouteProp, ParamListBase} from '@react-navigation/native';
+import {RouteProp, ParamListBase} from '@react-navigation/native';
+import {StoreNavigator} from './StoreNavigator';
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
 const icons: Record<string, string[]> = {
   Mission: ['home', 'home-outline'],
-  Store: ['food', 'food-outline'],
+  StoreNavigator: ['food', 'food-outline'],
   MyPage: ['account-settings', 'account-settings-outline'],
 };
 
@@ -36,9 +37,13 @@ const Tab = createBottomTabNavigator();
 
 export const MainNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={screenOptions} initialRouteName="Main">
+    <Tab.Navigator screenOptions={screenOptions} initialRouteName="Mission">
       <Tab.Screen name="Mission" component={Mission} options={{tabBarLabel: '미션'}} />
-      <Tab.Screen name="Store" component={Store} options={{tabBarLabel: '점포관리'}} />
+      <Tab.Screen
+        name="StoreNavigator"
+        component={StoreNavigator}
+        options={{tabBarLabel: '점포관리'}}
+      />
       <Tab.Screen name="MyPage" component={MyPage} options={{tabBarLabel: '마이페이지'}} />
     </Tab.Navigator>
   );

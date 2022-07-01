@@ -4,5 +4,9 @@ declare namespace ReactNavigation {
     OwnerLogin: undefined;
     MainNavigator: undefined;
     Register: undefined;
+    Store: undefined;
+    StoreEdit: undefined;
+    StoreMission: undefined;
+    StoreReview: undefined;
   }
 }

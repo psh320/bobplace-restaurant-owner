@@ -17,21 +17,21 @@ export const StoreMenuBar: FC<StoreMenuBarProps> = ({
 }) => {
   return (
     <View style={[styles.ToggleWrap]}>
-      <TouchableOpacity onPress={toggleStore}>
+      <TouchableOpacity onPress={toggleStore} style={{flex: 0.33}}>
         <View style={[storeStatus === 0 ? styles.toggleButtonWrapOn : styles.toggleButtonWrapOff]}>
           <Text style={[storeStatus === 0 ? styles.toggleTextOn : styles.toggleTextOff]}>
             가게 정보
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={toggleMission}>
+      <TouchableOpacity onPress={toggleMission} style={{flex: 0.33}}>
         <View style={[storeStatus === 1 ? styles.toggleButtonWrapOn : styles.toggleButtonWrapOff]}>
           <Text style={[storeStatus === 1 ? styles.toggleTextOn : styles.toggleTextOff]}>
             미션관리
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={toggleReview}>
+      <TouchableOpacity onPress={toggleReview} style={{flex: 0.33}}>
         <View style={[storeStatus === 2 ? styles.toggleButtonWrapOn : styles.toggleButtonWrapOff]}>
           <Text style={[storeStatus === 2 ? styles.toggleTextOn : styles.toggleTextOff]}>리뷰</Text>
         </View>
@@ -46,11 +46,10 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
   },
   toggleButtonWrapOn: {
     height: '100%',
-    flex: 0.33,
     borderBottomColor: '#6C69FF',
     borderBottomWidth: 2,
     alignItems: 'center',
@@ -58,7 +57,6 @@ const styles = StyleSheet.create({
   },
   toggleButtonWrapOff: {
     height: '100%',
-    flex: 0.33,
     alignItems: 'center',
     justifyContent: 'center',
   },

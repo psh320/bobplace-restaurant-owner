@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
-import {StoreInfo} from '../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
+import {StoreConfig} from '../components/Store/StoreConfig';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StoreStackParamList} from '../nav/StoreNavigator';
 
-const Store = () => {
-  const navigation = useNavigation();
+type Props = NativeStackScreenProps<StoreStackParamList, 'StoreEdit'>;
+
+const StoreEdit = ({navigation}: Props) => {
+  //0
 
   return (
     <>
@@ -14,8 +18,8 @@ const Store = () => {
       <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text>가게 관리</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('StoreEdit')}>
-            <Text>편집</Text>
+          <TouchableOpacity onPress={() => {}}>
+            <Text>저장</Text>
           </TouchableOpacity>
         </View>
         <StoreMenuBar
@@ -24,14 +28,13 @@ const Store = () => {
           toggleReview={() => navigation.navigate('StoreReview')}
           storeStatus={0}
         />
-
-        <StoreInfo />
+        <StoreConfig />
       </SafeAreaView>
     </>
   );
 };
 
-export default Store;
+export default StoreEdit;
 
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: '#F8F8F8'},

@@ -4,7 +4,7 @@ import type {FC} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type CheckBoxRectangleProps = {
-  onPress: () => void;
+  onPress?: () => void;
   title: string;
   isChecked: boolean;
 };
