@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MissionUserCard} from '../components/mission/MissionUserCard';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
@@ -7,9 +8,9 @@ import {StoreInfo} from '../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
 
 import {StoreStackParamList} from '../nav/StoreNavigator';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackScreenProps} from '@react-navigation/stack';
 
-type Props = NativeStackScreenProps<StoreStackParamList, 'StoreMission'>;
+type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
 const dummyMission = [
   {
@@ -36,16 +37,16 @@ const dummyMission = [
 ];
 
 const StoreMission = ({navigation}: Props) => {
-  //0
+  const insets = useSafeAreaInsets();
 
   const numberOfUsers = dummyMission.length;
 
   return (
     <>
-      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
-      <SafeAreaView style={[styles.flex]}>
+      <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
+      <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
-          <Text>가게 관리</Text>
+          <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
@@ -75,7 +76,7 @@ const StoreMission = ({navigation}: Props) => {
           )}
           ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
         />
-      </SafeAreaView>
+      </View>
     </>
   );
 };
@@ -85,6 +86,7 @@ export default StoreMission;
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: '#F8F8F8'},
   screenHeaderWrap: {
+    height: 50,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -109,5 +111,11 @@ const styles = StyleSheet.create({
   },
   missionSeperate: {
     marginTop: 16,
+  },
+  screenHeaderTitle: {
+    fontSize: 16,
+    fontFamily: 'Pretendard-Regular',
+    fontWeight: '600',
+    lineHeight: 24,
   },
 });

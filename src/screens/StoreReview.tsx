@@ -1,19 +1,20 @@
 import React, {useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../nav/StoreNavigator';
 
-type Props = NativeStackScreenProps<StoreStackParamList, 'StoreEdit'>;
+type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 const StoreReview = ({navigation}: Props) => {
+  const insets = useSafeAreaInsets();
   return (
     <>
-      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
-      <SafeAreaView style={[styles.flex]}>
+      <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
+      <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
-          <Text>가게 관리</Text>
+          <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
@@ -24,7 +25,7 @@ const StoreReview = ({navigation}: Props) => {
         <View>
           <Text>리뷰페이지</Text>
         </View>
-      </SafeAreaView>
+      </View>
     </>
   );
 };
@@ -34,6 +35,7 @@ export default StoreReview;
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: '#F8F8F8'},
   screenHeaderWrap: {
+    height: 50,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -58,5 +60,11 @@ const styles = StyleSheet.create({
   },
   missionSeperate: {
     marginTop: 16,
+  },
+  screenHeaderTitle: {
+    fontSize: 16,
+    fontFamily: 'Pretendard-Regular',
+    fontWeight: '600',
+    lineHeight: 24,
   },
 });

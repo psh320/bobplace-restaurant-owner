@@ -4,7 +4,7 @@ import {ImageInterface} from '../../data';
 import {Image, ScrollView, View} from 'react-native';
 
 type RenderUploadImageProps = {
-  imageData: ImageInterface[];
+  imageData: {uri: string}[];
   imageSize: number;
 };
 

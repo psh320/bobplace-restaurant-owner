@@ -40,7 +40,7 @@ const Mission = () => {
       <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
       <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
-          <Text>미션</Text>
+          <Text style={[styles.screenHeaderTitle]}>미션</Text>
           <Icon name="bell-outline" size={24} />
         </View>
         {progressNow ? (
@@ -100,6 +100,7 @@ export default Mission;
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: '#F8F8F8'},
   screenHeaderWrap: {
+    height: 50,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -123,5 +124,11 @@ const styles = StyleSheet.create({
   },
   missionSeperate: {
     marginTop: 16,
+  },
+  screenHeaderTitle: {
+    fontSize: 16,
+    fontFamily: 'Pretendard-Regular',
+    fontWeight: '600',
+    lineHeight: 24,
   },
 });

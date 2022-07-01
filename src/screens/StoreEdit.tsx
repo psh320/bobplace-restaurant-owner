@@ -2,16 +2,16 @@ import React, {useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {useForm, Controller} from 'react-hook-form';
 import {StoreTime} from '../components/Store/StoreTime';
@@ -21,104 +21,10 @@ import Swiper from 'react-native-swiper';
 import {ImageInterface, RegisterStoreInterface} from '../data';
 import {storeData} from '../state';
 import {useRecoilState} from 'recoil';
+import {ImageSwiper} from '../components/common/ImageSwiper';
+import {ImageSwiperModal} from '../modal/ImageSwiperModal';
 
-type Props = NativeStackScreenProps<StoreStackParamList, 'StoreEdit'>;
-
-const dot = () => {
-  const dotStyle = {
-    backgroundColor: '#ffffffb2',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginLeft: 2,
-    marginRight: 2,
-    marginTop: 2,
-    marginBottom: -10,
-  };
-  return <View style={dotStyle} />;
-};
-const activeDot = () => {
-  const activeDotStyle = {
-    backgroundColor: '#6C69FF',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginLeft: 2,
-    marginRight: 2,
-    marginTop: 2,
-    marginBottom: -10,
-  };
-  return <View style={activeDotStyle} />;
-};
-
-const dummyStore: RegisterStoreInterface = {
-  addressDong: '강남구',
-  addressStreet: '서울특별시 강남구 논현로150길 16',
-  operationTimeVO: [
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'MONDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'TUESDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'WEDNESDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'THURSDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'FRIDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'SATURDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'SUNDAY',
-      isOpen: true,
-    },
-  ],
-  representativeMenuName: '삼겹살',
-  storeName: '강남고기집 신칠성집',
-  storeTypeId: 6,
-  tableNum: 1,
-  x: 133,
-  y: 124,
-};
+type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 
 const dummyImage: ImageInterface[] = [
   {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
@@ -129,7 +35,8 @@ const dummyImage: ImageInterface[] = [
 const StoreEdit = ({navigation}: Props) => {
   const [store, setStore] = useRecoilState(storeData);
   const [storeEditData, setStoreEditData] = useState(store);
-
+  const [imageSwiperModal, setImageSwiperModal] = useState(false);
+  const insets = useSafeAreaInsets();
   const {
     control,
     handleSubmit,
@@ -137,27 +44,28 @@ const StoreEdit = ({navigation}: Props) => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      storeName: '',
-      storeTypeId: -1,
-      tableNum: -1,
-      address: '',
-      representativeMenuName: '',
-      representativePhoto: [],
-      storePhoto: [],
+      storeName: store.storeName,
+      storeTypeId: store.storeTypeId,
+      tableNum: store.tableNum,
+      address: store.addressStreet,
+      representativeMenuName: store.representativeMenuName,
+      storeImage: store.storeImage,
+      menuImage: store.menuImage,
+      description: store.description,
     },
   });
 
   return (
-    <SafeAreaView style={[styles.flex]}>
+    <View style={[styles.flex, {paddingTop: insets.top}]}>
       <View style={[styles.screenHeaderWrap]}>
-        <Text>가게 관리</Text>
+        <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
         <TouchableOpacity
           onPress={() => {
             setStore(storeEditData);
             navigation.goBack();
           }}
         >
-          <Text>저장</Text>
+          <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>저장</Text>
         </TouchableOpacity>
       </View>
       <View pointerEvents="none" style={{opacity: 0.5}}>
@@ -174,84 +82,25 @@ const StoreEdit = ({navigation}: Props) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-          <View style={{height: 220}}>
-            <Swiper dot={dot()} activeDot={activeDot()} showsButtons={false}>
-              <FastImage
-                source={{uri: 'https://source.unsplash.com/1024x768/?nature'}}
-                style={{width: '100%', height: 220}}
-              />
-              <FastImage
-                source={{uri: 'https://source.unsplash.com/1024x768/?water'}}
-                style={{width: '100%', height: 220}}
-              />
-              <FastImage
-                source={{uri: 'https://source.unsplash.com/1024x768/?girl'}}
-                style={{width: '100%', height: 220}}
-              />
-              <FastImage
-                source={{uri: 'https://source.unsplash.com/1024x768/?tree'}}
-                style={{width: '100%', height: 220}}
-              />
-            </Swiper>
+          <View>
+            <ImageSwiperModal
+              visible={imageSwiperModal}
+              closeImageSwiperModal={() => setImageSwiperModal(false)}
+            />
+            <ImageSwiper height={220} imageList={store.storeImage} />
+            <TouchableOpacity
+              style={[styles.editImageSwiperButton]}
+              onPress={() => setImageSwiperModal(true)}
+            >
+              <View style={[styles.editImageSwiperIcon]}>
+                <Icon name="pencil" size={18} color="#323232" />
+              </View>
+            </TouchableOpacity>
           </View>
-          <View style={[styles.storeInfoWrap]}>
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>상호명</Text>
-              <View style={[styles.fieldBox]}>
-                <Text style={[styles.fieldTitle]}>{dummyStore.storeName}</Text>
-              </View>
-            </View>
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>가게 한줄 소개</Text>
-              <View style={[styles.fieldBox]}>
-                <Text style={[styles.fieldTitle]}>{dummyStore.storeName}</Text>
-              </View>
-            </View>
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>가게주소</Text>
-              <View style={[styles.fieldBox]}>
-                <Text style={[styles.fieldTitle]}>{dummyStore.addressStreet}</Text>
-              </View>
-              <View style={[styles.fieldBox]}>
-                <Text style={[styles.fieldTitle]}>{dummyStore.addressDong}</Text>
-              </View>
-            </View>
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>가게 유형</Text>
-              <View style={[styles.fieldBox]}>
-                <Text style={[styles.fieldTitle]}>{dummyStore.storeTypeId}</Text>
-              </View>
-            </View>
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>테이블 수</Text>
-              <View style={[styles.fieldBox]}>
-                <Text style={[styles.fieldTitle]}>{dummyStore.tableNum}</Text>
-              </View>
-            </View>
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>대표메뉴</Text>
-              <Text style={[styles.fieldSubTitle, {fontWeight: '300'}]}>
-                대표메뉴 미션을 위해 사용됩니다.
-              </Text>
-              <View style={[styles.fieldBox]}>
-                <Text style={[styles.fieldTitle]}>{dummyStore.representativeMenuName}</Text>
-              </View>
-            </View>
-
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>대표메뉴 사진</Text>
-              <View>
-                <RenderImageList imageData={dummyImage} imageSize={100} />
-              </View>
-            </View>
-            <View style={[styles.infoFieldWrap]}>
-              <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>운영시간</Text>
-              <StoreTime operationData={dummyStore.operationTimeVO} />
-            </View>
-          </View>
+          <View style={[styles.storeInfoWrap]}></View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -260,6 +109,7 @@ export default StoreEdit;
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: '#FFFFFF'},
   screenHeaderWrap: {
+    height: 50,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -299,5 +149,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#DFDFDF',
     borderRadius: 10,
+  },
+  screenHeaderTitle: {
+    fontSize: 16,
+    fontFamily: 'Pretendard-Regular',
+    fontWeight: '600',
+    lineHeight: 24,
+  },
+
+  editImageSwiperButton: {position: 'absolute', right: 20, bottom: 20},
+  editImageSwiperIcon: {
+    height: 24,
+    width: 24,
+    backgroundColor: '#EFEFEF',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

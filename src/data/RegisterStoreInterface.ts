@@ -1,3 +1,5 @@
+import {ImageInterface} from './ImageInterface';
+
 export type OperationTime = {
   breakEndTime: string;
   breakStartTime: string;
@@ -17,4 +19,7 @@ export type RegisterStoreInterface = {
   tableNum: number;
   x: number;
   y: number;
+  storeImage: ImageInterface[];
+  menuImage: ImageInterface[];
+  description: string;
 };

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
 import {StoreInfo} from '../components/Store/StoreInfo';
@@ -75,11 +76,21 @@ const dummyStore: RegisterStoreInterface = {
   tableNum: 1,
   x: 133,
   y: 124,
+  storeImage: [
+    {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '1.jpg'},
+    {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '2.jpg'},
+    {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '3.jpg'},
+  ],
+  menuImage: [
+    {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
+    {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '2.jpg'},
+  ],
+  description: '맛있는 고기집',
 };
 
 const Store = () => {
   const [store, setStore] = useRecoilState(storeData);
-
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   useEffect(() => {
     //가게 정보 get을 통해서 1회 받고 리코일에 저장하기
@@ -88,11 +99,11 @@ const Store = () => {
   }, [setStore]);
 
   return (
-    <SafeAreaView style={[styles.flex]}>
+    <View style={[styles.flex, {paddingTop: insets.top}]}>
       <View style={[styles.screenHeaderWrap]}>
-        <Text>가게 관리</Text>
+        <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
         <TouchableOpacity onPress={() => navigation.navigate('StoreEdit')}>
-          <Text>편집</Text>
+          <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>편집</Text>
         </TouchableOpacity>
       </View>
       <StoreMenuBar
@@ -103,7 +114,7 @@ const Store = () => {
       />
 
       <StoreInfo />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -112,6 +123,7 @@ export default Store;
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: '#FFFFFF'},
   screenHeaderWrap: {
+    height: 50,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -136,5 +148,11 @@ const styles = StyleSheet.create({
   },
   missionSeperate: {
     marginTop: 16,
+  },
+  screenHeaderTitle: {
+    fontSize: 16,
+    fontFamily: 'Pretendard-Regular',
+    fontWeight: '600',
+    lineHeight: 24,
   },
 });

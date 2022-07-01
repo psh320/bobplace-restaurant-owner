@@ -8,32 +8,7 @@ import {RenderImageList} from '../common/RenderImageList';
 import {StoreTime} from './StoreTime';
 import {storeData} from '../../state';
 import {useRecoilValue} from 'recoil';
-const dot = () => {
-  const dotStyle = {
-    backgroundColor: '#ffffffb2',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginLeft: 2,
-    marginRight: 2,
-    marginTop: 2,
-    marginBottom: -10,
-  };
-  return <View style={dotStyle} />;
-};
-const activeDot = () => {
-  const activeDotStyle = {
-    backgroundColor: '#6C69FF',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginLeft: 2,
-    marginRight: 2,
-    marginTop: 2,
-    marginBottom: -10,
-  };
-  return <View style={activeDotStyle} />;
-};
+import {ImageSwiper} from '../common/ImageSwiper';
 
 const dummyImage: ImageInterface[] = [
   {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
@@ -45,32 +20,7 @@ export const StoreInfo = () => {
   const store = useRecoilValue(storeData);
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-      <View style={{height: 220, width: '100%'}}>
-        <Swiper
-          dot={dot()}
-          activeDot={activeDot()}
-          showsButtons={false}
-          removeClippedSubviews={false}
-          scrollEnabled={true}
-        >
-          <FastImage
-            source={{uri: 'https://source.unsplash.com/1024x768/?nature'}}
-            style={{width: '100%', height: 220}}
-          />
-          <FastImage
-            source={{uri: 'https://source.unsplash.com/1024x768/?water'}}
-            style={{width: '100%', height: 220}}
-          />
-          <FastImage
-            source={{uri: 'https://source.unsplash.com/1024x768/?girl'}}
-            style={{width: '100%', height: 220}}
-          />
-          <FastImage
-            source={{uri: 'https://source.unsplash.com/1024x768/?tree'}}
-            style={{width: '100%', height: 220}}
-          />
-        </Swiper>
-      </View>
+      <ImageSwiper height={220} imageList={store.storeImage} />
       <View style={[styles.storeInfoWrap]}>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>상호명</Text>
