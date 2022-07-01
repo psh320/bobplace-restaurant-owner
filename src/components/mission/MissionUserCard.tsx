@@ -5,7 +5,7 @@ import {Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export type MissionCardProps = {
+type MissionCardProps = {
   name: string;
   userId?: string;
   time: string;
@@ -13,14 +13,6 @@ export type MissionCardProps = {
   point: number;
   status?: string; //"start","request","onrequest","success", "review"
   // handleOnPress?: () => void;
-};
-export type MissionCardContentProps = {
-  handleOnPress?: () => void;
-  text: string;
-  textColor?: string;
-  cancelBgColor?: string;
-  cancelTextColor?: string;
-  bgColor?: string;
 };
 
 //prettier-ignore
