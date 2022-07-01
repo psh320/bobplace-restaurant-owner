@@ -30,7 +30,7 @@ export const StoreNavigator = ({navigation, route}) => {
   return (
     <Stack.Navigator
       initialRouteName="Store"
-      screenOptions={{headerShown: false, gestureEnabled: true}}
+      screenOptions={{headerShown: false, gestureEnabled: false}}
     >
       <Stack.Screen name="Store" component={Store} />
       <Stack.Screen

@@ -1,6 +1,14 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+} from 'react-native';
 import {RegisterAddress, RegisterHeader, RegisterNextButton} from '../components';
 import {AuthStackParamList} from '../nav';
 import {useForm, Controller} from 'react-hook-form';
@@ -44,7 +52,10 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
   return (
     <SafeAreaView style={[styles.flex]}>
       <RegisterHeader goBack={() => goBack()} pageNum={2} totalPage={3} />
-      <KeyboardAvoidingView style={[{flex: 1}]} behavior="padding">
+      <KeyboardAvoidingView
+        style={[{flex: 1}]}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <ScrollView style={[styles.flex, styles.formWrap]}>
           <Text style={[styles.RegisterFormTitle]}>영업정보</Text>
           <Controller

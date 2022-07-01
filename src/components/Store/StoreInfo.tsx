@@ -3,11 +3,11 @@ import React from 'react';
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
 import Swiper from 'react-native-swiper';
 import FastImage from 'react-native-fast-image';
-import {ImageInterface, RegisterStoreInterface} from '../../data';
-import {RenderUploadImage} from '../common/RenderUploadImage';
+import {ImageInterface} from '../../data';
 import {RenderImageList} from '../common/RenderImageList';
 import {StoreTime} from './StoreTime';
-
+import {storeData} from '../../state';
+import {useRecoilValue} from 'recoil';
 const dot = () => {
   const dotStyle = {
     backgroundColor: '#ffffffb2',
@@ -35,75 +35,6 @@ const activeDot = () => {
   return <View style={activeDotStyle} />;
 };
 
-const dummyStore: RegisterStoreInterface = {
-  addressDong: '강남구',
-  addressStreet: '서울특별시 강남구 논현로150길 16',
-  operationTimeVO: [
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'MONDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'TUESDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'WEDNESDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'THURSDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'FRIDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'SATURDAY',
-      isOpen: true,
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'SUNDAY',
-      isOpen: true,
-    },
-  ],
-  representativeMenuName: '삼겹살',
-  storeName: '강남고기집 신칠성집',
-  storeTypeId: 6,
-  tableNum: 1,
-  x: 133,
-  y: 124,
-};
-
 const dummyImage: ImageInterface[] = [
   {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
   {uri: 'https://source.unsplash.com/1024x768/?snack', type: 'image/jpg', name: '2.jpg'},
@@ -111,10 +42,17 @@ const dummyImage: ImageInterface[] = [
 ];
 
 export const StoreInfo = () => {
+  const store = useRecoilValue(storeData);
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-      <View style={{height: 220}}>
-        <Swiper dot={dot()} activeDot={activeDot()} showsButtons={false}>
+      <View style={{height: 220, width: '100%'}}>
+        <Swiper
+          dot={dot()}
+          activeDot={activeDot()}
+          showsButtons={false}
+          removeClippedSubviews={false}
+          scrollEnabled={true}
+        >
           <FastImage
             source={{uri: 'https://source.unsplash.com/1024x768/?nature'}}
             style={{width: '100%', height: 220}}
@@ -137,34 +75,34 @@ export const StoreInfo = () => {
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>상호명</Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{dummyStore.storeName}</Text>
+            <Text style={[styles.fieldTitle]}>{store.storeName}</Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>가게 한줄 소개</Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{dummyStore.storeName}</Text>
+            <Text style={[styles.fieldTitle]}>{store.storeName}</Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>가게주소</Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{dummyStore.addressStreet}</Text>
+            <Text style={[styles.fieldTitle]}>{store.addressStreet}</Text>
           </View>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{dummyStore.addressDong}</Text>
+            <Text style={[styles.fieldTitle]}>{store.addressDong}</Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>가게 유형</Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{dummyStore.storeTypeId}</Text>
+            <Text style={[styles.fieldTitle]}>{store.storeTypeId}</Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>테이블 수</Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{dummyStore.tableNum}</Text>
+            <Text style={[styles.fieldTitle]}>{store.tableNum}</Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>
@@ -173,7 +111,7 @@ export const StoreInfo = () => {
             대표메뉴 미션을 위해 사용됩니다.
           </Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{dummyStore.representativeMenuName}</Text>
+            <Text style={[styles.fieldTitle]}>{store.representativeMenuName}</Text>
           </View>
         </View>
 
@@ -185,7 +123,7 @@ export const StoreInfo = () => {
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>운영시간</Text>
-          <StoreTime operationData={dummyStore.operationTimeVO} />
+          <StoreTime operationData={store.operationTimeVO} />
         </View>
       </View>
     </ScrollView>
