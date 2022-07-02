@@ -31,7 +31,7 @@ export const StoreInfo = () => {
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>가게 한줄 소개</Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[styles.fieldTitle]}>{store.storeName}</Text>
+            <Text style={[styles.fieldTitle]}>{store.description}</Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>
@@ -68,7 +68,7 @@ export const StoreInfo = () => {
         <View style={[styles.infoFieldWrap]}>
           <Text style={[styles.fieldTitle, {fontWeight: '500'}]}>대표메뉴 사진</Text>
           <View>
-            <RenderImageList imageData={dummyImage} imageSize={100} />
+            <RenderImageList imageData={store.menuImage} imageSize={100} />
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>

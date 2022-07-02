@@ -6,19 +6,32 @@ import {storeData} from '../state';
 import {useRecoilState} from 'recoil';
 import {ImageSwiper} from '../components/common/ImageSwiper';
 import {RenderUploadImage} from '../components/common/RenderUploadImage';
-import {ImageInterface} from '../data';
+import {ImageInterface, RegisterStoreInterface} from '../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 type ImageSwiperModalProps = {
   visible: boolean;
   closeImageSwiperModal: () => void;
+  storeEditData: RegisterStoreInterface;
+  setStoreEditData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
 };
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
 };
-export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImageSwiperModal}) => {
-  const [store, setStore] = useRecoilState(storeData);
-  const [imageData, setImageData] = useState(store.storeImage);
+export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({
+  visible,
+  closeImageSwiperModal,
+  storeEditData,
+  setStoreEditData,
+}) => {
+  const [imageData, setImageData] = useState(storeEditData.storeImage);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (imageData.length > 0) {
+      setError(false);
+    }
+  }, [imageData]);
 
   const openImagePicker = () => {
     Alert.alert('사진', '어떻게 가져올까요?', [
@@ -45,7 +58,6 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
         name: result.assets[0].fileName as string,
       };
       setImageData([...imageData, data]);
-      //onChange([...value, data]);
     }
     console.log(result);
   };
@@ -65,14 +77,10 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
         name: result.assets[0].fileName as string,
       };
       setImageData([...imageData, data]);
-      //onChange([...value, data]);
     }
     console.log(result);
   };
 
-  useEffect(() => {
-    setStore({...store, storeImage: imageData});
-  }, [imageData]);
   return (
     <Modal visible={visible} animationType="slide">
       <SafeAreaView style={{flex: 1}}>
@@ -85,8 +93,12 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
           <Text style={[styles.storeHeaderText]}>가게 대표 사진</Text>
           <TouchableOpacity
             onPress={() => {
-              setStore({...store, storeImage: imageData});
-              closeImageSwiperModal();
+              if (imageData.length <= 0) {
+                setError(true);
+              } else {
+                setStoreEditData({...storeEditData, storeImage: imageData});
+                closeImageSwiperModal();
+              }
             }}
           >
             <View style={[styles.backButton]}>
@@ -102,6 +114,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
           </TouchableOpacity>
           <RenderUploadImage imageData={imageData} setImageData={setImageData} imageSize={80} />
         </View>
+        {error && <Text>최소 한장은 올려야합니다</Text>}
       </SafeAreaView>
     </Modal>
   );

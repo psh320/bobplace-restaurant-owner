@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -14,29 +15,30 @@ import {StoreMenuBar} from '../components/Store/StoreMenuBar';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {useForm, Controller} from 'react-hook-form';
-import {StoreTime} from '../components/Store/StoreTime';
-import {RenderImageList} from '../components/common/RenderImageList';
-import FastImage from 'react-native-fast-image';
-import Swiper from 'react-native-swiper';
 import {ImageInterface, RegisterStoreInterface} from '../data';
 import {storeData} from '../state';
 import {useRecoilState} from 'recoil';
 import {ImageSwiper} from '../components/common/ImageSwiper';
 import {ImageSwiperModal} from '../modal/ImageSwiperModal';
+import {
+  RegisterAddress,
+  RegisterStoreName,
+  RegisterStoreTable,
+  RegisterStoreType,
+} from '../components';
+import {RegisterStoreDescription} from '../components/Register/RegisterStoreDescription';
+import {RegisterStoreMenuName} from '../components/Register/RegisterStoreMenuName';
+import {RegisterTime} from '../components/Register/RegisterTime';
+import {RegisterMenuImages} from '../components/Register/RegisterMenuImages';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
-
-const dummyImage: ImageInterface[] = [
-  {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
-  {uri: 'https://source.unsplash.com/1024x768/?snack', type: 'image/jpg', name: '2.jpg'},
-  {uri: 'https://source.unsplash.com/1024x768/?candy', type: 'image/jpg', name: '3.jpg'},
-];
 
 const StoreEdit = ({navigation}: Props) => {
   const [store, setStore] = useRecoilState(storeData);
   const [storeEditData, setStoreEditData] = useState(store);
   const [imageSwiperModal, setImageSwiperModal] = useState(false);
   const insets = useSafeAreaInsets();
+
   const {
     control,
     handleSubmit,
@@ -49,22 +51,22 @@ const StoreEdit = ({navigation}: Props) => {
       tableNum: store.tableNum,
       address: store.addressStreet,
       representativeMenuName: store.representativeMenuName,
-      storeImage: store.storeImage,
-      menuImage: store.menuImage,
       description: store.description,
+      menuImages: store.menuImage.length,
     },
   });
+
+  const onSubmit = () => {
+    setStore(storeEditData);
+    //patch store to server
+    navigation.goBack();
+  };
 
   return (
     <View style={[styles.flex, {paddingTop: insets.top}]}>
       <View style={[styles.screenHeaderWrap]}>
         <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
-        <TouchableOpacity
-          onPress={() => {
-            setStore(storeEditData);
-            navigation.goBack();
-          }}
-        >
+        <TouchableOpacity onPress={handleSubmit(onSubmit)}>
           <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>저장</Text>
         </TouchableOpacity>
       </View>
@@ -86,8 +88,10 @@ const StoreEdit = ({navigation}: Props) => {
             <ImageSwiperModal
               visible={imageSwiperModal}
               closeImageSwiperModal={() => setImageSwiperModal(false)}
+              storeEditData={storeEditData}
+              setStoreEditData={setStoreEditData}
             />
-            <ImageSwiper height={220} imageList={store.storeImage} />
+            <ImageSwiper height={220} imageList={storeEditData.storeImage} />
             <TouchableOpacity
               style={[styles.editImageSwiperButton]}
               onPress={() => setImageSwiperModal(true)}
@@ -97,7 +101,162 @@ const StoreEdit = ({navigation}: Props) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={[styles.storeInfoWrap]}></View>
+          <View style={[styles.storeInfoWrap]}>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreName
+                    registerData={storeEditData}
+                    setRegisterData={setStoreEditData}
+                    onChange={onChange}
+                    value={value}
+                    error={errors.storeName !== undefined}
+                  />
+                );
+              }}
+              name="storeName"
+            />
+            {errors.storeName?.type === 'required' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreDescription
+                    registerData={storeEditData}
+                    setRegisterData={setStoreEditData}
+                    onChange={onChange}
+                    value={value}
+                    error={errors.description !== undefined}
+                  />
+                );
+              }}
+              name="description"
+            />
+            {errors.description?.type === 'required' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterAddress
+                    registerData={storeEditData}
+                    setRegisterData={setStoreEditData}
+                    onChange={onChange}
+                    value={value}
+                    error={errors.address !== undefined}
+                  />
+                );
+              }}
+              name="address"
+            />
+            {errors.address?.type === 'required' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            <Controller
+              control={control}
+              rules={{
+                min: 0,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreType
+                    registerData={storeEditData}
+                    setRegisterData={setStoreEditData}
+                    onChange={onChange}
+                    value={value}
+                    error={errors.storeTypeId !== undefined}
+                  />
+                );
+              }}
+              name="storeTypeId"
+            />
+            {errors.storeTypeId?.type === 'min' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            <Controller
+              control={control}
+              rules={{
+                min: 0,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreTable
+                    registerData={storeEditData}
+                    setRegisterData={setStoreEditData}
+                    onChange={onChange}
+                    value={value}
+                    error={errors.tableNum !== undefined}
+                  />
+                );
+              }}
+              name="tableNum"
+            />
+            {errors.tableNum?.type === 'min' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreMenuName
+                    registerData={storeEditData}
+                    setRegisterData={setStoreEditData}
+                    onChange={onChange}
+                    value={value}
+                    error={errors.representativeMenuName !== undefined}
+                  />
+                );
+              }}
+              name="representativeMenuName"
+            />
+            {errors.representativeMenuName?.type === 'required' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            <Controller
+              control={control}
+              rules={{
+                min: 1,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterMenuImages
+                    registerData={storeEditData}
+                    setRegisterData={setStoreEditData}
+                    onChange={onChange}
+                    value={value}
+                  />
+                );
+              }}
+              name="menuImages"
+            />
+            {errors.menuImages?.type === 'min' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            <RegisterTime setRegisterData={setStoreEditData} registerData={storeEditData} />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
@@ -136,7 +295,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 
-  storeInfoWrap: {flex: 1, marginLeft: 16, marginRight: 16, marginTop: 24, marginBottom: 24},
+  storeInfoWrap: {flex: 1, marginLeft: 16, marginRight: 16, marginBottom: 24},
   infoFieldWrap: {marginBottom: 28, width: '100%'},
   fieldTitle: {fontSize: 16, lineHeight: 24, fontFamily: 'Pretendard-Regular', color: '#111111'},
   fieldSubTitle: {fontSize: 14, lineHeight: 22, fontFamily: 'Pretendard-Regular', color: '#777777'},
@@ -165,5 +324,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorMessage: {color: '#E03D32', marginLeft: 8, marginTop: 4},
+  imageAddButton: {
+    width: 80,
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#EFEFEF',
+    marginRight: 8,
+  },
+  flexRow: {
+    flexDirection: 'row',
   },
 });

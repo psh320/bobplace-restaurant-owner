@@ -17,8 +17,8 @@ export type RegisterStoreInterface = {
   storeName: string;
   storeTypeId: number;
   tableNum: number;
-  x: number;
-  y: number;
+  x: string;
+  y: string;
   storeImage: ImageInterface[];
   menuImage: ImageInterface[];
   description: string;

@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import {RegisterStoreInterface} from '../data';
+import {ImageInterface, RegisterStoreInterface} from '../data';
 
 export const userToken = atom({
   key: 'userToken',
@@ -83,24 +83,20 @@ export const storeData = atom<RegisterStoreInterface>({
     storeName: '',
     storeTypeId: 0,
     tableNum: 0,
-    x: 0,
-    y: 0,
+    x: '0',
+    y: '0',
     storeImage: [],
     menuImage: [],
     description: '',
   },
 });
 
-// export const storeImage = atom({
-//   key: 'storeImage',
-//   default: {
-//     storeImageList: [],
-//   },
-// });
+export const storeImage = atom<ImageInterface[]>({
+  key: 'storeImage',
+  default: [],
+});
 
-// export const menuImage = atom({
-//   key: 'menuImage',
-//   default: {
-//     menuImageList: [],
-//   },
-// });
+export const menuImage = atom<ImageInterface[]>({
+  key: 'menuImage',
+  default: [],
+});
