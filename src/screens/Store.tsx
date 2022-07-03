@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 46,
     width: '100%',
-    backgroundColor: '#FCFCFC',
+    backgroundColor: '#f6f6fa',
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },

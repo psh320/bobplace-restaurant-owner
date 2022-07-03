@@ -98,7 +98,7 @@ const StoreMission = ({navigation}: Props) => {
 export default StoreMission;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#F8F8F8'},
+  flex: {flex: 1, backgroundColor: '#F6F6FA'},
   screenHeaderWrap: {
     height: 50,
     backgroundColor: '#FFFFFF',
