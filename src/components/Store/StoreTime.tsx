@@ -21,7 +21,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
         {operationData.map((item, index) => {
           if (item.isOpen) {
             return (
-              <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]}>
+              <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
                 <View
                   style={{
                     flex: 0.22,
@@ -29,7 +29,11 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
                     alignItems: 'center',
                   }}
                 >
-                  <CheckBoxRectangle title={MapIndexToDay[index]} isChecked={item.isOpen} />
+                  <CheckBoxRectangle
+                    title={MapIndexToDay[index]}
+                    isChecked={item.isOpen}
+                    onPress={() => {}}
+                  />
                 </View>
                 <View
                   style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
@@ -53,7 +57,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
             );
           } else {
             return (
-              <View style={[styles.tableContainer, {backgroundColor: '#F5F5F5'}]}>
+              <View style={[styles.tableContainer, {backgroundColor: '#F5F5F5'}]} key={index}>
                 <View
                   style={{
                     flex: 0.22,
@@ -61,7 +65,11 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
                     alignItems: 'center',
                   }}
                 >
-                  <CheckBoxRectangle title={MapIndexToDay[index]} isChecked={item.isOpen} />
+                  <CheckBoxRectangle
+                    title={MapIndexToDay[index]}
+                    isChecked={item.isOpen}
+                    onPress={() => {}}
+                  />
                 </View>
                 <View
                   style={{flex: 0.78, height: 30, alignItems: 'center', justifyContent: 'center'}}

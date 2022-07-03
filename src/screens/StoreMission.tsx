@@ -9,30 +9,34 @@ import {useNavigation} from '@react-navigation/native';
 
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
+import {MissionCard} from '../components/mission/MissionCard';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
 const dummyMission = [
   {
-    name: '김진범',
+    storeName: '마라탕집',
     userId: '0',
-    time: '18:00:12',
-    minCost: 10000,
+    category: '중식당',
+    mission: '10000원 이상',
     point: 500,
+    isPresent: true,
   },
   {
-    name: '이예진',
+    storeName: '중화반점은 홍콩반점',
     userId: '1',
-    time: '14:01:23',
-    minCost: 10000,
+    category: '중식당',
+    mission: '대표메뉴 짜장면',
     point: 500,
+    isPresent: true,
   },
   {
-    name: '박성호',
+    storeName: '한강 왜 가냐 라면 먹지',
     userId: '2',
-    time: '12:21:14',
-    minCost: 10000,
+    category: '중식당',
+    mission: '대표메뉴 라면',
     point: 500,
+    isPresent: false,
   },
 ];
 
@@ -66,12 +70,12 @@ const StoreMission = ({navigation}: Props) => {
           scrollEventThrottle={10}
           data={dummyMission}
           renderItem={({item}) => (
-            <MissionUserCard
-              name={item.name}
-              time={item.time}
-              minCost={item.minCost}
+            <MissionCard
+              storeName={item.storeName}
+              category={item.category}
+              mission={item.mission}
               point={item.point}
-              status="start"
+              isPresent={item.isPresent}
             />
           )}
           ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}

@@ -19,9 +19,7 @@ const processTime = (time: string) => {
 export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerData}) => {
   const [operationTimeModal, setOperationTimeModal] = useState(false);
   const [operationTime, setOperationTime] = useState<OperationTime[]>(registerData.operationTimeVO);
-  console.log(operationTime);
   const [dayIndex, setDayIndex] = useState<number>(0);
-  console.log(dayIndex);
   useEffect(() => {
     setOperationTime(registerData.operationTimeVO);
   }, [registerData]);
@@ -31,7 +29,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
         {registerData.operationTimeVO.map((item, index) => {
           if (item.isOpen) {
             return (
-              <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]}>
+              <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
                 <View
                   style={{
                     flex: 0.22,
@@ -81,7 +79,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
             );
           } else {
             return (
-              <View style={[styles.tableContainer, {backgroundColor: '#F5F5F5'}]}>
+              <View style={[styles.tableContainer, {backgroundColor: '#F5F5F5'}]} key={index}>
                 <View
                   style={{
                     flex: 0.22,

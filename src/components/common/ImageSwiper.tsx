@@ -41,8 +41,8 @@ export const ImageSwiper: FC<ImageSwiperProps> = ({height, imageList}) => {
   return (
     <View style={{height: height, width: '100%'}}>
       <Swiper dot={dot()} activeDot={activeDot()} showsButtons={false}>
-        {imageList.map((image) => {
-          return <FastImage source={image} style={{width: '100%', height: height}} />;
+        {imageList.map((image, index) => {
+          return <FastImage key={index} source={image} style={{width: '100%', height: height}} />;
         })}
       </Swiper>
     </View>

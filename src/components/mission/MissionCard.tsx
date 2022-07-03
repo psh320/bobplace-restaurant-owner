@@ -5,35 +5,30 @@ import {Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type MissionUserCardProps = {
-  name: string;
+type MissionCardProps = {
+  storeName: string;
   userId?: string;
-  time: string;
-  minCost: number;
+  category: string;
+  mission: string;
   point: number;
-  status?: string; //"start","request","onrequest","success", "review"
-  // handleOnPress?: () => void;
+  isPresent: boolean;
 };
 
 //prettier-ignore
-export const MissionUserCard: FC<MissionUserCardProps> = ({name, time, minCost, point}) => {
-    //const navigation = useNavigation();
+export const MissionCard: FC<MissionCardProps> = ({storeName, category, mission, point, isPresent}) => {
     return (
-    <View style={[styles.missionCardWrap]}>
-      <TouchableOpacity onPress={() => {}} style={[styles.missionCard]}>
+        <View style={[styles.missionCardWrap]}>
+        <TouchableOpacity onPress={() => {}} style={[styles.missionCard]}>
         <View style={[styles.missionMain]}>
           <View style={[styles.nameBox]}>
-            <View style={[styles.flexRow]}>
-                <Icon name='chevron-right' size={18} style={[styles.hidden]}/>
-                <Text style={[styles.nameText]}>{name}</Text>
-                <Icon name='chevron-right' size={18}/>
-            </View>
-            <Text style={[styles.categoryText]}>{time}</Text>
+            <Text style={[isPresent ? styles.ongoingText : styles.stoppedText]}>{isPresent ? '배포중' : '배포중지' }</Text>
+            <Text style={[styles.nameText]}>{storeName}</Text>
+            <Text style={[styles.categoryText]}>{category}</Text>
           </View>
           <View style={[styles.seperateLine]} />
           <View>
             <Text>
-              <Text style={[styles.costText]}>{minCost}원 이상</Text>
+              <Text style={[styles.costText]}>{mission}</Text>
               <Text style={[styles.normalText]}>의 식사시 </Text>
               <Text style={[styles.pointText]}>{point}P 적립</Text>
             </Text>
@@ -67,12 +62,26 @@ const styles = StyleSheet.create({
     borderColor: '#DFDFDF',
     marginBottom: 16,
   },
+  ongoingText: {
+    fontFamily: 'Pretendard-Medium',
+    color: '#6C69FF',
+    fontSize: 12,
+    lineHeight: 20,
+    marginBottom: 4,
+  },
+  stoppedText: {
+    fontFamily: 'Pretendard-Medium',
+    color: '#ff6969',
+    fontSize: 12,
+    lineHeight: 20,
+    marginBottom: 4,
+  },
   nameText: {
+    fontFamily: 'Pretendard-Medium',
     color: '#111111',
     fontSize: 16,
-    marginBottom: 8,
-    marginRight: 6,
-    marginLeft: 6,
+    lineHeight: 24,
+    marginBottom: 2,
   },
   categoryText: {
     fontSize: 14,
@@ -80,13 +89,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   costText: {
-    fontFamily: 'Pretendard-SemiBold',
     color: '#111111',
     fontSize: 16,
   },
-  normalText: {fontFamily: 'Pretendard-Medium', color: '#111111', fontSize: 16, lineHeight: 24},
+  normalText: {color: '#111111', fontSize: 16, lineHeight: 24},
   pointText: {
-    fontFamily: 'Pretendard-SemiBold',
     color: '#6C69FF',
     fontSize: 16,
   },

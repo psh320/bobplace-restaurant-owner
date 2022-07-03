@@ -38,7 +38,7 @@ const StoreEdit = ({navigation}: Props) => {
   const [storeEditData, setStoreEditData] = useState(store);
   const [imageSwiperModal, setImageSwiperModal] = useState(false);
   const insets = useSafeAreaInsets();
-
+  console.log('수정한 스토어 시간 데이터', storeEditData.operationTimeVO);
   const {
     control,
     handleSubmit,
