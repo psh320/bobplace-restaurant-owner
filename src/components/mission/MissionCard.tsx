@@ -4,22 +4,25 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StoreStackParamList} from '../../nav';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 type MissionCardProps = {
   storeName: string;
-  userId?: string;
+  storeId: string;
   category: string;
   mission: string;
   point: number;
   isPresent: boolean;
+  navigation: StackNavigationProp<StoreStackParamList, 'StoreMission', undefined>;
 };
 
 //prettier-ignore
-export const MissionCard: FC<MissionCardProps> = ({storeName, category, mission, point, isPresent}) => {
+export const MissionCard: FC<MissionCardProps> = ({storeName, storeId, category, mission, point, isPresent, navigation}) => {
     return (
         <View style={[styles.missionCardWrap]}>
-        <TouchableOpacity onPress={() => {}} style={[styles.missionCard]}>
-        <View style={[styles.missionMain]}>
+        <TouchableOpacity onPress={() => {navigation.navigate('StoreMissionDetail', {missionId: storeId})}} >
+          <View style={[styles.missionCard]}>
           <View style={[styles.nameBox]}>
             <Text style={[isPresent ? styles.ongoingText : styles.stoppedText]}>{isPresent ? '배포중' : '배포중지' }</Text>
             <Text style={[styles.nameText]}>{storeName}</Text>
@@ -33,7 +36,7 @@ export const MissionCard: FC<MissionCardProps> = ({storeName, category, mission,
               <Text style={[styles.pointText]}>{point}P 적립</Text>
             </Text>
           </View>
-        </View>
+          </View>
       </TouchableOpacity>
     </View>
   );
@@ -42,23 +45,19 @@ export const MissionCard: FC<MissionCardProps> = ({storeName, category, mission,
 const styles = StyleSheet.create({
   missionCardWrap: {marginLeft: 16, marginRight: 16},
   missionCard: {
-    height: 145,
     backgroundColor: Colors.white,
     borderRadius: 10,
     alignItems: 'center', //
     borderColor: '#EFEFEF',
     borderWidth: 1,
+    padding: 16,
+    width: '100%',
   },
   nameBox: {flexDirection: 'column', justifyContent: 'center', alignItems: 'center'},
-  missionMain: {
-    flex: 1,
-    width: 303,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   seperateLine: {
     borderWidth: 0.5,
-    width: 303,
+    width: '100%',
     borderColor: '#DFDFDF',
     marginBottom: 16,
   },

@@ -5,6 +5,8 @@ import Store from '../screens/Store';
 import StoreEdit from '../screens/StoreEdit';
 import StoreMission from '../screens/StoreMission';
 import StoreReview from '../screens/StoreReview';
+import StoreMissionDetail from '../screens/StoreMissionDetail';
+import StoreMissionPayment from '../screens/StoreMissionPayment';
 
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
@@ -13,6 +15,8 @@ export type StoreStackParamList = {
   StoreEdit: undefined;
   StoreMission: undefined;
   StoreReview: undefined;
+  StoreMissionDetail: {missionId: number};
+  StoreMissionPayment: {purchaseId: number};
 };
 
 const Stack = createStackNavigator<StoreStackParamList>();
@@ -20,7 +24,7 @@ const Stack = createStackNavigator<StoreStackParamList>();
 export const StoreNavigator = ({navigation, route}) => {
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName === 'MissionDetail') {
+    if (routeName === 'StoreMissionDetail') {
       navigation.setOptions({tabBarStyle: {display: 'none'}});
     } else {
       navigation.setOptions({tabBarStyle: {display: undefined}});
@@ -60,6 +64,8 @@ export const StoreNavigator = ({navigation, route}) => {
           animationEnabled: false,
         }}
       />
+      <Stack.Screen name="StoreMissionDetail" component={StoreMissionDetail} />
+      <Stack.Screen name="StoreMissionPayment" component={StoreMissionPayment} />
     </Stack.Navigator>
   );
 };

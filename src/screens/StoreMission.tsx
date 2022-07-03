@@ -16,7 +16,7 @@ type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 const dummyMission = [
   {
     storeName: '마라탕집',
-    userId: '0',
+    storeId: '0',
     category: '중식당',
     mission: '10000원 이상',
     point: 500,
@@ -24,7 +24,7 @@ const dummyMission = [
   },
   {
     storeName: '중화반점은 홍콩반점',
-    userId: '1',
+    storeId: '1',
     category: '중식당',
     mission: '대표메뉴 짜장면',
     point: 500,
@@ -32,7 +32,7 @@ const dummyMission = [
   },
   {
     storeName: '한강 왜 가냐 라면 먹지',
-    userId: '2',
+    storeId: '2',
     category: '중식당',
     mission: '대표메뉴 라면',
     point: 500,
@@ -60,9 +60,9 @@ const StoreMission = ({navigation}: Props) => {
         />
 
         <View style={[styles.missionUserNumberWrap]}>
-          <Text>현재 </Text>
-          <Text>{numberOfUsers}명</Text>
-          <Text>의 유저가 미션을 진행하고 있습니다</Text>
+          <Text style={[styles.missionStatText]}>최근 7일 미션이 총 </Text>
+          <Text style={[styles.missionStatPointText]}>{numberOfUsers}명</Text>
+          <Text style={[styles.missionStatText]}> 에게 노출되었어요</Text>
         </View>
 
         <FlatList
@@ -71,14 +71,24 @@ const StoreMission = ({navigation}: Props) => {
           data={dummyMission}
           renderItem={({item}) => (
             <MissionCard
+              storeId={item.storeId}
               storeName={item.storeName}
               category={item.category}
               mission={item.mission}
               point={item.point}
               isPresent={item.isPresent}
+              navigation={navigation}
             />
           )}
           ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
+          ListFooterComponent={() => (
+            <TouchableOpacity onPress={() => {}} style={[styles.missionStopButtonWrap]}>
+              <View>
+                <Text style={[styles.missionStopText]}>미션 중지 요청</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          ListFooterComponentStyle={styles.missionStopButtonContainer}
         />
       </View>
     </>
@@ -121,5 +131,37 @@ const styles = StyleSheet.create({
     fontFamily: 'Pretendard-Regular',
     fontWeight: '600',
     lineHeight: 24,
+  },
+  missionStopText: {
+    fontSize: 14,
+    lineHeight: 22,
+    fontFamily: 'Pretendard-SemiBold',
+    color: '#C8C8C8',
+  },
+  missionStatText: {
+    fontSize: 16,
+    fontFamily: 'Pretendard-Light',
+    color: '#3F3F3F',
+  },
+  missionStatPointText: {
+    fontSize: 16,
+    fontFamily: 'Pretendard-SemiBold',
+    color: '#6C69FF',
+  },
+  missionStopButtonWrap: {
+    width: '100%',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderColor: '#C8C8C8',
+    borderWidth: 1,
+  },
+  missionStopButtonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 12,
+    marginLeft: 16,
+    marginRight: 16,
   },
 });

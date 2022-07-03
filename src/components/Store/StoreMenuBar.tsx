@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
   },
   toggleButtonWrapOff: {
     height: '100%',
+    borderBottomColor: '#EFEFEF',
+    borderBottomWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

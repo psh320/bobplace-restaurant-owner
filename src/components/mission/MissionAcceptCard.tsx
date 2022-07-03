@@ -27,6 +27,7 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
   }
 
   return (
+    <View style={[styles.missionCardWrap]}>
       <View style={[styles.missionCard]}>
           <View style={[styles.nameBox]}>
             <Text style={[styles.requestText]}>성공요청</Text>
@@ -50,14 +51,18 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
             </TouchableOpacity>
          </View>
       </View>
+      </View>
   );
 };
 
 const styles = StyleSheet.create({
-  missionCard: {
-    width: 343,
+  missionCardWrap: {
     marginLeft: 16,
     marginRight: 16,
+    alignItems: 'center',
+  },
+  missionCard: {
+    width: '100%',
     padding: 16,
     backgroundColor: Colors.white,
     borderRadius: 10,
