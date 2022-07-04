@@ -6,6 +6,7 @@ import {StoreMenuBar} from '../components/Store/StoreMenuBar';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {StoreReviewCard} from '../components/Store/StoreReviewCard';
+import {PhotoModal} from '../modal/PhotoModal';
 
 const dummyReviews = [
   {
@@ -118,6 +119,11 @@ const StoreReview = ({navigation}: Props) => {
                 openPhotoModal={openPhotoModal}
               />
             )}
+          />
+          <PhotoModal
+            imageUri={reviewPhoto}
+            visible={photoModal}
+            closePhotoModal={() => setPhotoModal(false)}
           />
         </View>
       </View>
