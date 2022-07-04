@@ -4,6 +4,7 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Colors} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type MissionUserCardProps = {
   name: string;
@@ -11,24 +12,19 @@ type MissionUserCardProps = {
   time: string;
   minCost: number;
   point: number;
-  status?: string; //"start","request","onrequest","success", "review"
-  // handleOnPress?: () => void;
 };
 
 //prettier-ignore
-export const MissionUserCard: FC<MissionUserCardProps> = ({name, time, minCost, point}) => {
+export const MissionUserCard: FC<MissionUserCardProps> = ({name, userId, time, minCost, point}) => {
     //const navigation = useNavigation();
     return (
     <View style={[styles.missionCardWrap]}>
       <TouchableOpacity onPress={() => {}} style={[styles.missionCard]}>
         <View style={[styles.missionMain]}>
           <View style={[styles.nameBox]}>
-            <View style={[styles.flexRow]}>
-                <Icon name='chevron-right' size={18} style={[styles.hidden]}/>
-                <Text style={[styles.nameText]}>{name}</Text>
-                <Icon name='chevron-right' size={18}/>
-            </View>
-            <Text style={[styles.categoryText]}>{time}</Text>
+              <Text style={[styles.timeText]}>{time.slice(0,5)} 시작</Text>
+              <Text style={[DesignSystem.title3SB, {color: '#2A2A2A'}]}>{name}</Text>
+              <Text style={[DesignSystem.body2Lt, {color: '#616161', marginBottom: 6}]}>{userId}</Text>
           </View>
           <View style={[styles.seperateLine]} />
           <View>
@@ -53,8 +49,14 @@ const styles = StyleSheet.create({
     alignItems: 'center', //
     borderColor: '#EFEFEF',
     borderWidth: 1,
+    marginBottom: 12,
   },
   nameBox: {flexDirection: 'column', justifyContent: 'center', alignItems: 'center'},
+  timeText: {
+    fontSize: 14,
+    color: '#6C69FF',
+    marginBottom: 6,
+  },
   missionMain: {
     flex: 1,
     width: 303,
@@ -62,31 +64,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   seperateLine: {
-    borderWidth: 0.5,
+    height: 0.5,
     width: 303,
-    borderColor: '#DFDFDF',
-    marginBottom: 16,
-  },
-  nameText: {
-    color: '#111111',
-    fontSize: 16,
-    marginBottom: 8,
-    marginRight: 6,
-    marginLeft: 6,
-  },
-  categoryText: {
-    fontSize: 14,
-    color: '#616161',
+    backgroundColor: '#DFDFDF',
     marginBottom: 16,
   },
   costText: {
-    fontFamily: 'Pretendard-SemiBold',
+    fontWeight: '500',
+    color: 'black',
+    fontSize: 16,
+  },
+  normalText: {
+    fontWeight: '300',
     color: '#111111',
     fontSize: 16,
   },
-  normalText: {fontFamily: 'Pretendard-Medium', color: '#111111', fontSize: 16, lineHeight: 24},
   pointText: {
-    fontFamily: 'Pretendard-SemiBold',
+    fontWeight: '500',
     color: '#6C69FF',
     fontSize: 16,
   },

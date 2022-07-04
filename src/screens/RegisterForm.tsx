@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {StyleSheet, Text, KeyboardAvoidingView, ScrollView, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   RegisterNextButton,
@@ -48,7 +48,10 @@ const RegisterForm = ({navigation, route}: Props) => {
   return (
     <SafeAreaView style={[styles.flex]}>
       <RegisterHeader goBack={goBack} pageNum={1} totalPage={1} />
-      <KeyboardAvoidingView style={[{flex: 1}]} behavior="padding">
+      <KeyboardAvoidingView
+        style={[{flex: 1}]}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <ScrollView style={[styles.flex, styles.formWrap]}>
           <Text style={[styles.RegisterFormTitle]}>가입자 정보</Text>
           <Controller

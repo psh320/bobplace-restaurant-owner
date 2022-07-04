@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   missionCardWrap: {
     marginLeft: 16,
     marginRight: 16,
+    marginBottom: 12,
     alignItems: 'center',
   },
   missionCard: {

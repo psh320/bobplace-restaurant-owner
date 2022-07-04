@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MissionUserCard} from '../components/mission/MissionUserCard';
 import {MissionAcceptCard} from '../components/mission/MissionAcceptCard';
 import {MissionSwitch} from '../components/mission/MissionSwitch';
+import { DesignSystem } from '../assets/DesignSystem';
 
 const dummyMission = [
   {
@@ -27,6 +28,13 @@ const dummyMission = [
     minCost: 10000,
     point: 500,
   },
+  {
+    name: '박성호',
+    userId: '2',
+    time: '12:21:14',
+    minCost: 10000,
+    point: 500,
+  },
 ];
 
 const Mission = () => {
@@ -37,54 +45,54 @@ const Mission = () => {
 
   return (
     <>
-      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
       <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
-          <Text style={[styles.screenHeaderTitle]}>미션</Text>
-          <Icon name="bell-outline" size={24} />
+          <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
+          <Icon name="bell-outline" size={24} color={'#323232'} />
         </View>
-        {progressNow ? (
-          <FlatList
-            contentContainerStyle={{flex: 1, backgroundColor: '#F8F8F8', marginTop: 12}}
-            scrollEventThrottle={10}
-            data={dummyMission}
-            renderItem={({item}) => (
-              <MissionAcceptCard
-                name={item.name}
-                time={item.time}
-                minCost={item.minCost}
-                point={item.point}
-                status="start"
-              />
-            )}
-            ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
-          />
-        ) : (
-          <>
-            <View style={[styles.missionUserNumberWrap]}>
-              <Text>현재 </Text>
-              <Text>{numberOfUsers}명</Text>
-              <Text>의 유저가 미션을 진행하고 있습니다</Text>
-            </View>
-
+        <View style={{flex: 1}}>
+          {progressNow ? (
             <FlatList
-              contentContainerStyle={{flex: 1, backgroundColor: '#F8F8F8', marginTop: 12}}
+              contentContainerStyle={{paddingTop: 12}}
               scrollEventThrottle={10}
               data={dummyMission}
               renderItem={({item}) => (
-                <MissionUserCard
+                <MissionAcceptCard
                   name={item.name}
                   time={item.time}
                   minCost={item.minCost}
                   point={item.point}
-                  status="start"
                 />
               )}
-              ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
             />
-          </>
-        )}
-
+          ) : (
+            <>
+              <View style={[styles.missionUserNumberWrap]}>
+                <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
+                <Text style={{color: '#6C69FF', fontSize: 16}}>{numberOfUsers}명</Text>
+                <Text style={{color: '#323232', fontSize: 16}}>
+                  의 유저가 미션을 진행하고 있습니다
+                </Text>
+              </View>
+              <FlatList
+                contentContainerStyle={{paddingTop: 12}}
+                showsVerticalScrollIndicator={false}
+                scrollEventThrottle={10}
+                data={dummyMission}
+                renderItem={({item}) => (
+                  <MissionUserCard
+                    time={item.time}
+                    name={item.name}
+                    userId={item.userId}
+                    minCost={item.minCost}
+                    point={item.point}
+                    status="start"
+                  />
+                )}
+              />
+            </>
+          )}
+        </View>
         <MissionSwitch
           progressnow={progressNow}
           setProgressnow={setProgressNow}
@@ -98,7 +106,7 @@ const Mission = () => {
 export default Mission;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#F8F8F8'},
+  flex: {flex: 1},
   screenHeaderWrap: {
     height: 50,
     backgroundColor: '#FFFFFF',
@@ -124,11 +132,5 @@ const styles = StyleSheet.create({
   },
   missionSeperate: {
     marginTop: 16,
-  },
-  screenHeaderTitle: {
-    fontSize: 16,
-    fontFamily: 'Pretendard-Regular',
-    fontWeight: '600',
-    lineHeight: 24,
   },
 });
