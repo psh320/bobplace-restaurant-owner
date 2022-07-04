@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MissionDetailCard} from '../components/mission/MissionDetailCard';
+import {CancelPointModal} from '../modal/CancelPointModal';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionPayment'>;
 
@@ -17,11 +16,25 @@ const dummyPurchase = {
 };
 
 const StoreMissionPayment = ({navigation, route}: Props) => {
+  const [cancelPointModal, setCancelPointModal] = useState(false);
   const [cancelContent, setCancelContent] = useState('');
   const insets = useSafeAreaInsets();
   const missionList = route.params.purchaseId; //이 미션 아이디로 get 하기.
   return (
     <>
+      {cancelPointModal ? (
+        <View
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.4)',
+            zIndex: 10,
+          }}
+        />
+      ) : (
+        <View />
+      )}
       <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
       <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
@@ -74,7 +87,12 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
           />
         </View>
         <View style={{flex: 1}} />
-        <TouchableOpacity onPress={() => {}} style={{margin: 16}}>
+        <TouchableOpacity
+          onPress={() => {
+            setCancelPointModal(true);
+          }}
+          style={{margin: 16}}
+        >
           <View
             style={{
               width: '100%',
@@ -88,6 +106,10 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
             <Text style={styles.submitText}>결제 취소 신청</Text>
           </View>
         </TouchableOpacity>
+        <CancelPointModal
+          visible={cancelPointModal}
+          closeCancelPointModal={() => setCancelPointModal(false)}
+        />
       </View>
     </>
   );
