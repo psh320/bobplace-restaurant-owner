@@ -93,7 +93,7 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
 
 const styles = StyleSheet.create({
   progressRow: {
-    width: '100%',
+    width: 138,
     position: 'absolute',
     bottom: 15,
     alignItems: 'center',
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   missionAlarmWrap: {
     poistion: 'absolute',
     left: 40,
-    bottom: 10,
+    bottom: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },

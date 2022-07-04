@@ -86,18 +86,19 @@ const Mission = () => {
                     userId={item.userId}
                     minCost={item.minCost}
                     point={item.point}
-                    status="start"
                   />
                 )}
               />
             </>
           )}
         </View>
-        <MissionSwitch
-          progressnow={progressNow}
-          setProgressnow={setProgressNow}
-          missionWaiting={missionWaiting}
-        />
+        <View style={[DesignSystem.centerArrange]}>
+          <MissionSwitch
+            progressnow={progressNow}
+            setProgressnow={setProgressNow}
+            missionWaiting={missionWaiting}
+          />
+        </View>
       </SafeAreaView>
     </>
   );
