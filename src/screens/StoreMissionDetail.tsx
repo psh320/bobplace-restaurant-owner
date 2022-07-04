@@ -2,11 +2,6 @@ import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {MissionUserCard} from '../components/mission/MissionUserCard';
-import {StoreMenuBar} from '../components/Store/StoreMenuBar';
-import {StoreInfo} from '../components/Store/StoreInfo';
-import {useNavigation} from '@react-navigation/native';
-
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MissionDetailCard} from '../components/mission/MissionDetailCard';

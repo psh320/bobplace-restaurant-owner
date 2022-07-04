@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MissionCard} from '../components/mission/MissionCard';
+import {MissionStopModal} from '../modal/MissionStopModal';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
@@ -41,6 +42,7 @@ const dummyMission = [
 ];
 
 const StoreMission = ({navigation}: Props) => {
+  const [missionStopModal, setMissionStopModal] = useState(false);
   const insets = useSafeAreaInsets();
 
   const numberOfUsers = dummyMission.length;
@@ -82,13 +84,24 @@ const StoreMission = ({navigation}: Props) => {
           )}
           ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
           ListFooterComponent={() => (
-            <TouchableOpacity onPress={() => {}} style={[styles.missionStopButtonWrap]}>
+            <TouchableOpacity
+              onPress={() => {
+                setMissionStopModal(true);
+              }}
+              style={[styles.missionStopButtonWrap]}
+            >
               <View>
                 <Text style={[styles.missionStopText]}>미션 중지 요청</Text>
               </View>
             </TouchableOpacity>
           )}
           ListFooterComponentStyle={styles.missionStopButtonContainer}
+        />
+        <MissionStopModal
+          visible={missionStopModal}
+          closeMissionStopModal={() => {
+            setMissionStopModal(false);
+          }}
         />
       </View>
     </>
@@ -98,7 +111,7 @@ const StoreMission = ({navigation}: Props) => {
 export default StoreMission;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#F8F8F8'},
+  flex: {flex: 1, backgroundColor: '#F6F6FA'},
   screenHeaderWrap: {
     height: 50,
     backgroundColor: '#FFFFFF',

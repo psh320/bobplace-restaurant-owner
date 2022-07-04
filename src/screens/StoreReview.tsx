@@ -5,10 +5,91 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../nav/StoreNavigator';
+import {StoreReviewCard} from '../components/Store/StoreReviewCard';
+import {PhotoModal} from '../modal/PhotoModal';
 
-type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
+const dummyReviews = [
+  {
+    name: '박성호',
+    date: '2022-06-16',
+    rate: 3,
+    images: [
+      {uri: 'https://source.unsplash.com/1024x768/?tree', id: 0},
+      {uri: 'https://source.unsplash.com/1024x768/?girl', id: 1},
+      {uri: 'https://source.unsplash.com/1024x768/?boy', id: 2},
+    ],
+    review:
+      '너무 맛있어요! 최고! 포인트도 낭낭하니 많아요~~~ 추천추천 미션밥파서블 덕분에 인생폈다',
+  },
+  {
+    name: '이아영',
+    date: '2022-06-14',
+    rate: 3,
+    images: [{uri: 'https://source.unsplash.com/1024x768/?tree', id: 3}],
+    review:
+      '너무 맛있어요! 최고! 너무 맛있어요! 최고!너무 맛있어요! 최고!너무 맛있어요! 최고!너무 맛있어요! 최고!',
+  },
+  {
+    name: '이예진',
+    date: '2022-06-13',
+    rate: 3,
+    images: [
+      {uri: 'https://source.unsplash.com/1024x768/?girl', id: 4},
+      {uri: 'https://source.unsplash.com/1024x768/?boy', id: 5},
+    ],
+    review: '너무 맛있어요! 최고!',
+  },
+  {
+    name: '박승민',
+    date: '2022-06-12',
+    rate: 3,
+    images: [],
+    review: '너무 맛있어요! 최고!',
+  },
+  {
+    name: '김진범',
+    date: '2022-06-10',
+    rate: 3,
+    images: [
+      {uri: 'https://source.unsplash.com/1024x768/?tree', id: 6},
+      {uri: 'https://source.unsplash.com/1024x768/?girl', id: 7},
+      {uri: 'https://source.unsplash.com/1024x768/?boy', id: 8},
+    ],
+    review: '너무 맛있어요! 최고!',
+  },
+];
+
+type Props = StackScreenProps<StoreStackParamList, 'StoreReview'>;
 const StoreReview = ({navigation}: Props) => {
   const insets = useSafeAreaInsets();
+
+  const [photoModal, setPhotoModal] = useState(false);
+  const [reviewPhoto, setReviewPhoto] = useState<{uri: string}>({uri: 'string'});
+  const openPhotoModal = (imageSource: string) => {
+    setReviewPhoto({uri: imageSource});
+    setPhotoModal(true);
+  };
+
+  const renderedReviews = (data: any) => {
+    return (
+      <>
+        {data.map((item: any, index: number) => {
+          return (
+            <StoreReviewCard
+              key={index}
+              name={item.name}
+              date={item.date}
+              rate={item.rate}
+              review={item.review}
+              images={item.images}
+              openPhotoModal={openPhotoModal}
+            />
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <>
       <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
@@ -22,8 +103,28 @@ const StoreReview = ({navigation}: Props) => {
           toggleReview={() => navigation.navigate('StoreReview')}
           storeStatus={2}
         />
-        <View>
-          <Text>리뷰페이지</Text>
+        <View style={{flex: 1}}>
+          <FlatList
+            contentContainerStyle={{backgroundColor: '#FFFFFF'}}
+            scrollEventThrottle={10}
+            data={dummyReviews}
+            renderItem={({item, index}) => (
+              <StoreReviewCard
+                key={index}
+                name={item.name}
+                date={item.date}
+                rate={item.rate}
+                review={item.review}
+                images={item.images}
+                openPhotoModal={openPhotoModal}
+              />
+            )}
+          />
+          <PhotoModal
+            imageUri={reviewPhoto}
+            visible={photoModal}
+            closePhotoModal={() => setPhotoModal(false)}
+          />
         </View>
       </View>
     </>
@@ -58,9 +159,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
-  missionSeperate: {
-    marginTop: 16,
-  },
+
   screenHeaderTitle: {
     fontSize: 16,
     fontFamily: 'Pretendard-Regular',

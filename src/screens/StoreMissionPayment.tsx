@@ -1,15 +1,10 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {MissionUserCard} from '../components/mission/MissionUserCard';
-import {StoreMenuBar} from '../components/Store/StoreMenuBar';
-import {StoreInfo} from '../components/Store/StoreInfo';
-import {useNavigation} from '@react-navigation/native';
-
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MissionDetailCard} from '../components/mission/MissionDetailCard';
+import {CancelPointModal} from '../modal/CancelPointModal';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionPayment'>;
 
@@ -21,10 +16,25 @@ const dummyPurchase = {
 };
 
 const StoreMissionPayment = ({navigation, route}: Props) => {
+  const [cancelPointModal, setCancelPointModal] = useState(false);
+  const [cancelContent, setCancelContent] = useState('');
   const insets = useSafeAreaInsets();
   const missionList = route.params.purchaseId; //이 미션 아이디로 get 하기.
   return (
     <>
+      {cancelPointModal ? (
+        <View
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.4)',
+            zIndex: 10,
+          }}
+        />
+      ) : (
+        <View />
+      )}
       <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
       <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
@@ -38,25 +48,12 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
           <Text style={[styles.screenHeaderTitle]}>결제 취소 요청</Text>
           <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
         </View>
+
         <View style={[styles.missionCard]}>
           <View style={[styles.cancelWrap]}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('StoreMissionPayment', {purchaseId: purchaseId});
-              }}
-            >
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginBottom: 8,
-                  width: '100%',
-                }}
-              >
-                <Text style={[styles.normalText]}>상세정보</Text>
-              </View>
-            </TouchableOpacity>
+            <Text style={[styles.headText]}>상세정보</Text>
           </View>
+
           <View style={[styles.seperateLine]} />
 
           <View style={[styles.infoRow]}>
@@ -76,6 +73,43 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
             <Text style={[styles.normalText]}>{dummyPurchase.purchaseId}</Text>
           </View>
         </View>
+        <View style={[styles.cancelBox]}>
+          <Text style={[styles.headText]}>취소사유</Text>
+          <TextInput
+            style={[styles.cancelContent]}
+            multiline={true}
+            placeholder={'취소 사유 작성'}
+            selectionColor={'#6C69FF'}
+            onChangeText={(text) => {
+              setCancelContent(text);
+            }}
+            value={cancelContent}
+          />
+        </View>
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => {
+            setCancelPointModal(true);
+          }}
+          style={{margin: 16}}
+        >
+          <View
+            style={{
+              width: '100%',
+              height: 56,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#6C69FF',
+              borderRadius: 10,
+            }}
+          >
+            <Text style={styles.submitText}>결제 취소 신청</Text>
+          </View>
+        </TouchableOpacity>
+        <CancelPointModal
+          visible={cancelPointModal}
+          closeCancelPointModal={() => setCancelPointModal(false)}
+        />
       </View>
     </>
   );
@@ -84,7 +118,7 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
 export default StoreMissionPayment;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#F8F8F8'},
+  flex: {flex: 1, backgroundColor: '#F6F6FA'},
   screenHeaderWrap: {
     height: 50,
     backgroundColor: '#FFFFFF',
@@ -156,11 +190,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
   },
-  cancelText: {
-    fontSize: 14,
-    lineHeight: 22,
-    fontFamily: 'Pretendard-Light',
-    color: '#949494',
+  headText: {
+    fontFamily: 'Pretendard-Medium',
+    color: '#111111',
+    fontSize: 18,
+    lineHeight: 26,
+    marginBottom: 8,
   },
   infoRow: {
     flexDirection: 'row',
@@ -170,4 +205,29 @@ const styles = StyleSheet.create({
   },
 
   normalText: {fontFamily: 'Pretendard-Medium', color: '#111111', fontSize: 16, lineHeight: 24},
+  cancelBox: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    marginTop: 16,
+    paddingTop: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  cancelContent: {
+    width: '100%',
+    height: 164,
+    flexWrap: 'wrap',
+    backgroundColor: '#F5F5F5',
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 16,
+    borderRadius: 10,
+    marginBottom: 16,
+  },
+  submitText: {
+    fontFamily: 'Pretendard-Medium',
+    color: '#FFFFFF',
+    fontSize: 18,
+    lineHeight: 26,
+  },
 });
