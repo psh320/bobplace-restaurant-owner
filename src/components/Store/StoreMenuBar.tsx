@@ -65,9 +65,11 @@ const styles = StyleSheet.create({
   toggleTextOff: {
     fontFamily: 'Pretendard-Light',
     fontSize: 16,
+    color: '#949494',
   },
   toggleTextOn: {
     fontFamily: 'Pretendard-SemiBold',
     fontSize: 16,
+    color: '#111111',
   },
 });

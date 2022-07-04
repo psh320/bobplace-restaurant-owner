@@ -1,6 +1,6 @@
 import React from 'react';
 import type {FC} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {Colors} from 'react-native-paper';
 
 export type MissionCardProps = {
@@ -15,7 +15,6 @@ export type MissionCardProps = {
 
 //prettier-ignore
 export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, point}) => {
-
   function handleDeny() {
     //성공요청 버튼 누를 시
     console.log('거절');
@@ -25,6 +24,7 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
     //성공 버튼 누를 시
     console.log('성공');
   }
+  const buttonWidth = (Dimensions.get('screen').width - 66 - 15 ) / 2;
 
   return (
     <View style={[styles.missionCardWrap]}>
@@ -39,15 +39,15 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
             <Text style={[styles.pointText]}>{point}P 적립</Text>
           </View>
         <View style={[styles.missionTwoButton]}>
-            <TouchableOpacity style={[styles.missionButtonDeny]} onPress={handleDeny}>
-            <View >
+            <TouchableOpacity style={[styles.missionButtonDeny, {width: buttonWidth}]} onPress={handleDeny}>
+              <View >
                 <Text style={{fontSize: 16, color: '#616161', lineHeight:24}}>거절</Text>
-            </View>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.missionButtonAccept]} onPress={handelAccept}>
-            <View>
+            <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handelAccept}>
+              <View>
                 <Text style={{color:'#6C69FF', fontSize: 16, lineHeight:24}}>수락</Text>
-            </View>
+              </View>
             </TouchableOpacity>
          </View>
       </View>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   missionButtonDeny: {
-    width: 147,
+    // width: 147,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     borderColor: '#DFDFDF',
   },
   missionButtonAccept: {
-    width: 147,
+    // width: 147,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
