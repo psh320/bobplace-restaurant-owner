@@ -101,7 +101,7 @@ const Store = () => {
   return (
     <View style={[styles.flex, {paddingTop: insets.top}]}>
       <View style={[styles.screenHeaderWrap]}>
-        <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
+        <Text style={[styles.screenHeaderTitle, {color: 'black'}]}>가게 관리</Text>
         <TouchableOpacity onPress={() => navigation.navigate('StoreEdit')}>
           <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>편집</Text>
         </TouchableOpacity>
@@ -112,7 +112,6 @@ const Store = () => {
         toggleReview={() => navigation.navigate('StoreReview')}
         storeStatus={0}
       />
-
       <StoreInfo />
     </View>
   );

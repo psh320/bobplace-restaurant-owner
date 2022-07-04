@@ -37,8 +37,8 @@ const RegisterDone = ({navigation, route}: Props) => {
       <>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Icon name="check" size={100} color="#7879F7" />
-          <Text>가입완료</Text>
-          <Text>가입완료</Text>
+          <Text style={[styles.registerDoneText]}>입정요청이 접수되었습니다.</Text>
+          <Text>00영업일 이내에 가입이 완료됩니다.</Text>
         </View>
         <RegisterNextButton goNext={() => goMain()} buttonState={2} />
       </>
