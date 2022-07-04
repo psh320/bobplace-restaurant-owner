@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import type {FC} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {OperationTime, RegisterStoreInterface} from '../../data';
+import {StyleSheet, Text, View} from 'react-native';
+import {OperationTime} from '../../data';
 import {CheckBoxRectangle} from '../common/CheckBoxRectangle';
-import {OperationTimeModal} from '../../modal';
 
 type RegisterTimeProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
+  operationData: OperationTime[];
 };
 
 const MapIndexToDay = ['월', '화', '수', '목', '금', '토', '일'];
@@ -16,17 +14,11 @@ const processTime = (time: string) => {
   return time.slice(undefined, 5);
 };
 
-export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerData}) => {
-  const [operationTimeModal, setOperationTimeModal] = useState(false);
-  const [operationTime, setOperationTime] = useState<OperationTime[]>(registerData.operationTimeVO);
-  const [dayIndex, setDayIndex] = useState<number>(0);
-  useEffect(() => {
-    setOperationTime(registerData.operationTimeVO);
-  }, [registerData]);
+export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
   const renderedTimeTable = () => {
     return (
       <>
-        {registerData.operationTimeVO.map((item, index) => {
+        {operationData.map((item, index) => {
           if (item.isOpen) {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
@@ -39,41 +31,27 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
                 >
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    onPress={() => {
-                      let tempData = {...registerData};
-                      tempData.operationTimeVO[index].isOpen = !item.isOpen;
-                      setRegisterData(tempData);
-                    }}
                     isChecked={item.isOpen}
+                    onPress={() => {}}
                   />
                 </View>
                 <View
                   style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
                 >
-                  <TouchableOpacity
-                    style={{height: 50, justifyContent: 'center'}}
-                    onPress={() => {
-                      setDayIndex(index);
-                      setOperationTimeModal(true);
-                    }}
-                  >
-                    <View>
-                      <Text>
-                        {processTime(item.startTime)}~{processTime(item.endTime)}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
+                  <View style={{height: 50, justifyContent: 'center'}}>
+                    <Text>
+                      {processTime(item.startTime)}~{processTime(item.endTime)}
+                    </Text>
+                  </View>
                 </View>
                 <View
                   style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
                 >
-                  <TouchableOpacity style={{height: 50, justifyContent: 'center'}}>
-                    <View>
-                      <Text>
-                        {processTime(item.breakStartTime)}~{processTime(item.breakEndTime)}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
+                  <View style={{height: 50, justifyContent: 'center'}}>
+                    <Text>
+                      {processTime(item.breakStartTime)}~{processTime(item.breakEndTime)}
+                    </Text>
+                  </View>
                 </View>
               </View>
             );
@@ -89,12 +67,8 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
                 >
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    onPress={() => {
-                      let tempData = {...registerData};
-                      tempData.operationTimeVO[index].isOpen = !item.isOpen;
-                      setRegisterData(tempData);
-                    }}
                     isChecked={item.isOpen}
+                    onPress={() => {}}
                   />
                 </View>
                 <View
@@ -112,7 +86,6 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
 
   return (
     <View style={[styles.TimeWrap]}>
-      <Text style={[styles.formHeadText]}>운영시간</Text>
       <View
         style={{
           width: '100%',
@@ -132,21 +105,13 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
         </View>
       </View>
       {renderedTimeTable()}
-      <OperationTimeModal
-        visible={operationTimeModal}
-        closeOperationTimeModal={() => setOperationTimeModal(false)}
-        index={dayIndex}
-        item={operationTime[dayIndex]}
-        registerData={registerData}
-        setRegisterData={setRegisterData}
-      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   TimeWrap: {
-    marginTop: 24,
+    marginTop: 20,
   },
   formHeadText: {
     fontSize: 18,

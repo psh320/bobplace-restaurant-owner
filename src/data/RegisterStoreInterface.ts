@@ -1,24 +1,25 @@
+import {ImageInterface} from './ImageInterface';
+
 export type OperationTime = {
   breakEndTime: string;
   breakStartTime: string;
   endTime: string;
   startTime: string;
+  dayofweek: string;
+  isOpen: boolean;
 };
 
 export type RegisterStoreInterface = {
   addressDong: string;
   addressStreet: string;
-  monday: OperationTime | null;
-  tuesday: OperationTime | null;
-  wednesday: OperationTime | null;
-  thursday: OperationTime | null;
-  friday: OperationTime | null;
-  saturday: OperationTime | null;
-  sunday: OperationTime | null;
+  operationTimeVO: OperationTime[];
   representativeMenuName: string;
   storeName: string;
   storeTypeId: number;
   tableNum: number;
-  x: number;
-  y: number;
+  x: string;
+  y: string;
+  storeImage: ImageInterface[];
+  menuImage: ImageInterface[];
+  description: string;
 };
