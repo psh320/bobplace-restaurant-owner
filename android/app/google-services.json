@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "875664333601",
+    "project_id": "bobpossible-67a56",
+    "storage_bucket": "bobpossible-67a56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875664333601:android:3f017320470dc0cf4e7c60",
+        "android_client_info": {
+          "package_name": "com.bob_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875664333601-70lt84v3hp8393bfr9s25m826otbdcdn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bob_frontend",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "875664333601-gdsrl919s9db2bqcre9emulifoa8rrp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpZekCqTyqCO2wjG26eevrWAtVDrG5A8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875664333601-gdsrl919s9db2bqcre9emulifoa8rrp6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "875664333601-4snbjmlfvl2ocvpvcgcdmsgn3o35r3s0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bob-frontend"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875664333601:android:35a636c8dfcf86c04e7c60",
+        "android_client_info": {
+          "package_name": "com.bob_frontend_owner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875664333601-8muhg227knlh1e7h2gptid7gksujv4g1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bob_frontend_owner",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "875664333601-gdsrl919s9db2bqcre9emulifoa8rrp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpZekCqTyqCO2wjG26eevrWAtVDrG5A8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875664333601-gdsrl919s9db2bqcre9emulifoa8rrp6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "875664333601-4snbjmlfvl2ocvpvcgcdmsgn3o35r3s0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bob-frontend"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
