@@ -39,6 +39,14 @@ const dummyMission = [
     point: 500,
     isPresent: false,
   },
+  {
+    storeName: '한강 왜 가냐 라면 먹지',
+    storeId: '2',
+    category: '중식당',
+    mission: '대표메뉴 라면',
+    point: 500,
+    isPresent: false,
+  },
 ];
 
 const StoreMission = ({navigation}: Props) => {
@@ -68,7 +76,7 @@ const StoreMission = ({navigation}: Props) => {
         </View>
 
         <FlatList
-          contentContainerStyle={{flex: 1, backgroundColor: '#F8F8F8', marginTop: 12}}
+          contentContainerStyle={{backgroundColor: '#F8F8F8', marginTop: 12}}
           scrollEventThrottle={10}
           data={dummyMission}
           renderItem={({item}) => (

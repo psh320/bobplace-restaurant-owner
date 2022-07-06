@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   inquiryMenu: {
     width: '50%',
     height: '100%',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F6F6F6',
   },
