@@ -26,6 +26,7 @@ const DoneModal: FC<DoneModalProps> = ({visible, closeDoneModal, category, point
     <Modal visible={visible} animationType="fade">
       <View style={[styles.flex]}>
         <View style={[styles.flex, DesignSystem.centerArrange]}>
+          <Icon name="check" size={71} color="#6C69FF" />
           {category === '리뷰' ? (
             <Text style={[styles.purpleTitleText]}>리뷰 등록 완료!</Text>
           ) : category === '입금' ? (

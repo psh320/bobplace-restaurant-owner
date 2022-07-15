@@ -3,6 +3,7 @@ import React, {FC, useState} from 'react';
 import {Image, StyleSheet, Text, TextInput, View, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DesignSystem} from '../../assets/DesignSystem';
+import DoneModal from '../../modal/DoneModal';
 
 export type goWriteProps = {
   setNowWrite: any;
@@ -13,11 +14,18 @@ export const MyWriteInquiry: FC<goWriteProps> = ({setNowWrite}) => {
   const [focusedBody, setFocusedBody] = useState(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [doneModal, setDoneModal] = useState(false);
 
   const handleSubmit = () => {
     console.log('문의 제출');
+    // await questionMutation.mutate({content: body, title: title});
     setTitle('');
     setBody('');
+    setDoneModal(true);
+  };
+  const closeDoneModal = () => {
+    setDoneModal(false);
+    setNowWrite(false);
   };
   return (
     <View style={[styles.totalWrap]}>
@@ -82,7 +90,7 @@ export const MyWriteInquiry: FC<goWriteProps> = ({setNowWrite}) => {
           )}
         </TouchableOpacity>
       </View>
-      {/* <DoneModal visible={doneModal} closeDoneModal={closeDoneModal} category={'문의'} /> */}
+      <DoneModal visible={doneModal} closeDoneModal={closeDoneModal} category={'문의'} />
     </View>
   );
 };

@@ -10,8 +10,11 @@ import {AuthNavigator, MainNavigator} from './src/nav';
 import {RecoilRoot} from 'recoil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {QueryClient, QueryClientProvider} from 'react-query';
+
 Icon.loadFont();
 enableScreens();
+const queryClient = new QueryClient();
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -41,20 +44,22 @@ export default function App() {
   };
 
   return (
-    <RecoilRoot>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
-            {loading ? (
-              <Stack.Screen name="Splash" component={Splash} />
-            ) : isLogin ? (
-              <Stack.Screen name="MainNavigator" component={MainNavigator} />
-            ) : (
-              <Stack.Screen name="AuthNavigation" component={AuthNavigator} />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
+              {loading ? (
+                <Stack.Screen name="Splash" component={Splash} />
+              ) : isLogin ? (
+                <Stack.Screen name="MainNavigator" component={MainNavigator} />
+              ) : (
+                <Stack.Screen name="AuthNavigation" component={AuthNavigator} />
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }
