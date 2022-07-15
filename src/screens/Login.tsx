@@ -2,10 +2,8 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {appleAuth, AppleButton} from '@invertase/react-native-apple-authentication';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 import SocialWebviewModal from '../modal/SocialWebviewModal';
-import {useRecoilState} from 'recoil';
-import {userToken} from '../state';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
@@ -35,10 +33,8 @@ const onAppleButtonPress = async () => {
 
 const Login = ({}) => {
   const navigation = useNavigation();
-  const [token, setToken] = useRecoilState(userToken);
   const [loginModal, setLoginModal] = useState(false);
   const [source, setSource] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
 
   // 실행시 구글 로그인 설정 + 로그인 확인 코드
   useEffect(() => {
@@ -113,15 +109,12 @@ const Login = ({}) => {
           <TouchableOpacity onPress={() => onAppleButtonPress()}>
             <Image
               style={[styles.iconButton]}
-              source={require('../assets/images/GoogleButton.png')}
+              source={require('../assets/images/AppleLogin.png')}
             />
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={() => onGoogleButtonPress()}>
-          <Image
-            style={[styles.iconButton]}
-            source={require('../assets/images/GoogleButton.png')}
-          />
+          <Image style={[styles.iconButton]} source={require('../assets/images/GoogleLogin.png')} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
