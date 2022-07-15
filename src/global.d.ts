@@ -8,5 +8,6 @@ declare namespace ReactNavigation {
     StoreEdit: undefined;
     StoreMission: undefined;
     StoreReview: undefined;
+    RegisterDone: {status: number};
   }
 }

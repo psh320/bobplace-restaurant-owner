@@ -10,8 +10,12 @@ import {AuthNavigator, MainNavigator} from './src/nav';
 import {RecoilRoot} from 'recoil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {getRegisterStatus, postToken} from './src/api';
+import {QueryClient, QueryClientProvider} from 'react-query';
 Icon.loadFont();
 enableScreens();
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -29,11 +33,18 @@ export default function App() {
 
   const getToken = async () => {
     try {
-      const value = await AsyncStorage.getItem('userToken');
-      console.log(value);
+      const value = await AsyncStorage.getItem('accessToken');
       //여기서 아이디는 있지만 회원가입을 다 안한 상태라면 로그인 창 띄우고 했다면 메인으로 바로 가기.
       if (value !== null) {
-        setIsLogin(false);
+        //GET user register status 그리고 그안에서 setIslogin true 만들거나 false로 냅두기
+
+        await postToken();
+
+        const registerResult = await getRegisterStatus();
+        console.log('가입 상태 확인 요청:', registerResult);
+        if (registerResult === 'DONE') {
+          setIsLogin(true);
+        }
       }
     } catch (e) {
       console.log(e);
@@ -41,20 +52,22 @@ export default function App() {
   };
 
   return (
-    <RecoilRoot>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
-            {loading ? (
-              <Stack.Screen name="Splash" component={Splash} />
-            ) : isLogin ? (
-              <Stack.Screen name="MainNavigator" component={MainNavigator} />
-            ) : (
-              <Stack.Screen name="AuthNavigation" component={AuthNavigator} />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
+              {loading ? (
+                <Stack.Screen name="Splash" component={Splash} />
+              ) : isLogin ? (
+                <Stack.Screen name="MainNavigator" component={MainNavigator} />
+              ) : (
+                <Stack.Screen name="AuthNavigation" component={AuthNavigator} />
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }

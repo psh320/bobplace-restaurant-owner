@@ -2,8 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import React, {FC, useRef} from 'react';
 import {StyleSheet} from 'react-native';
 import {WebView} from 'react-native-webview';
-import {useRecoilState} from 'recoil';
-import {userToken} from '../state';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //let userAgent =
@@ -19,7 +17,6 @@ type SocialWebViewProps = {
 const SocialWebview: FC<SocialWebViewProps> = ({source, closeSocialModal}) => {
   const navigation = useNavigation();
   const webviewRef = useRef<WebView | null>(null);
-  const [token, setToken] = useRecoilState(userToken);
 
   //GET Login Result URL query param
   const queryString = (rawURL: string) => {
@@ -32,9 +29,12 @@ const SocialWebview: FC<SocialWebViewProps> = ({source, closeSocialModal}) => {
     return params;
   };
 
-  const storeData = async (value: string) => {
+  const storeData = async (accessToken: string, refreshToken: string) => {
     try {
-      await AsyncStorage.setItem('userToken', value);
+      await AsyncStorage.multiSet([
+        ['accessToken', accessToken],
+        ['refreshToken', refreshToken],
+      ]);
     } catch (e) {
       console.log(e);
     }
@@ -42,16 +42,18 @@ const SocialWebview: FC<SocialWebViewProps> = ({source, closeSocialModal}) => {
 
   const _handleMessage = async (data: any) => {
     console.log(data);
-    const jwt = data.accessToken;
     try {
-      await setToken(jwt);
-      storeData(jwt);
+      await storeData(data.accessToken, data.refreshToken);
     } catch (e) {
       console.log(e);
     }
     closeSocialModal();
     if (data.registerStatus === 'NEW') {
       navigation.navigate('Register');
+    } else if (data.registerStatus === 'JOINED') {
+      navigation.navigate('RegisterDone', {status: 0});
+    } else if (data.registerStatus === 'WAIT') {
+      navigation.navigate('RegisterDone', {status: 1});
     } else {
       navigation.navigate('MainNavigator');
     }

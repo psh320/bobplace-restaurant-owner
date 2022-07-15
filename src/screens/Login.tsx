@@ -2,33 +2,37 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-// import appleAuth, {
-//   AppleButton,
-//   AppleAuthRequestOperation,
-//   AppleAuthRequestScope,
-//   AppleAuthCredentialState,
-// } from '@invertase/react-native-apple-authentication';
+import {appleAuth, AppleButton} from '@invertase/react-native-apple-authentication';
 import SocialWebviewModal from '../modal/SocialWebviewModal';
 import {useRecoilState} from 'recoil';
 import {userToken} from '../state';
 import auth from '@react-native-firebase/auth';
-import {GoogleSignin, GoogleSigninButton} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
-// const onAppleButtonPress = async () => {
-//   // performs login request
-//   const appleAuthRequestResponse = await appleAuth.performRequest({
-//     requestedOperation: AppleAuthRequestOperation.LOGIN,
-//     requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
-//   });
+const onAppleButtonPress = async () => {
+  try {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+    // get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
 
-//   // get current authentication state for user
-//   const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+    // use credentialState response to ensure the user is authenticated
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      const {email, fullName} = appleAuthRequestResponse;
+      const data = {name: fullName, email: email};
+      //postLogin(data);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-//   // use credentialState response to ensure the user is authenticated
-//   if (credentialState === AppleAuthCredentialState.AUTHORIZED) {
-//     // user is authenticated
-//   }
-// };
 const Login = ({}) => {
   const navigation = useNavigation();
   const [token, setToken] = useRecoilState(userToken);
@@ -38,25 +42,18 @@ const Login = ({}) => {
 
   // 실행시 구글 로그인 설정 + 로그인 확인 코드
   useEffect(() => {
-    GoogleSignin.configure({
-      webClientId: '875664333601-gdsrl919s9db2bqcre9emulifoa8rrp6.apps.googleusercontent.com',
-    });
-    //로그인 되어 있는지 확인
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        // console.log(auth().currentUser);
-        setLoggedIn(true);
-        let timer = setTimeout(() => {
-          console.log(`구글로그인 되어있음 - ${auth().currentUser?.displayName}`);
-          console.log('홈화면으로 이동');
-          goMain();
-        }, 2000);
-        // navigation.navigate('Register'); //로그인 되어있따면 회웝가입으로 바로
-      } else {
-        console.log('구글로그인 되어있지않음');
-        setLoggedIn(false);
-      }
-    });
+    if (Platform.OS === 'ios') {
+      GoogleSignin.configure({
+        webClientId: '875664333601-5s6lcjtitip88ghan2of1f53sikep0bs.apps.googleusercontent.com',
+      });
+      return appleAuth.onCredentialRevoked(async () => {
+        console.warn('If this function executes, User Credentials have been Revoked');
+      });
+    } else {
+      GoogleSignin.configure({
+        webClientId: '875664333601-70lt84v3hp8393bfr9s25m826otbdcdn.apps.googleusercontent.com',
+      });
+    }
   }, []);
 
   const signUpWithSNS = async (social: string) => {
@@ -73,10 +70,6 @@ const Login = ({}) => {
     } catch (err) {
       console.log('onGoogleButtonPress ERROR', err);
     }
-  }
-  function onGoogleLogout() {
-    console.log('구글 로그아웃 합니다');
-    auth().signOut();
   }
 
   const goMain = useCallback(() => navigation.navigate('MainNavigator'), []);
@@ -116,22 +109,19 @@ const Login = ({}) => {
         <TouchableOpacity onPress={() => signUpWithSNS('naver')}>
           <Image style={[styles.iconButton]} source={require('../assets/images/naverButton.png')} />
         </TouchableOpacity>
-        {/* {Platform.OS === 'ios' && (
-          <AppleButton
-            buttonStyle={AppleButton.Style.BLACK}
-            buttonType={AppleButton.Type.SIGN_IN}
-            style={[styles.iconButton]}
-            onPress={onAppleButtonPress}
-          />
-        )} */}
+        {Platform.OS === 'ios' && (
+          <TouchableOpacity onPress={() => onAppleButtonPress()}>
+            <Image
+              style={[styles.iconButton]}
+              source={require('../assets/images/GoogleButton.png')}
+            />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity onPress={() => onGoogleButtonPress()}>
           <Image
             style={[styles.iconButton]}
             source={require('../assets/images/GoogleButton.png')}
           />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onGoogleLogout()}>
-          <Text>(테스트용)구글 로그아웃</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
