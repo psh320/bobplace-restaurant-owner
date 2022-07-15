@@ -3,15 +3,18 @@ import type {FC} from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {OperationTime, RegisterStoreInterface} from '../data';
 
-type MissionStopModalProps = {
+type MissionReopenModalProps = {
   visible: boolean;
-  closeMissionStopModal: () => void;
+  closeMissionReopenModal: () => void;
 };
 
-export const MissionStopModal: FC<MissionStopModalProps> = ({visible, closeMissionStopModal}) => {
+export const MissionReopenModal: FC<MissionReopenModalProps> = ({
+  visible,
+  closeMissionReopenModal,
+}) => {
   const handleSubmit = () => {
     //서버에 미션중지 요청 post
-    closeMissionStopModal();
+    closeMissionReopenModal();
   };
   return (
     <Modal
@@ -23,20 +26,20 @@ export const MissionStopModal: FC<MissionStopModalProps> = ({visible, closeMissi
       <View style={styles.modalWrap}>
         <View style={styles.modalContainer}>
           <View style={styles.warningContainer}>
-            <Text style={styles.headText}>미션 중지 요청 주의사항</Text>
-            <Text style={styles.fieldText}>현재까지 배포된 미션은 소멸되지 않으며, 모든</Text>
-            <Text style={styles.fieldText}>미션이 없어지기까지 최대 7일이 소요될 수</Text>
-            <Text style={styles.fieldText}>있습니다.</Text>
+            <Text style={styles.headText}>미션 재배포 요청시 주의사항</Text>
+            <Text style={styles.fieldText}>
+              현미션 재배포까지 최대 7일의 시간이 소요될 수 있습니다.
+            </Text>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={closeMissionStopModal}>
+            <TouchableOpacity onPress={closeMissionReopenModal}>
               <View style={styles.buttonNo}>
                 <Text style={styles.noText}>취소</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSubmit}>
               <View style={styles.buttonYes}>
-                <Text style={styles.yesText}>중지 요청</Text>
+                <Text style={styles.yesText}>재배포 요청</Text>
               </View>
             </TouchableOpacity>
           </View>
