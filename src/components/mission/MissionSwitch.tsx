@@ -39,11 +39,11 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
   };
   return (
     <View style={[styles.progressRow]}>
-      {missionWaiting && !progressnow && currentMissionWaiting()}
+      {missionWaiting && progressnow && currentMissionWaiting()}
       <View style={[styles.progressToggle]}>
         <Animated.View
           style={
-            !progressnow
+            progressnow
               ? [
                   styles.progressSwitch,
                   {width: 66, borderRadius: 21, transform: [{translateX: progressValue}]},
@@ -56,14 +56,14 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
         />
         <TouchableOpacity
           onPress={() => {
-            setProgressnow(0);
+            setProgressnow(true);
             moveLeft(progressValue);
           }}
         >
           <View style={[styles.progressTextWrap]}>
             <Text
               style={
-                !progressnow ? [{fontSize: 14, color: 'white'}] : [{fontSize: 14, color: '#616161'}]
+                progressnow ? [{fontSize: 14, color: 'white'}] : [{fontSize: 14, color: '#616161'}]
               }
             >
               진행중
@@ -72,14 +72,14 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setProgressnow(1);
+            setProgressnow(false);
             moveRight(progressValue);
           }}
         >
           <View style={[styles.progressTextWrap]}>
             <Text
               style={
-                !progressnow ? [{fontSize: 14, color: '#616161'}] : [{fontSize: 14, color: 'white'}]
+                progressnow ? [{fontSize: 14, color: '#616161'}] : [{fontSize: 14, color: 'white'}]
               }
             >
               성공요청

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MissionUserCard} from '../components/mission/MissionUserCard';
 import {MissionAcceptCard} from '../components/mission/MissionAcceptCard';
 import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
+import { NotiModal } from '../modal/NotiModal';
 
 const dummyMission = [
   {
@@ -38,35 +39,24 @@ const dummyMission = [
 ];
 
 const Mission = () => {
-  const [progressNow, setProgressNow] = useState(false);
+  const [progressNow, setProgressNow] = useState(true);
   const [missionWaiting, setMissionWaiting] = useState(true);
+  const [notiModal, setNotiModal] = useState(false);
 
   const numberOfUsers = dummyMission.length;
-
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
-          <Icon name="bell-outline" size={24} color={'#323232'} />
+          <TouchableOpacity onPress={() => setNotiModal(true)}>
+            <Icon name="bell-outline" size={24} color="#323232" />
+          </TouchableOpacity>
         </View>
         <View style={{flex: 1}}>
+          {/* 진행중 */}
           {progressNow ? (
-            <FlatList
-              contentContainerStyle={{paddingTop: 12}}
-              scrollEventThrottle={10}
-              data={dummyMission}
-              renderItem={({item}) => (
-                <MissionAcceptCard
-                  name={item.name}
-                  time={item.time}
-                  minCost={item.minCost}
-                  point={item.point}
-                />
-              )}
-            />
-          ) : (
             <>
               <View style={[styles.missionUserNumberWrap]}>
                 <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
@@ -91,6 +81,29 @@ const Mission = () => {
                 )}
               />
             </>
+          ) : (
+            <>
+              <View style={[styles.missionUserNumberWrap]}>
+                <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
+                <Text style={{color: '#6C69FF', fontSize: 16}}>{numberOfUsers}명</Text>
+                <Text style={{color: '#323232', fontSize: 16}}>
+                  의 유저가 미션을 진행하고 있습니다
+                </Text>
+              </View>
+              <FlatList
+                contentContainerStyle={{paddingTop: 12}}
+                scrollEventThrottle={10}
+                data={dummyMission}
+                renderItem={({item}) => (
+                  <MissionAcceptCard
+                    name={item.name}
+                    time={item.time}
+                    minCost={item.minCost}
+                    point={item.point}
+                  />
+                )}
+              />
+          </>
           )}
         </View>
         <View style={[DesignSystem.centerArrange]}>
@@ -100,6 +113,7 @@ const Mission = () => {
             missionWaiting={missionWaiting}
           />
         </View>
+        <NotiModal visible={notiModal} closeNotiModal={() => setNotiModal(false)} />
       </SafeAreaView>
     </>
   );
