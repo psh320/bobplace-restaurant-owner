@@ -3,6 +3,7 @@ import type {FC} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type StoreReviewCardProps = {
   images: {uri: string; id: number}[] | [];
@@ -39,70 +40,91 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
       </View>
     );
   };
-  return (
-    <View style={[styles.reviewWrap]}>
-      <View style={[styles.reviewRow1]}>
-        <Text>{name}</Text>
-        <Text>{date}</Text>
+  if (1 !== 1) {
+    return (
+      <>
+        <Text>리뷰 없을때 화면</Text>
+      </>
+    );
+  } else {
+    return (
+      <View style={[styles.reviewWrap]}>
+        <View style={[styles.reviewRow1]}>
+          <Text>{name}</Text>
+          <Text>{date}</Text>
+        </View>
+        <View style={[styles.reviewRow2]}>
+          {[...Array(rate)].map((e, i) => (
+            <Icon name="star" size={18} color={'#FFDE69'} key={i} />
+          ))}
+        </View>
+        <View style={[styles.reviewRow3]}>
+          <Text style={[styles.reviewText]}>{review}</Text>
+        </View>
+        {renderedImage(images)}
+        {/* 사장답글 있는지 여부에따라 */}
+        {1 === 1 ? (
+          <View style={[styles.ownerWrap]}>
+            <View style={[styles.ownerTitle, {alignItems: 'center'}]}>
+              <Text style={[DesignSystem.body2Lt, {color: '#616161', marginRight: 6}]}>
+                사장님 답글
+              </Text>
+              <Text style={[DesignSystem.body2Lt, {color: '#B7B7B7'}]}>
+                날날짜
+                {/* {reply[0].date.slice(0, 4)}.{reply[0].date.slice(5, 7)}.{reply[0].date.slice(8, 10)} */}
+              </Text>
+            </View>
+            <View style={[styles.ownerContents]}>
+              <Text style={[DesignSystem.body2Long, {color: 'black'}, styles.ownerContentsText]}>
+                ㄳㄳ
+                {/* {reply[0].reply} */}
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <>
+            {openReply && (
+              <TextInput
+                style={[styles.replyContent]}
+                multiline={true}
+                placeholder={'답글 작성'}
+                selectionColor={'#6C69FF'}
+                onChangeText={(text: string) => {
+                  setReplyContent(text);
+                }}
+                value={replyContent}
+              />
+            )}
+            <TouchableOpacity
+              onPress={() => {
+                if (openReply) {
+                  //post 올리기
+                  setReplyContent('');
+                  setOpenReply(false);
+                } else {
+                  setOpenReply(true);
+                }
+              }}
+              style={replyContent !== '' ? styles.replySubmitBtn : styles.replyBtn}
+            >
+              <Text>{openReply ? '작성 완료' : '답글 달기'}</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
-      <View style={[styles.reviewRow2]}>
-        {[...Array(rate)].map((e, i) => (
-          <Icon name="star" size={18} color={'#FFDE69'} />
-        ))}
-      </View>
-      <View style={[styles.reviewRow3]}>
-        <Text style={[styles.reviewText]}>{review}</Text>
-      </View>
-      {renderedImage(images)}
-      {openReply && (
-        <TextInput
-          style={[styles.replyContent]}
-          multiline={true}
-          placeholder={'취소 사유 작성'}
-          selectionColor={'#6C69FF'}
-          onChangeText={(text: string) => {
-            setReplyContent(text);
-          }}
-          value={replyContent}
-        />
-      )}
-      <TouchableOpacity
-        onPress={() => {
-          if (openReply) {
-            //post 올리기
-
-            setReplyContent('');
-            setOpenReply(false);
-          } else {
-            setOpenReply(true);
-          }
-        }}
-        style={replyContent !== '' ? styles.replyButtonConfrim : styles.replayButton}
-      >
-        <Text>답글 달기</Text>
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  }
 };
 
 const styles = StyleSheet.create({
-  reviewListWrap: {
-    backgroundColor: '#FFFFFF',
-    height: '100%',
-  },
   reviewWrap: {
-    borderBottomColor: '#EDEDED',
-    borderBottomWidth: 1,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 24,
-    paddingTop: 24,
+    paddingVertical: 12,
   },
   reviewRow1: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10,
   },
   reviewRow2: {flexDirection: 'row', alignItems: 'center', marginTop: 8},
   reviewRow3: {flexDirection: 'row', alignItems: 'center', marginTop: 8},
@@ -122,16 +144,23 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
   },
-  replayButton: {
-    width: '100%',
+  ownerWrap: {
+    flexDirection: 'column',
+  },
+  ownerTitle: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  ownerContents: {
     borderRadius: 10,
-    borderColor: '#DFDFDF',
     borderWidth: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8,
+    borderColor: '#DFDFDF',
+  },
+  ownerContentsText: {
+    marginLeft: 16,
+    marginRight: 16,
+    marginTop: 12,
+    marginBottom: 12,
   },
   replyContent: {
     width: '100%',
@@ -145,13 +174,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 8,
   },
-  replyButtonConfrim: {
+  replyBtn: {
+    width: '100%',
+    borderRadius: 10,
+    borderColor: '#DFDFDF',
+    borderWidth: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  replySubmitBtn: {
     width: '100%',
     borderRadius: 10,
     borderColor: '#6C69FF',
     borderWidth: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 8,

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
@@ -99,21 +99,24 @@ const Store = () => {
   }, [setStore]);
 
   return (
-    <View style={[styles.flex, {paddingTop: insets.top}]}>
-      <View style={[styles.screenHeaderWrap]}>
-        <Text style={[styles.screenHeaderTitle, {color: 'black'}]}>가게 관리</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('StoreEdit')}>
-          <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>편집</Text>
-        </TouchableOpacity>
-      </View>
-      <StoreMenuBar
-        toggleStore={() => navigation.navigate('Store')}
-        toggleMission={() => navigation.navigate('StoreMission')}
-        toggleReview={() => navigation.navigate('StoreReview')}
-        storeStatus={0}
-      />
-      <StoreInfo />
-    </View>
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
+      <SafeAreaView style={[styles.flex, {paddingTop: insets.top}]}>
+        <View style={[styles.screenHeaderWrap]}>
+          <Text style={[styles.screenHeaderTitle, {color: 'black'}]}>가게 관리</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('StoreEdit')}>
+            <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>편집</Text>
+          </TouchableOpacity>
+        </View>
+        <StoreMenuBar
+          toggleStore={() => navigation.navigate('Store')}
+          toggleMission={() => navigation.navigate('StoreMission')}
+          toggleReview={() => navigation.navigate('StoreReview')}
+          storeStatus={0}
+        />
+        <StoreInfo />
+      </SafeAreaView>
+    </>
   );
 };
 
