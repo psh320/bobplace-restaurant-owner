@@ -7,6 +7,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../nav/StoreNavigator';
 import {StoreReviewCard} from '../components/Store/StoreReviewCard';
 import {PhotoModal} from '../modal/PhotoModal';
+import { DesignSystem } from '../assets/DesignSystem';
 
 const dummyReviews = [
   {
@@ -95,7 +96,7 @@ const StoreReview = ({navigation}: Props) => {
       <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
       <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
-          <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
+          <Text style={[DesignSystem.h2SB, {color: 'black'}]}>점포 관리</Text>
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
@@ -119,6 +120,7 @@ const StoreReview = ({navigation}: Props) => {
                 openPhotoModal={openPhotoModal}
               />
             )}
+            ItemSeparatorComponent={() => <View style={{height: 8, backgroundColor: '#F8F8F8'}} />}
           />
           <PhotoModal
             imageUri={reviewPhoto}
@@ -158,12 +160,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
-  },
-
-  screenHeaderTitle: {
-    fontSize: 16,
-    fontFamily: 'Pretendard-Regular',
-    fontWeight: '600',
-    lineHeight: 24,
   },
 });

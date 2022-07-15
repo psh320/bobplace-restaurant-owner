@@ -12,9 +12,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getRegisterStatus, postToken} from './src/api';
 import {QueryClient, QueryClientProvider} from 'react-query';
+
 Icon.loadFont();
 enableScreens();
-
 const queryClient = new QueryClient();
 
 export default function App() {

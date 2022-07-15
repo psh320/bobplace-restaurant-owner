@@ -1,9 +1,9 @@
 import React, {useState, useCallback} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {MyUser} from '../components/My/MyUser';
+import {MyUser} from '../../components/My/MyUser';
 import {useNavigation} from '@react-navigation/native';
-import {DesignSystem} from '../assets/DesignSystem';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 const MyPage = () => {
   const navigation = useNavigation();

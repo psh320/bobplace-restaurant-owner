@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import MyPage from '../screens/MyPage';
-import {MyNotificationsSetting} from '../screens/MyNotificationsSetting';
-import {MyInquiry} from '../screens/MyInquiry';
-import {MyEditUserInfo} from '../screens/MyEditUserInfo';
+import MyPage from '../screens/My/MyPage';
+import {MyNotificationsSetting} from '../screens/My/MyNotificationsSetting';
+import {MyInquiry} from '../screens/My/MyInquiry';
+import {MyEditUserInfo} from '../screens/My/MyEditUserInfo';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 export type MyStackParamList = {

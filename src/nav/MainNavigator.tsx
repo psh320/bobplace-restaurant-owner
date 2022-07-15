@@ -6,6 +6,7 @@ import Mission from '../screens/Mission';
 import {RouteProp, ParamListBase} from '@react-navigation/native';
 import {StoreNavigator} from './StoreNavigator';
 import {MyNavigator} from './MyNavigator';
+import {getMissionsProgress} from '../api/mission';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
@@ -35,6 +36,8 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
 const Tab = createBottomTabNavigator();
 
 export const MainNavigator = () => {
+
+  getMissionsProgress();
   return (
     <Tab.Navigator screenOptions={screenOptions} initialRouteName="Mission">
       <Tab.Screen name="Mission" component={Mission} options={{tabBarLabel: '미션'}} />
