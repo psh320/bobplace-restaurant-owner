@@ -41,3 +41,28 @@ export const getRegisterStatus = async () => {
     console.log('register Status', error);
   }
 };
+
+export const postLogin = async (data) => {
+  try {
+    const response = await customAxios().post('/auth/authorization/login', null, {
+      params: data,
+    });
+    try {
+      await AsyncStorage.multiSet([
+        ['accessToken', response.data.result.accessToken],
+        ['refreshToken', response.data.result.refreshToken],
+      ]);
+      return response.data;
+    } catch (e) {
+      console.log('로그인 로컬 저장 에러남...');
+    }
+
+    // messaging()
+    //   .getToken()
+    //   .then((token) => {
+    //     return postFcmToken(token);
+    //   });
+  } catch (error) {
+    console.log('login data:', error);
+  }
+};

@@ -6,6 +6,10 @@ import {appleAuth} from '@invertase/react-native-apple-authentication';
 import SocialWebviewModal from '../modal/SocialWebviewModal';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {postLogin} from '../api';
+import {useMutation} from 'react-query';
+import {createRegister, createStore} from '../data';
 
 const onAppleButtonPress = async () => {
   try {
@@ -22,8 +26,8 @@ const onAppleButtonPress = async () => {
 
     // use credentialState response to ensure the user is authenticated
     if (credentialState === appleAuth.State.AUTHORIZED) {
-      const {email, fullName} = appleAuthRequestResponse;
-      const data = {name: fullName, email: email};
+      const {identityToken} = appleAuthRequestResponse;
+      const data = identityToken;
       //postLogin(data);
     }
   } catch (error) {
@@ -36,6 +40,25 @@ const Login = ({}) => {
   const [loginModal, setLoginModal] = useState(false);
   const [source, setSource] = useState('');
 
+  const googleLoginMutation = useMutation((data) => postLogin(data), {
+    onSuccess: (res) => {
+      if (res.registerStatus === 'NEW') {
+        navigation.navigate('Register');
+      }
+      if (res.registerStatus === 'JOINED') {
+        navigation.navigate('RegisterDone', {status: 0});
+      }
+      if (res.registerStatus === 'WAIT') {
+        navigation.navigate('RegisterDone', {status: 1});
+      }
+      if (res.registerStatus === 'APPROVED') {
+        navigation.navigate('RegisterStoreInfo', {storeData: createStore()});
+      }
+      if (res.registerStatus === 'DONE') {
+        navigation.navigate('MainNavigator');
+      }
+    },
+  });
   // 실행시 구글 로그인 설정 + 로그인 확인 코드
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -59,9 +82,13 @@ const Login = ({}) => {
 
   async function onGoogleButtonPress() {
     try {
-      console.log('PressedGoogle');
-      const {idToken} = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      const userInfo = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
+      const data = {
+        name: userInfo.user.name,
+        email: userInfo.user.email,
+      };
+      googleLoginMutation.mutate(data);
       return auth().signInWithCredential(googleCredential);
     } catch (err) {
       console.log('onGoogleButtonPress ERROR', err);
