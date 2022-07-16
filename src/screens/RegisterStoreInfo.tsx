@@ -37,16 +37,14 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
     },
   });
   const goBack = () => {
-    navigation.navigate('RegisterStore', {
-      storeData: registerStoreData,
-      imageData: route.params.imageData,
-    });
+    navigation.navigate('Login');
   };
 
   const onSubmit = () => {
     navigation.navigate('RegisterStoreTime', {
       storeData: registerStoreData,
-      imageData: route.params.imageData,
+      menuImageData: route.params.menuImageData,
+      storeImageData: route.params.storeImageData,
     });
   };
   return (

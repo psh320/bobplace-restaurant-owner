@@ -24,14 +24,13 @@ const options: ImageLibraryOptions = {
 };
 
 const RegisterStore = ({navigation, route}: Props) => {
-  const [registerStoreData, setRegisterStoreData] = useState(route.params.storeData);
   const [imageData, setImageData] = useState<ImageInterface[]>([]);
   const goResult = () => {
     navigation.navigate('RegisterDone', {status: 0});
   };
 
   const goNext = () => {
-    navigation.navigate('RegisterStoreInfo', {storeData: registerStoreData, imageData: imageData});
+    navigation.navigate('RegisterDone', {status: 1});
   };
 
   const openImagePicker = () => {
@@ -84,7 +83,7 @@ const RegisterStore = ({navigation, route}: Props) => {
 
   return (
     <SafeAreaView style={[styles.flex]}>
-      <RegisterHeader goBack={() => goResult()} pageNum={1} totalPage={3} />
+      <RegisterHeader goBack={() => goResult()} pageNum={1} totalPage={1} />
       <View style={[styles.flex, styles.formWrap]}>
         <Text style={[styles.RegisterFormTitle]}>점포인증</Text>
         <View style={[styles.spaceBetween, styles.flexRow, styles.subtitleText]}>

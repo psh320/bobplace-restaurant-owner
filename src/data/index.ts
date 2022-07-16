@@ -1,5 +1,5 @@
-export * from './RegisterInterface';
+export * from './IRegister';
 export * from './createRegister';
-export * from './RegisterStoreInterface';
+export * from './IStore';
 export * from './createStore';
 export * from './ImageInterface';

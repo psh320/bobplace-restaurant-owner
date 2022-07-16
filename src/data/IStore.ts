@@ -10,8 +10,10 @@ export type OperationTime = {
 };
 
 export type RegisterStoreInterface = {
+  addressDetail: string;
   addressDong: string;
   addressStreet: string;
+  intro: string;
   operationTimeVO: OperationTime[];
   representativeMenuName: string;
   storeName: string;
@@ -22,4 +24,25 @@ export type RegisterStoreInterface = {
   storeImage: ImageInterface[];
   menuImage: ImageInterface[];
   description: string;
+};
+
+export type IStore = {
+  address: {
+    detail: string;
+    dong: string;
+    street: string;
+    x: string;
+    y: string;
+  };
+  averageRate: number;
+  category: string;
+  images: [
+    {
+      imageUrl: string;
+    },
+  ];
+  name: string;
+  reviewCount: number;
+  storeId: number;
+  storeStatus: string;
 };

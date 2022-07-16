@@ -7,58 +7,104 @@ import SocialWebviewModal from '../modal/SocialWebviewModal';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {postLogin} from '../api';
 import {useMutation} from 'react-query';
 import {createRegister, createStore} from '../data';
+import {AuthStackParamList} from '../nav';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {customAxios} from '../api';
 
-const onAppleButtonPress = async () => {
-  try {
-    // performs login request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
-    // get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    const credentialState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
-    );
+type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      const {identityToken} = appleAuthRequestResponse;
-      const data = identityToken;
-      //postLogin(data);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const Login = ({}) => {
-  const navigation = useNavigation();
+const Login = ({navigation}: Props) => {
   const [loginModal, setLoginModal] = useState(false);
   const [source, setSource] = useState('');
 
-  const googleLoginMutation = useMutation((data) => postLogin(data), {
-    onSuccess: (res) => {
-      if (res.registerStatus === 'NEW') {
+  const postLogin = async (data: any) => {
+    try {
+      const response = await customAxios().post('/auth/authorization/login', null, {
+        params: data,
+      });
+      try {
+        await AsyncStorage.multiSet([
+          ['accessToken', response.data.result.accessToken],
+          ['refreshToken', response.data.result.refreshToken],
+        ]);
+      } catch (e) {
+        console.log('로그인 로컬 저장 에러남...');
+      }
+      if (response.data.result.registerStatus === 'NEW') {
         navigation.navigate('Register');
       }
-      if (res.registerStatus === 'JOINED') {
+      if (response.data.result.registerStatus === 'JOINED') {
         navigation.navigate('RegisterDone', {status: 0});
       }
-      if (res.registerStatus === 'WAIT') {
+      if (response.data.result.registerStatus === 'WAIT') {
         navigation.navigate('RegisterDone', {status: 1});
       }
-      if (res.registerStatus === 'APPROVED') {
-        navigation.navigate('RegisterStoreInfo', {storeData: createStore()});
+      if (response.data.result.registerStatus === 'APPROVED') {
+        const tempRegisterStore = createStore();
+        navigation.navigate('RegisterStoreInfo', {
+          storeData: tempRegisterStore,
+          menuImageData: [],
+          storeImageData: [],
+        });
       }
-      if (res.registerStatus === 'DONE') {
+      if (response.data.result.registerStatus === 'DONE') {
         navigation.navigate('MainNavigator');
       }
-    },
-  });
+      return response.data;
+      // messaging()
+      //   .getToken()
+      //   .then((token) => {
+      //     return postFcmToken(token);
+      //   });
+    } catch (error) {
+      console.log('login data:', error);
+    }
+  };
+
+  const postAppleLogin = async (token: any) => {
+    try {
+      const response = await customAxios().post('/auth/authorization/apple-login', {token: token});
+      try {
+        await AsyncStorage.multiSet([
+          ['accessToken', response.data.result.accessToken],
+          ['refreshToken', response.data.result.refreshToken],
+        ]);
+      } catch (e) {
+        console.log('로그인 로컬 저장 에러남...');
+      }
+      if (response.data.result.registerStatus === 'NEW') {
+        navigation.navigate('Register');
+      }
+      if (response.data.result.registerStatus === 'JOINED') {
+        navigation.navigate('RegisterDone', {status: 0});
+      }
+      if (response.data.result.registerStatus === 'WAIT') {
+        navigation.navigate('RegisterDone', {status: 1});
+      }
+      if (response.data.result.registerStatus === 'APPROVED') {
+        const tempRegisterStore = createStore();
+        navigation.navigate('RegisterStoreInfo', {
+          storeData: tempRegisterStore,
+          menuImageData: [],
+          storeImageData: [],
+        });
+      }
+      if (response.data.result.registerStatus === 'DONE') {
+        navigation.navigate('MainNavigator');
+      }
+      return response.data;
+      // messaging()
+      //   .getToken()
+      //   .then((token) => {
+      //     return postFcmToken(token);
+      //   });
+    } catch (error) {
+      console.log('애플 로그인 실패:', error);
+    }
+  };
+
   // 실행시 구글 로그인 설정 + 로그인 확인 코드
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -80,7 +126,7 @@ const Login = ({}) => {
     setLoginModal(true);
   };
 
-  async function onGoogleButtonPress() {
+  const onGoogleButtonPress = async () => {
     try {
       const userInfo = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
@@ -88,12 +134,36 @@ const Login = ({}) => {
         name: userInfo.user.name,
         email: userInfo.user.email,
       };
-      googleLoginMutation.mutate(data);
+      postLogin(data);
       return auth().signInWithCredential(googleCredential);
     } catch (err) {
       console.log('onGoogleButtonPress ERROR', err);
     }
-  }
+  };
+
+  const onAppleButtonPress = async () => {
+    try {
+      // performs login request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+      // get current authentication state for user
+      // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        const {identityToken} = appleAuthRequestResponse;
+        const data = identityToken;
+        postAppleLogin(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const goMain = useCallback(() => navigation.navigate('MainNavigator'), []);
   const goRegister = useCallback(() => navigation.navigate('Register'), []);
