@@ -93,7 +93,6 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
 
 const styles = StyleSheet.create({
   progressRow: {
-    width: '100%',
     position: 'absolute',
     bottom: 15,
     alignItems: 'center',
