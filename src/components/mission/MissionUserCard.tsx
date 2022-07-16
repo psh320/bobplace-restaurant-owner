@@ -23,7 +23,7 @@ export const MissionUserCard: FC<MissionUserCardProps> = ({name, userId, time, m
       <View style={[styles.missionCard]}>
         <View style={[styles.missionMain]}>
           <View style={[styles.nameBox]}>
-              <Text style={[styles.timeText]}>{time.slice(0,5)} 시작</Text>
+              <Text style={[styles.timeText]}>{time.slice(0,5)} 미션시작</Text>
               <Text style={[DesignSystem.title3SB, {color: '#2A2A2A'}]}>{name}</Text>
               <Text style={[DesignSystem.body2Lt, {color: '#616161', marginBottom: 8}]}>{userId}</Text>
           </View>

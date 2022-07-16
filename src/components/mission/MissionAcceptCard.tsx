@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {Colors} from 'react-native-paper';
@@ -15,14 +15,30 @@ export type MissionCardProps = {
 
 //prettier-ignore
 export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, point}) => {
+  const now = new Date();
+  function timeForToday(now: any, cutomerTime: any) {
+    const betweenTime = Math.floor((now.getTime() - cutomerTime.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return '방금 전';
+    if (betweenTime < 60) {
+        return `${betweenTime}분 전`;
+    }
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+        return `${betweenTimeHour}시간 전`;
+    }
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+        return `${betweenTimeDay}일 전`;
+    }
+    return `${Math.floor(betweenTimeDay / 365)}년 전`;
+  }
   function handleDeny() {
-    //성공요청 버튼 누를 시
+    //거절요청 버튼 누를 시
     console.log('거절');
-    // 사장님께 전송 -> 사장님이 확인->
   }
   function handelAccept() {
-    //성공 버튼 누를 시
-    console.log('성공');
+    //수락 버튼 누를 시
+    console.log('수락');
   }
   const buttonWidth = (Dimensions.get('screen').width - 66 - 15 ) / 2;
 
@@ -30,7 +46,10 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
     <View style={[styles.missionCardWrap]}>
       <View style={[styles.missionCard]}>
           <View style={[styles.nameBox]}>
-            <Text style={[styles.requestText]}>성공요청</Text>
+            <Text>
+              <Text style={[styles.requestText]}>성공요청 • </Text>
+              <Text style={[styles.requestText]}>{timeForToday(now, new Date("2022-07-16T15:16:39.528Z"))}</Text>
+            </Text>
             <Text style={[styles.nameText]}>{name}</Text>
           </View>
           <View style={[styles.missionBox]}>

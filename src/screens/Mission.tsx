@@ -55,8 +55,8 @@ const Mission = () => {
           </TouchableOpacity>
         </View>
         <View style={{flex: 1}}>
-          {/* 진행중 */}
           {progressNow ? (
+            // 진행중 스위치
             <>
               <View style={[styles.missionUserNumberWrap]}>
                 <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
@@ -82,6 +82,7 @@ const Mission = () => {
               />
             </>
           ) : (
+            // 성공요청 스위치
             <>
               <View style={[styles.missionUserNumberWrap]}>
                 <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
@@ -103,7 +104,7 @@ const Mission = () => {
                   />
                 )}
               />
-          </>
+            </>
           )}
         </View>
         <View style={[DesignSystem.centerArrange]}>
