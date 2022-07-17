@@ -10,14 +10,14 @@ import {createStore} from '../data';
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterDone'>;
 
 const RegisterDone = ({navigation, route}: Props) => {
-  const goMain = () => {
-    navigation.navigate('MainNavigator');
+  const goLogin = () => {
+    navigation.navigate('Login');
   };
 
   const goRegisterStore = () => {
     const data = createStore();
     console.log('go Register Store!');
-    navigation.navigate('RegisterStore', {storeData: data, imageData: []});
+    navigation.navigate('RegisterStore');
   };
 
   const ownerRegister = () => {
@@ -38,9 +38,9 @@ const RegisterDone = ({navigation, route}: Props) => {
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Icon name="check" size={100} color="#7879F7" />
           <Text style={[styles.registerDoneText]}>입정요청이 접수되었습니다.</Text>
-          <Text>00영업일 이내에 가입이 완료됩니다.</Text>
+          <Text>1 영업일 이내에 가입이 완료됩니다.</Text>
         </View>
-        <RegisterNextButton goNext={() => goMain()} buttonState={2} />
+        <RegisterNextButton goNext={() => goLogin()} buttonState={2} />
       </>
     );
   };

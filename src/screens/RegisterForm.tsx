@@ -27,7 +27,7 @@ const RegisterForm = ({navigation, route}: Props) => {
     defaultValues: {
       name: '',
       gender: '',
-      birthDate: '',
+      // birthDate: '',
       address: '',
     },
   });
@@ -37,6 +37,7 @@ const RegisterForm = ({navigation, route}: Props) => {
   }, []);
 
   const onSubmit = (data: any) => {
+    //회원가입 /api/v1/owners data 보내서 해주기.
     console.log('다음 누름');
     navigation.navigate('RegisterDone', {status: 0});
   };
@@ -97,7 +98,7 @@ const RegisterForm = ({navigation, route}: Props) => {
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           )}
 
-          <Controller
+          {/* <Controller
             control={control}
             rules={{
               required: true,
@@ -117,7 +118,7 @@ const RegisterForm = ({navigation, route}: Props) => {
           />
           {errors.birthDate?.type === 'required' && (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-          )}
+          )} */}
         </ScrollView>
       </KeyboardAvoidingView>
       <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
