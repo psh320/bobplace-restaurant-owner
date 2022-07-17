@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { DesignSystem } from '../../assets/DesignSystem';
 
 type switchProps = {
   progressnow: boolean;
@@ -46,11 +47,11 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
             progressnow
               ? [
                   styles.progressSwitch,
-                  {width: 66, borderRadius: 21, transform: [{translateX: progressValue}]},
+                  {width: 68, borderRadius: 21, transform: [{translateX: progressValue}]},
                 ]
               : [
                   styles.progressSwitch,
-                  {width: 66, borderRadius: 21, transform: [{translateX: progressValue}]},
+                  {width: 68, borderRadius: 21, transform: [{translateX: progressValue}]},
                 ]
           }
         />
@@ -63,7 +64,9 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
           <View style={[styles.progressTextWrap]}>
             <Text
               style={
-                progressnow ? [{fontSize: 14, color: 'white'}] : [{fontSize: 14, color: '#616161'}]
+                progressnow
+                  ? [DesignSystem.title4Md, {color: 'white'}]
+                  : [DesignSystem.body2Lt, {color: '#616161'}]
               }
             >
               진행중
@@ -94,7 +97,7 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
 const styles = StyleSheet.create({
   progressRow: {
     position: 'absolute',
-    bottom: 15,
+    bottom: 12,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -108,11 +111,11 @@ const styles = StyleSheet.create({
   progressToggle: {
     flexDirection: 'row',
     borderRadius: 17.5,
-    borderColor: '#E8E8E8',
+    borderColor: '#DFDFDF',
     borderWidth: 1,
     width: 138,
     height: 34,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FCFCFC',
     alignItems: 'center',
   },
   progressSwitch: {
