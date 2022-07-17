@@ -16,13 +16,13 @@ export const MissionUserCard: FC<IMission> = ({date, mission, missionId, point, 
       <View style={[styles.missionCard]}>
         <View style={[styles.missionMain]}>
           <View style={[styles.nameBox]}>
-              <Text style={[styles.timeText]}>{date.slice(11,16)} 미션시작</Text>
+              <Text style={[DesignSystem.body2Lt, {color: '#558FFF'}]}>{date.slice(11,16)} 미션시작</Text>
               <Text style={[DesignSystem.title3SB, {color: '#2A2A2A'}]}>{userName}</Text>
               <Text style={[DesignSystem.body2Lt, {color: '#616161', marginBottom: 8}]}>{userId}</Text>
           </View>
           <View>
             <Text>
-              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{mission}</Text>
+              <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>
               <Text style={[DesignSystem.body1Lt, {color: 'black'}]}>결제시 </Text>
               <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
             </Text>
@@ -37,16 +37,13 @@ const styles = StyleSheet.create({
   missionCardWrap: {
     marginLeft: 16,
     marginRight: 16,
-    marginBottom: 10,
     borderColor: '#EFEFEF',
     borderWidth: 1,
   },
   missionCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    // height: hp(calHeight(150)),
+    padding: 16,
     backgroundColor: 'white',
-    borderRadius: 12,
+    borderRadius: 10,
     alignItems: 'center',
   },
   missionMain: {
@@ -56,6 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nameBox: {
+    flex: 1,
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -63,11 +61,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#DADADA',
     borderBottomWidth: 0.5,
     marginBottom: 16,
-  },
-  timeText: {
-    fontSize: 14,
-    color: '#6C69FF',
-    marginBottom: 6,
   },
   missionButtonView: {
     borderWidth: 2,

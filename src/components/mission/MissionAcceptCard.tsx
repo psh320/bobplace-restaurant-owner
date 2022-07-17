@@ -3,6 +3,7 @@ import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {Colors} from 'react-native-paper';
 import {IMission} from '../../data/IMissions';
+import { DesignSystem } from '../../assets/DesignSystem';
 
 
 //prettier-ignore
@@ -37,32 +38,29 @@ export const MissionAcceptCard: FC<IMission> = ({date, mission, missionId, point
   return (
     <View style={[styles.missionCardWrap]}>
       <View style={[styles.missionCard]}>
-          <View style={[styles.nameBox]}>
-            <Text>
-              <Text style={[styles.requestText]}>성공요청 • </Text>
-              <Text style={[styles.requestText]}>{timeForToday(nowDate, new Date("2022-07-16T15:16:39.528Z"))}</Text>
-            </Text>
-            <Text style={[styles.nameText]}>{userName}</Text>
-          </View>
-          <View style={[styles.missionBox]}>
-            <Text style={[styles.costText]}>{mission}</Text>
-            <Text style={[styles.normalText]}>의 식사시 </Text>
-            <Text style={[styles.pointText]}>{point}P 적립</Text>
-          </View>
+        <View style={[styles.nameBox]}>
+          <Text style={[DesignSystem.body2Lt, {color: '#E03D32'}]}>성공요청 • {timeForToday(nowDate, new Date("2022-07-16T15:16:39.528Z"))}</Text>
+          <Text style={[DesignSystem.title3SB, DesignSystem.grey14]}>{userName}</Text>
+        </View>
+        <View style={[styles.missionBox]}>
+          <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>
+            <Text style={[DesignSystem.body1Lt, {color: 'black'}]}>결제시 </Text>
+            <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
+        </View>
         <View style={[styles.missionTwoButton]}>
-            <TouchableOpacity style={[styles.missionButtonDeny, {width: buttonWidth}]} onPress={handleDeny}>
-              <View >
-                <Text style={{fontSize: 16, color: '#616161', lineHeight:24}}>거절</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handleAccept}>
-              <View>
-                <Text style={{color:'#6C69FF', fontSize: 16, lineHeight:24}}>수락</Text>
-              </View>
-            </TouchableOpacity>
+          <TouchableOpacity style={[styles.missionButtonDeny, {width: buttonWidth}]} onPress={handleDeny}>
+            <View >
+              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>거절</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handleAccept}>
+            <View>
+              <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>수락</Text>
+            </View>
+          </TouchableOpacity>
          </View>
       </View>
-      </View>
+    </View>
   );
 };
 
@@ -70,15 +68,16 @@ const styles = StyleSheet.create({
   missionCardWrap: {
     marginLeft: 16,
     marginRight: 16,
-    marginBottom: 12,
-    alignItems: 'center',
+    borderColor: '#EFEFEF',
+    borderWidth: 1,
   },
   missionCard: {
+    flex: 1,
     width: '100%',
     padding: 16,
-    backgroundColor: Colors.white,
+    backgroundColor: 'white',
     borderRadius: 10,
-    alignItems: 'center', //
+    alignItems: 'center',
   },
   nameBox: {
     flexDirection: 'column',
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: '100%',
     borderBottomColor: '#DFDFDF',
+    paddingBottom: 10,
     marginBottom: 16,
   },
   missionBox: {
@@ -94,37 +94,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  requestText: {color: '#E03D32', fontSize: 12, lineHeight: 14, marginBottom: 4},
-  nameText: {
-    color: '#111111',
-    fontSize: 16,
-    lineHeight: 24,
-    marginBottom: 10,
-  },
-  categoryText: {
-    fontSize: 14,
-    color: '#616161',
-    marginBottom: 16,
-  },
-  costText: {
-    color: '#111111',
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  normalText: {color: '#111111', fontSize: 16, lineHeight: 24},
-  pointText: {
-    color: '#6C69FF',
-    fontSize: 16,
-    lineHeight: 24,
-  },
-
   missionTwoButton: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   missionButtonDeny: {
-    // width: 147,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
@@ -133,15 +108,11 @@ const styles = StyleSheet.create({
     borderColor: '#DFDFDF',
   },
   missionButtonAccept: {
-    // width: 147,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#6C69FF',
-  },
-  missionButtonView: {
-    borderWidth: 2,
   },
 });

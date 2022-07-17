@@ -61,7 +61,7 @@ const Mission = () => {
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
-      <SafeAreaView style={[styles.flex]}>
+      <SafeAreaView style={[styles.flex, {backgroundColor: '#F8F8F8'}]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
           {progressNow && (
@@ -75,15 +75,14 @@ const Mission = () => {
             // 스위치 '진행중' 일때
             <>
               <View style={[styles.missionUserNumberWrap]}>
-                <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
-                <Text style={{color: '#6C69FF', fontSize: 16}}>_명</Text>
-                {/* <Text style={{color: '#6C69FF', fontSize: 16}}>{DataMissionsProgress.missionOnProgressCount}명</Text> */}
-                <Text style={{color: '#323232', fontSize: 16}}>
-                  의 유저가 미션을 진행하고 있습니다
-                </Text>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>현재 </Text>
+                <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>_명</Text>
+                {/* <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>{DataMissionsProgress.missionOnProgressCount}명</Text> */}
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>의 유저가 미션을 진행하고 있습니다</Text>
               </View>
               <FlatList
-                contentContainerStyle={{paddingTop: 12}}
+                contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
+                ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 showsVerticalScrollIndicator={false}
                 scrollEventThrottle={10}
                 data={dummyMission}
@@ -105,14 +104,13 @@ const Mission = () => {
             // 스위치 '성공요청' 일때
             <>
               <View style={[styles.missionUserNumberWrap]}>
-                <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
-                <Text style={{color: '#6C69FF', fontSize: 16}}>_명</Text>
-                <Text style={{color: '#323232', fontSize: 16}}>
-                  의 유저가 미션을 진행하고 있습니다
-                </Text>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>현재 </Text>
+                <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>_명</Text>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>의 유저가 미션을 진행하고 있습니다</Text>
               </View>
               <FlatList
-                contentContainerStyle={{paddingTop: 12}}
+                contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
+                ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 scrollEventThrottle={10}
                 data={dummyMission}
                 renderItem={({item}) => (
@@ -154,8 +152,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
@@ -169,7 +165,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
-  missionSeperate: {
-    marginTop: 16,
+  userCountText: {
+    fontFamily: 'Pretendard-Light',
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#3F3F3F',
+  },
+  userCountPurpleText: {
+    fontFamily: 'Pretendard-SemiBold',
+    fontSize: 16,
+    lineHeight: 16,
+    color: '#6C69FF',
   },
 });
