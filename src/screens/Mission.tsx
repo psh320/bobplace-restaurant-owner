@@ -6,6 +6,11 @@ import {MissionAcceptCard} from '../components/mission/MissionAcceptCard';
 import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
 import {NotiModal} from '../modal/NotiModal';
+import {queryKey} from '../api/queryKey';
+import {useQuery} from 'react-query';
+import {IMission} from '../data/IMissions';
+import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
+import {IMissionProgress} from '../data/IMissions';
 
 const dummyMission = [
   {
@@ -47,24 +52,32 @@ const Mission = () => {
   const [missionWaiting, setMissionWaiting] = useState(true);
   const [notiModal, setNotiModal] = useState(false);
 
-  const numberOfUsers = dummyMission.length;
+  //진행중 카드 목록
+  const DataMissionsProgress = useQuery<IMissionProgress>(queryKey.MISSIONSPROGRESS, getMissionsProgress);
+  //성공요청 카드 목록
+  const DataMissionsSuccess = useQuery<IMission[]>(queryKey.MISSIONSSUCCESS, getMissionsSuccess);
+  //Data___.data.키값(result내에서) 로 접근
+
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
-          <TouchableOpacity onPress={() => setNotiModal(true)}>
-            <Icon name="bell-outline" size={24} color="#323232" />
-          </TouchableOpacity>
+          {progressNow && (
+            <TouchableOpacity onPress={() => setNotiModal(true)}>
+              <Icon name="bell-outline" size={24} color="#323232" />
+            </TouchableOpacity>
+          )}
         </View>
         <View style={{flex: 1}}>
           {progressNow ? (
-            // 진행중 스위치
+            // 스위치 '진행중' 일때
             <>
               <View style={[styles.missionUserNumberWrap]}>
                 <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
-                <Text style={{color: '#6C69FF', fontSize: 16}}>{numberOfUsers}명</Text>
+                <Text style={{color: '#6C69FF', fontSize: 16}}>_명</Text>
+                {/* <Text style={{color: '#6C69FF', fontSize: 16}}>{DataMissionsProgress.missionOnProgressCount}명</Text> */}
                 <Text style={{color: '#323232', fontSize: 16}}>
                   의 유저가 미션을 진행하고 있습니다
                 </Text>
@@ -75,22 +88,25 @@ const Mission = () => {
                 scrollEventThrottle={10}
                 data={dummyMission}
                 renderItem={({item}) => (
-                  <MissionUserCard
-                    time={item.time}
-                    name={item.name}
-                    userId={item.userId}
-                    minCost={item.minCost}
-                    point={item.point}
-                  />
+                  <>
+                    <MissionUserCard
+                      date={item.date}
+                      mission={item.mission}
+                      missionId={item.missionId}
+                      point={item.point}
+                      userId={item.userId}
+                      userName={item.userName}
+                    />
+                  </>
                 )}
               />
             </>
           ) : (
-            // 성공요청 스위치
+            // 스위치 '성공요청' 일때
             <>
               <View style={[styles.missionUserNumberWrap]}>
                 <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
-                <Text style={{color: '#6C69FF', fontSize: 16}}>{numberOfUsers}명</Text>
+                <Text style={{color: '#6C69FF', fontSize: 16}}>_명</Text>
                 <Text style={{color: '#323232', fontSize: 16}}>
                   의 유저가 미션을 진행하고 있습니다
                 </Text>
@@ -101,10 +117,12 @@ const Mission = () => {
                 data={dummyMission}
                 renderItem={({item}) => (
                   <MissionAcceptCard
-                    name={item.name}
-                    time={item.time}
-                    minCost={item.minCost}
+                    date={item.date}
+                    mission={item.mission}
+                    missionId={item.missionId}
                     point={item.point}
+                    userId={item.userId}
+                    userName={item.userName}
                   />
                 )}
               />

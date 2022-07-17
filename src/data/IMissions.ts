@@ -7,3 +7,7 @@ export type IMission = {
   userId: number;
   userName: string;
 };
+export type IMissionProgress = {
+  missionOnProgressCount: number;
+  ownerMissionDto: IMission[];
+};

@@ -2,24 +2,16 @@ import React, { useEffect } from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {Colors} from 'react-native-paper';
+import {IMission} from '../../data/IMissions';
 
-export type MissionCardProps = {
-  name: string;
-  userId?: string;
-  time?: string;
-  minCost: number;
-  point: number;
-  status?: string; //"start","request","onrequest","success", "review"
-  // handleOnPress?: () => void;
-};
 
 //prettier-ignore
-export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, point}) => {
-  const now = new Date();
+export const MissionAcceptCard: FC<IMission> = ({date, mission, missionId, point, userId, userName}) => {
+  const nowDate = new Date();
   function timeForToday(now: any, cutomerTime: any) {
     const betweenTime = Math.floor((now.getTime() - cutomerTime.getTime()) / 1000 / 60);
-    if (betweenTime < 1) return '방금 전';
-    if (betweenTime < 60) {
+    if (betweenTime < 1) {return '방금 전';}
+    else if (betweenTime < 60) {
         return `${betweenTime}분 전`;
     }
     const betweenTimeHour = Math.floor(betweenTime / 60);
@@ -36,7 +28,7 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
     //거절요청 버튼 누를 시
     console.log('거절');
   }
-  function handelAccept() {
+  function handleAccept() {
     //수락 버튼 누를 시
     console.log('수락');
   }
@@ -48,12 +40,12 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
           <View style={[styles.nameBox]}>
             <Text>
               <Text style={[styles.requestText]}>성공요청 • </Text>
-              <Text style={[styles.requestText]}>{timeForToday(now, new Date("2022-07-16T15:16:39.528Z"))}</Text>
+              <Text style={[styles.requestText]}>{timeForToday(nowDate, new Date("2022-07-16T15:16:39.528Z"))}</Text>
             </Text>
-            <Text style={[styles.nameText]}>{name}</Text>
+            <Text style={[styles.nameText]}>{userName}</Text>
           </View>
           <View style={[styles.missionBox]}>
-            <Text style={[styles.costText]}>{minCost}원 이상</Text>
+            <Text style={[styles.costText]}>{mission}</Text>
             <Text style={[styles.normalText]}>의 식사시 </Text>
             <Text style={[styles.pointText]}>{point}P 적립</Text>
           </View>
@@ -63,7 +55,7 @@ export const MissionAcceptCard: FC<MissionCardProps> = ({name, time, minCost, po
                 <Text style={{fontSize: 16, color: '#616161', lineHeight:24}}>거절</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handelAccept}>
+            <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handleAccept}>
               <View>
                 <Text style={{color:'#6C69FF', fontSize: 16, lineHeight:24}}>수락</Text>
               </View>

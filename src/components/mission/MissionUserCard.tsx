@@ -6,31 +6,24 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {calHeight} from '../../assets/CalculateLength';
-
-type MissionUserCardProps = {
-  name: string;
-  userId?: string;
-  time: string;
-  minCost: number;
-  point: number;
-};
+import {IMission} from '../../data/IMissions';
 
 //prettier-ignore
-export const MissionUserCard: FC<MissionUserCardProps> = ({name, userId, time, minCost, point}) => {
+export const MissionUserCard: FC<IMission> = ({date, mission, missionId, point, userId, userName}) => {
     //const navigation = useNavigation();
     return (
     <View style={[styles.missionCardWrap]}>
       <View style={[styles.missionCard]}>
         <View style={[styles.missionMain]}>
           <View style={[styles.nameBox]}>
-              <Text style={[styles.timeText]}>{time.slice(0,5)} 미션시작</Text>
-              <Text style={[DesignSystem.title3SB, {color: '#2A2A2A'}]}>{name}</Text>
+              <Text style={[styles.timeText]}>{date.slice(11,16)} 미션시작</Text>
+              <Text style={[DesignSystem.title3SB, {color: '#2A2A2A'}]}>{userName}</Text>
               <Text style={[DesignSystem.body2Lt, {color: '#616161', marginBottom: 8}]}>{userId}</Text>
           </View>
           <View>
             <Text>
-              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{minCost}원 이상</Text>
-              <Text style={[DesignSystem.body1Lt, {color: 'black'}]}>의 식사시 </Text>
+              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{mission}</Text>
+              <Text style={[DesignSystem.body1Lt, {color: 'black'}]}>결제시 </Text>
               <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
             </Text>
           </View>
