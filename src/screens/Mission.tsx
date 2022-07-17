@@ -5,36 +5,40 @@ import {MissionUserCard} from '../components/mission/MissionUserCard';
 import {MissionAcceptCard} from '../components/mission/MissionAcceptCard';
 import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
-import { NotiModal } from '../modal/NotiModal';
+import {NotiModal} from '../modal/NotiModal';
 
 const dummyMission = [
   {
-    name: '김진범',
-    userId: '0',
-    time: '18:00:12',
-    minCost: 10000,
+    date: '2022-07-16T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 234,
     point: 500,
+    userId: 1,
+    userName: '김진범',
   },
   {
-    name: '이예진',
-    userId: '1',
-    time: '14:01:23',
-    minCost: 10000,
+    date: '2022-07-16T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 23,
     point: 500,
+    userId: 13,
+    userName: '이예진',
   },
   {
-    name: '박성호',
-    userId: '2',
-    time: '12:21:14',
-    minCost: 10000,
+    date: '2022-07-16T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 345345,
     point: 500,
+    userId: 14,
+    userName: '박성호',
   },
   {
-    name: '박성호',
-    userId: '2',
-    time: '12:21:14',
-    minCost: 10000,
+    date: '2022-07-16T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 345345,
     point: 500,
+    userId: 51,
+    userName: '박성호',
   },
 ];
 
