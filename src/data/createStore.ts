@@ -1,7 +1,9 @@
-import {RegisterStoreInterface} from './RegisterStoreInterface';
+import {RegisterStoreInterface} from './IStore';
 
 export const createStore = (): RegisterStoreInterface => {
   return {
+    intro: '',
+    addressDetail: '',
     addressDong: '',
     addressStreet: '',
     operationTimeVO: [
@@ -66,7 +68,8 @@ export const createStore = (): RegisterStoreInterface => {
     storeName: '',
     storeTypeId: 0,
     tableNum: 0,
-    x: 0,
-    y: 0,
+    x: '',
+    y: '',
+    description: '',
   };
 };

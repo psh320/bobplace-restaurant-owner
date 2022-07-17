@@ -1,4 +1,4 @@
-import {RegisterInterface} from './RegisterInterface';
+import {RegisterInterface} from './IRegister';
 
 export const createRegister = (): RegisterInterface => {
   return {

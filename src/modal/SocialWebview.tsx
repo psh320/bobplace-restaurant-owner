@@ -3,6 +3,7 @@ import React, {FC, useRef} from 'react';
 import {StyleSheet} from 'react-native';
 import {WebView} from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {createStore} from '../data';
 
 //let userAgent =
 //  'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1';
@@ -50,11 +51,22 @@ const SocialWebview: FC<SocialWebViewProps> = ({source, closeSocialModal}) => {
     closeSocialModal();
     if (data.registerStatus === 'NEW') {
       navigation.navigate('Register');
-    } else if (data.registerStatus === 'JOINED') {
+    }
+    if (data.registerStatus === 'JOINED') {
       navigation.navigate('RegisterDone', {status: 0});
-    } else if (data.registerStatus === 'WAIT') {
+    }
+    if (data.registerStatus === 'WAIT') {
       navigation.navigate('RegisterDone', {status: 1});
-    } else {
+    }
+    if (data.registerStatus === 'APPROVED') {
+      const tempRegisterStore = createStore();
+      navigation.navigate('RegisterStoreInfo', {
+        storeData: tempRegisterStore,
+        menuImageData: [],
+        storeImageData: [],
+      });
+    }
+    if (data.registerStatus === 'DONE') {
       navigation.navigate('MainNavigator');
     }
   };
