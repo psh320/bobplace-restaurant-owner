@@ -15,8 +15,6 @@ import {useForm, Controller} from 'react-hook-form';
 import {RegisterStoreName} from '../components/Register/RegisterStoreName';
 import {RegisterStoreType} from '../components/Register/RegisterStoreType';
 import {RegisterStoreTable} from '../components/Register/RegisterStoreTable';
-import {ImageInterface} from '../data';
-import {RegisterStoreImages} from '../components/Register/RegisterStoreImages';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreInfo'>;
 
@@ -43,8 +41,6 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
   const onSubmit = () => {
     navigation.navigate('RegisterStoreTime', {
       storeData: registerStoreData,
-      menuImageData: route.params.menuImageData,
-      storeImageData: route.params.storeImageData,
     });
   };
   return (

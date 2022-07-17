@@ -29,7 +29,6 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
   const goBack = () => {
     navigation.navigate('RegisterStoreInfo', {
       storeData: registerStoreData,
-      imageData: route.params.imageData,
     });
   };
 

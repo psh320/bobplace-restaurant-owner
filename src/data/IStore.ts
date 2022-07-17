@@ -9,6 +9,7 @@ export type OperationTime = {
   isOpen: boolean;
 };
 
+//가입 post 할때 쓰는 타입
 export type RegisterStoreInterface = {
   addressDetail: string;
   addressDong: string;
@@ -21,11 +22,10 @@ export type RegisterStoreInterface = {
   tableNum: number;
   x: string;
   y: string;
-  storeImage: ImageInterface[];
-  menuImage: ImageInterface[];
   description: string;
 };
 
+//Get할때 쓰는 타입
 export type IStore = {
   address: {
     detail: string;

@@ -16,9 +16,9 @@ export type AuthStackParamList = {
   Register: undefined;
   RegisterForm: {registerData: RegisterInterface};
   RegisterDone: {status: number};
-  RegisterStore: {storeData: RegisterStoreInterface};
-  RegisterStoreInfo: {storeData: RegisterStoreInterface; storeImageData: any; menuImageData: any};
-  RegisterStoreTime: {storeData: RegisterStoreInterface; storeImageData: any; menuImageData: any};
+  RegisterStore: undefined;
+  RegisterStoreInfo: {storeData: RegisterStoreInterface};
+  RegisterStoreTime: {storeData: RegisterStoreInterface};
   MainNavigator: undefined;
 };
 

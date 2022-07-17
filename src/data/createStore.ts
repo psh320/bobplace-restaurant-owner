@@ -70,8 +70,6 @@ export const createStore = (): RegisterStoreInterface => {
     tableNum: 0,
     x: '',
     y: '',
-    storeImage: [],
-    menuImage: [],
     description: '',
   };
 };
