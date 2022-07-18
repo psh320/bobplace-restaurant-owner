@@ -2,12 +2,12 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
-import {RegisterHeader, RegisterNextButton} from '../components';
-import {RegisterMenuName} from '../components/Register/RegisterMenuName';
-import {RegisterStoreImages} from '../components/Register/RegisterStoreImages';
-import {RegisterTime} from '../components/Register/RegisterTime';
-import {ImageInterface} from '../data';
-import {AuthStackParamList} from '../nav';
+import {RegisterHeader, RegisterNextButton} from '../../components';
+import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
+import {RegisterStoreImages} from '../../components/Register/RegisterStoreImages';
+import {RegisterTime} from '../../components/Register/RegisterTime';
+import {ImageInterface} from '../../data';
+import {AuthStackParamList} from '../../nav';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreTime'>;
 

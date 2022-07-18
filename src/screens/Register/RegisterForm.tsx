@@ -7,10 +7,10 @@ import {
   RegisterName,
   RegisterGender,
   RegisterBirthDate,
-} from '../components';
-import {RegisterInterface} from '../data';
+} from '../../components';
+import {RegisterInterface} from '../../data';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthStackParamList} from '../nav';
+import {AuthStackParamList} from '../../nav';
 import {useForm, Controller} from 'react-hook-form';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterForm'>;

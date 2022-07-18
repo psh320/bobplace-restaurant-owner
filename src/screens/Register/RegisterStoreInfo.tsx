@@ -9,12 +9,12 @@ import {
   View,
   Platform,
 } from 'react-native';
-import {RegisterAddress, RegisterHeader, RegisterNextButton} from '../components';
-import {AuthStackParamList} from '../nav';
+import {RegisterAddress, RegisterHeader, RegisterNextButton} from '../../components';
+import {AuthStackParamList} from '../../nav';
 import {useForm, Controller} from 'react-hook-form';
-import {RegisterStoreName} from '../components/Register/RegisterStoreName';
-import {RegisterStoreType} from '../components/Register/RegisterStoreType';
-import {RegisterStoreTable} from '../components/Register/RegisterStoreTable';
+import {RegisterStoreName} from '../../components/Register/RegisterStoreName';
+import {RegisterStoreType} from '../../components/Register/RegisterStoreType';
+import {RegisterStoreTable} from '../../components/Register/RegisterStoreTable';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreInfo'>;
 

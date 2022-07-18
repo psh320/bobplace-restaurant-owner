@@ -10,12 +10,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {RegisterHeader, RegisterNextButton} from '../components';
-import {AuthStackParamList} from '../nav';
+import {RegisterHeader, RegisterNextButton} from '../../components';
+import {AuthStackParamList} from '../../nav';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {ImageInterface} from '../data';
-import {RenderUploadImage} from '../components/common/RenderUploadImage';
+import {ImageInterface} from '../../data';
+import {RenderUploadImage} from '../../components/common/RenderUploadImage';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStore'>;
 
