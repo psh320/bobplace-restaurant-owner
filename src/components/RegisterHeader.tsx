@@ -41,7 +41,13 @@ export const RegisterHeader: FC<RegisterHeaderProps> = ({goBack, pageNum, totalP
 };
 
 const styles = StyleSheet.create({
-  headerWrap: {flexDirection: 'row', justifyContent: 'space-between', margin: 12},
+  headerWrap: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    height: 50,
+  },
   backButton: {
     zIndex: 1,
     justifyContent: 'center',

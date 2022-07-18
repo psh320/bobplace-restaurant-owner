@@ -36,57 +36,60 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
     navigation.navigate('RegisterDone', {status: 1});
   };
   return (
-    <SafeAreaView style={[styles.flex]}>
-      <RegisterHeader goBack={() => goBack()} pageNum={3} totalPage={3} />
-      <ScrollView style={[styles.flex, styles.formWrap]}>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => {
-            return (
-              <RegisterStoreImages
-                setStoreImages={setStoreImages}
-                storeImages={storeImages}
-                onChange={onChange}
-                value={value}
-                error={errors.storeImage !== undefined}
-              />
-            );
-          }}
-          name="storeImage"
-        />
-        {errors.storeImage?.type === 'required' && (
-          <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-        )}
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex]}>
+        <RegisterHeader goBack={() => goBack()} pageNum={2} totalPage={2} />
+        <ScrollView style={[styles.flex, styles.formWrap]}>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, value}}) => {
+              return (
+                <RegisterStoreImages
+                  setStoreImages={setStoreImages}
+                  storeImages={storeImages}
+                  onChange={onChange}
+                  value={value}
+                  error={errors.storeImage !== undefined}
+                />
+              );
+            }}
+            name="storeImage"
+          />
+          {errors.storeImage?.type === 'required' && (
+            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+          )}
 
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => {
-            return (
-              <RegisterMenuName
-                setRegisterData={setRegisterStoreData}
-                registerData={registerStoreData}
-                onChange={onChange}
-                value={value}
-                error={errors.menuName !== undefined}
-              />
-            );
-          }}
-          name="menuName"
-        />
-        {errors.menuName?.type === 'required' && (
-          <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-        )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, value}}) => {
+              return (
+                <RegisterMenuName
+                  setRegisterData={setRegisterStoreData}
+                  registerData={registerStoreData}
+                  onChange={onChange}
+                  value={value}
+                  error={errors.menuName !== undefined}
+                />
+              );
+            }}
+            name="menuName"
+          />
+          {errors.menuName?.type === 'required' && (
+            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+          )}
 
-        <RegisterTime setRegisterData={setRegisterStoreData} registerData={registerStoreData} />
-      </ScrollView>
-      <RegisterNextButton goNext={goNext} buttonState={2} />
-    </SafeAreaView>
+          <RegisterTime setRegisterData={setRegisterStoreData} registerData={registerStoreData} />
+        </ScrollView>
+        <RegisterNextButton goNext={goNext} buttonState={2} />
+      </SafeAreaView>
+    </>
   );
 };
 

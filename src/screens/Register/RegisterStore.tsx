@@ -62,7 +62,7 @@ const RegisterStore = ({navigation, route}: Props) => {
 
   return (
     <SafeAreaView style={[styles.flex]}>
-      <RegisterHeader goBack={() => goResult()} pageNum={1} totalPage={1} />
+      <RegisterHeader goBack={() => goResult()} pageNum={0} totalPage={0} />
       <View style={[styles.flex, styles.formWrap]}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={[styles.RegisterFormTitle]}>
