@@ -10,6 +10,7 @@ import RegisterDone from '../screens/Register/RegisterDone';
 import RegisterStore from '../screens/Register/RegisterStore';
 import RegisterStoreInfo from '../screens/Register/RegisterStoreInfo';
 import RegisterStoreTime from '../screens/Register/RegisterStoreTime';
+import RegisterContract from '../screens/Register/RegisterContract';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -20,6 +21,7 @@ export type AuthStackParamList = {
   RegisterStoreInfo: {storeData: RegisterStoreInterface};
   RegisterStoreTime: {storeData: RegisterStoreInterface};
   MainNavigator: undefined;
+  RegisterContract: {type: number};
 };
 
 const Stack = createStackNavigator<AuthStackParamList>();
@@ -38,6 +40,7 @@ export const AuthNavigator = () => {
       <Stack.Screen name="RegisterStoreInfo" component={RegisterStoreInfo} />
       <Stack.Screen name="RegisterStoreTime" component={RegisterStoreTime} />
       <Stack.Screen name="MainNavigator" component={MainNavigator} />
+      <Stack.Screen name="RegisterContract" component={RegisterContract} />
     </Stack.Navigator>
   );
 };
