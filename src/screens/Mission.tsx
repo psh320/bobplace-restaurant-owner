@@ -1,92 +1,132 @@
-import React, {useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MissionUserCard} from '../components/mission/MissionUserCard';
 import {MissionAcceptCard} from '../components/mission/MissionAcceptCard';
 import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
+import {NotiModal} from '../modal/NotiModal';
+import {queryKey} from '../api/queryKey';
+import {useQuery} from 'react-query';
+import {IMission} from '../data/IMissions';
+import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
+import {IMissionProgress} from '../data/IMissions';
 
 const dummyMission = [
   {
-    name: '김진범',
-    userId: '0',
-    time: '18:00:12',
-    minCost: 10000,
+    dayOfWeek: 'TUESDAY',
+    startDate: '2022-07-18T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 234,
     point: 500,
+    userId: 1,
+    userName: '김진범',
   },
   {
-    name: '이예진',
-    userId: '1',
-    time: '14:01:23',
-    minCost: 10000,
+    dayOfWeek: 'MONDAY',
+    startDate: '2022-07-17T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 23,
     point: 500,
+    userId: 13,
+    userName: '이예진',
   },
   {
-    name: '박성호',
-    userId: '2',
-    time: '12:21:14',
-    minCost: 10000,
+    dayOfWeek: 'SUNDAY',
+    startDate: '2022-07-16T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 345345,
     point: 500,
+    userId: 14,
+    userName: '박성호',
   },
   {
-    name: '박성호',
-    userId: '2',
-    time: '12:21:14',
-    minCost: 10000,
+    dayOfWeek: 'MONDAY',
+    startDate: '2022-07-16T15:16:39.528Z',
+    mission: '10000원 이상',
+    missionId: 345345,
     point: 500,
+    userId: 51,
+    userName: '박성호',
   },
 ];
 
 const Mission = () => {
-  const [progressNow, setProgressNow] = useState(false);
+  const [progressNow, setProgressNow] = useState(true);
   const [missionWaiting, setMissionWaiting] = useState(true);
+  const [notiModal, setNotiModal] = useState(false);
+  const seperate = useRef('');
 
-  const numberOfUsers = dummyMission.length;
+  //진행중 카드 목록
+  const DataMissionsProgress = useQuery<IMissionProgress>(queryKey.MISSIONSPROGRESS, getMissionsProgress);
+  //성공요청 카드 목록
+  const DataMissionsSuccess = useQuery<IMission[]>(queryKey.MISSIONSSUCCESS, getMissionsSuccess);
+  //Data___.data.키값(result내에서) 로 접근
+  // console.log('-----', DataMissionsSuccess.data); //초기 undefined, 이후 []
+  useEffect(() => {
+    seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
+  }, [DataMissionsSuccess]);
 
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
-      <SafeAreaView style={[styles.flex]}>
+      <SafeAreaView style={[styles.flex, {backgroundColor: '#F8F8F8'}]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
-          <Icon name="bell-outline" size={24} color={'#323232'} />
+          {progressNow && (
+            <TouchableOpacity onPress={() => setNotiModal(true)}>
+              <Icon name="bell-outline" size={24} color="#323232" />
+            </TouchableOpacity>
+          )}
         </View>
         <View style={{flex: 1}}>
           {progressNow ? (
-            <FlatList
-              contentContainerStyle={{paddingTop: 12}}
-              scrollEventThrottle={10}
-              data={dummyMission}
-              renderItem={({item}) => (
-                <MissionAcceptCard
-                  name={item.name}
-                  time={item.time}
-                  minCost={item.minCost}
-                  point={item.point}
-                />
-              )}
-            />
-          ) : (
+            // 스위치 '진행중' 일때
             <>
               <View style={[styles.missionUserNumberWrap]}>
-                <Text style={{color: '#323232', fontSize: 16}}>현재 </Text>
-                <Text style={{color: '#6C69FF', fontSize: 16}}>{numberOfUsers}명</Text>
-                <Text style={{color: '#323232', fontSize: 16}}>
-                  의 유저가 미션을 진행하고 있습니다
-                </Text>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>현재 </Text>
+                <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>_명</Text>
+                {/* <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>{DataMissionsProgress.missionOnProgressCount}명</Text> */}
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>의 유저가 미션을 진행하고 있습니다</Text>
               </View>
               <FlatList
-                contentContainerStyle={{paddingTop: 12}}
+                contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
+                ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 showsVerticalScrollIndicator={false}
                 scrollEventThrottle={10}
                 data={dummyMission}
                 renderItem={({item}) => (
-                  <MissionUserCard
-                    time={item.time}
-                    name={item.name}
-                    userId={item.userId}
-                    minCost={item.minCost}
+                  <>
+                    <MissionUserCard
+                      mission={item.mission}
+                      missionId={item.missionId}
+                      point={item.point}
+                      startDate={item.startDate}
+                      userId={item.userId}
+                      userName={item.userName}
+                    />
+                  </>
+                )}
+              />
+            </>
+          ) : (
+            // 스위치 '성공요청' 일때
+            <>
+              <FlatList
+                contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
+                ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                scrollEventThrottle={10}
+                data={dummyMission}
+                renderItem={({item}) => (
+                  <MissionAcceptCard
+                    dayOfWeek={item.dayOfWeek}
+                    startDate={item.startDate}
+                    mission={item.mission}
+                    missionId={item.missionId}
                     point={item.point}
+                    userId={item.userId}
+                    userName={item.userName}
+                    seperate={seperate}
                   />
                 )}
               />
@@ -100,6 +140,7 @@ const Mission = () => {
             missionWaiting={missionWaiting}
           />
         </View>
+        <NotiModal visible={notiModal} closeNotiModal={() => setNotiModal(false)} />
       </SafeAreaView>
     </>
   );
@@ -117,8 +158,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
@@ -132,7 +171,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
-  missionSeperate: {
-    marginTop: 16,
+  userCountText: {
+    fontFamily: 'Pretendard-Light',
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#3F3F3F',
+  },
+  userCountPurpleText: {
+    fontFamily: 'Pretendard-SemiBold',
+    fontSize: 16,
+    lineHeight: 16,
+    color: '#6C69FF',
   },
 });

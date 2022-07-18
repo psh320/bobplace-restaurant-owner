@@ -15,4 +15,6 @@ export const queryKey = {
   // NOTIFICATIONS: 'notifications',
   QUESTIONS: 'questions',
   QUESTIONDETAIL: 'questionDetail',
+  MISSIONSPROGRESS: 'missionsProgress',
+  MISSIONSSUCCESS: 'missionsSuccess',
 };
