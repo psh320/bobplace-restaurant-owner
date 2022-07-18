@@ -30,7 +30,7 @@ const RegisterStore = ({navigation, route}: Props) => {
 
   const goNext = async () => {
     //imageData를 formdata로 만들어서 서버에 이미지 등록하기
-    // await postStoreAuthImages(imageUri);////////////////////////////////////////////////////
+    await postStoreAuthImages(imageUri);////////////////////////////////////////////////////
     navigation.navigate('RegisterDone', {status: 1});
   };
 

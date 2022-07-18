@@ -21,7 +21,7 @@ export const postStoreAuthImages = async (imageList: imageData[]) => {
           type: 'image/jpeg',
           name: 'image',
         });
-    formdata.append('reviewImage', photo);
+    formdata.append('authImage', photo);
   });
 
   const response = await customAxios().post(
@@ -31,5 +31,6 @@ export const postStoreAuthImages = async (imageList: imageData[]) => {
       headers: {'Content-Type': 'multipart/form-data'},
     },
   );
+  console.log('register.ts', response);
   return response;
 };
