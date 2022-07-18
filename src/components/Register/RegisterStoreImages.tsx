@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import type {FC} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ImageInterface} from '../../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {RenderUploadImage} from '../common/RenderUploadImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { DesignSystem } from '../../assets/DesignSystem';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 const options: ImageLibraryOptions = {
   mediaType: 'photo',

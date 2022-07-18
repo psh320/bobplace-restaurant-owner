@@ -2,7 +2,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
-import { customAxios } from '../../api';
+import {customAxios} from '../../api';
 import {RegisterHeader, RegisterNextButton} from '../../components';
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
 import {RegisterStoreImages} from '../../components/Register/RegisterStoreImages';
@@ -96,7 +96,7 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
 
           <RegisterTime setRegisterData={setRegisterStoreData} registerData={registerStoreData} />
         </ScrollView>
-        <RegisterNextButton goNext={handleSubmit(goNext)} buttonState={2} />
+        <RegisterNextButton goNext={handleSubmit(goNext)} buttonState={3} />
       </SafeAreaView>
     </>
   );

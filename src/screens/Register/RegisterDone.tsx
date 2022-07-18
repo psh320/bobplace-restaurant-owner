@@ -4,21 +4,18 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RegisterNextButton} from '../../components';
 import {AuthStackParamList} from '../../nav';
-import {createStore} from '../../data';
 import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterDone'>;
 
 const RegisterDone = ({navigation, route}: Props) => {
-  const data = createStore();
   const goInfo = () => {
-    navigation.navigate('RegisterStoreInfo', {storeData: data});
+    navigation.navigate('Login'); //입점요청 승낙받을때까지 로그인으로 슝
   };
 
   const goRegisterStore = () => {
-    navigation.navigate('Login'); //입점요청 승낙받을때까지 로그인화면 슝
-    // console.log('go Register Store!');
-    // navigation.navigate('RegisterStore');
+    console.log('go Register Store!');
+    navigation.navigate('RegisterStore');
   };
 
   const ownerRegister = () => {
@@ -60,10 +57,4 @@ export default RegisterDone;
 
 const styles = StyleSheet.create({
   flex: {flex: 1},
-  registerDoneText: {
-    fontSize: 24,
-    lineHeight: 34,
-    fontWeight: '600',
-    color: '#7879F7',
-  },
 });

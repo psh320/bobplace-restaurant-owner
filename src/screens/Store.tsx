@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../components/Store/StoreMenuBar';
 import {StoreInfo} from '../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';

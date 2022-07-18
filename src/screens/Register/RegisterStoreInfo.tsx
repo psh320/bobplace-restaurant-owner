@@ -17,7 +17,7 @@ import {RegisterStoreType} from '../../components/Register/RegisterStoreType';
 import {RegisterStoreTable} from '../../components/Register/RegisterStoreTable';
 import {RegisterStoreIntro} from '../../components/Register/RegisterStoreIntro';
 import {RegisterStoreAddressDetail} from '../../components/Register/RegisterStoreAddressDetail';
-import { DesignSystem } from '../../assets/DesignSystem';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreInfo'>;
 
