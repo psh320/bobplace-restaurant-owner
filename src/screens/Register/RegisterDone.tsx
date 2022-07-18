@@ -5,12 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RegisterNextButton} from '../../components';
 import {AuthStackParamList} from '../../nav';
 import {createStore} from '../../data';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterDone'>;
 
 const RegisterDone = ({navigation, route}: Props) => {
   const goLogin = () => {
-    navigation.navigate('Login');
+    // navigation.navigate('Login');//온보디이잉으로가야해ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ
   };
 
   const goRegisterStore = () => {
@@ -24,7 +25,7 @@ const RegisterDone = ({navigation, route}: Props) => {
       <>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Icon name="check" size={50} color="#7879F7" />
-          <Text style={[styles.registerDoneText]}>가입완료</Text>
+          <Text style={[DesignSystem.h1SB, {color: '#7879F7'}]}>가입완료</Text>
         </View>
         <RegisterNextButton goNext={() => goRegisterStore()} buttonState={2} />
       </>
@@ -36,8 +37,11 @@ const RegisterDone = ({navigation, route}: Props) => {
       <>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Icon name="check" size={100} color="#7879F7" />
-          <Text style={[styles.registerDoneText]}>입정요청이 접수되었습니다.</Text>
-          <Text>1 영업일 이내에 가입이 완료됩니다.</Text>
+          <Text style={[DesignSystem.h1SB, {color: '#7879F7'}]}>입정요청이</Text>
+          <Text style={[DesignSystem.h1SB, {color: '#7879F7'}]}>접수되었습니다.</Text>
+          <Text style={[DesignSystem.body1Long, DesignSystem.grey10, {marginTop: 24}]}>
+            1 영업일 이내에 가입이 완료됩니다.
+          </Text>
         </View>
         <RegisterNextButton goNext={() => goLogin()} buttonState={2} />
       </>

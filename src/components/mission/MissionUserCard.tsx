@@ -1,15 +1,13 @@
 import React from 'react';
 import type {FC} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {View, StyleSheet, Text} from 'react-native';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {calHeight} from '../../assets/CalculateLength';
-import {IMission} from '../../data/IMissions';
+import {IMissionDtoType} from '../../data/IMissions';
 
 //prettier-ignore
-export const MissionUserCard: FC<IMission> = ({mission, missionId, point, startDate, userId, userName}) => {
+export const MissionUserCard: FC<IMissionDtoType> = ({mission, missionId, point, startDate, userId, userName}) => {
     //const navigation = useNavigation();
     return (
     <View style={[styles.missionCardWrap]}>
