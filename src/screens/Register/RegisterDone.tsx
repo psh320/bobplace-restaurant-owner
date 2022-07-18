@@ -4,7 +4,6 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RegisterNextButton} from '../../components';
 import {AuthStackParamList} from '../../nav';
-import {RegisterStoreInterface} from '../../data';
 import {createStore} from '../../data';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterDone'>;
