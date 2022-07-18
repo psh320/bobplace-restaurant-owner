@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MissionUserCard} from '../components/mission/MissionUserCard';
@@ -14,7 +14,8 @@ import {IMissionProgress} from '../data/IMissions';
 
 const dummyMission = [
   {
-    date: '2022-07-16T15:16:39.528Z',
+    dayOfWeek: 'TUESDAY',
+    startDate: '2022-07-18T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 234,
     point: 500,
@@ -22,7 +23,8 @@ const dummyMission = [
     userName: '김진범',
   },
   {
-    date: '2022-07-16T15:16:39.528Z',
+    dayOfWeek: 'MONDAY',
+    startDate: '2022-07-17T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 23,
     point: 500,
@@ -30,7 +32,8 @@ const dummyMission = [
     userName: '이예진',
   },
   {
-    date: '2022-07-16T15:16:39.528Z',
+    dayOfWeek: 'SUNDAY',
+    startDate: '2022-07-16T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 345345,
     point: 500,
@@ -38,7 +41,8 @@ const dummyMission = [
     userName: '박성호',
   },
   {
-    date: '2022-07-16T15:16:39.528Z',
+    dayOfWeek: 'MONDAY',
+    startDate: '2022-07-16T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 345345,
     point: 500,
@@ -51,12 +55,17 @@ const Mission = () => {
   const [progressNow, setProgressNow] = useState(true);
   const [missionWaiting, setMissionWaiting] = useState(true);
   const [notiModal, setNotiModal] = useState(false);
+  const seperate = useRef('');
 
   //진행중 카드 목록
   const DataMissionsProgress = useQuery<IMissionProgress>(queryKey.MISSIONSPROGRESS, getMissionsProgress);
   //성공요청 카드 목록
   const DataMissionsSuccess = useQuery<IMission[]>(queryKey.MISSIONSSUCCESS, getMissionsSuccess);
   //Data___.data.키값(result내에서) 로 접근
+  // console.log('-----', DataMissionsSuccess.data); //초기 undefined, 이후 []
+  useEffect(() => {
+    seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
+  }, [DataMissionsSuccess]);
 
   return (
     <>
@@ -89,10 +98,10 @@ const Mission = () => {
                 renderItem={({item}) => (
                   <>
                     <MissionUserCard
-                      date={item.date}
                       mission={item.mission}
                       missionId={item.missionId}
                       point={item.point}
+                      startDate={item.startDate}
                       userId={item.userId}
                       userName={item.userName}
                     />
@@ -103,11 +112,6 @@ const Mission = () => {
           ) : (
             // 스위치 '성공요청' 일때
             <>
-              <View style={[styles.missionUserNumberWrap]}>
-                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>현재 </Text>
-                <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>_명</Text>
-                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>의 유저가 미션을 진행하고 있습니다</Text>
-              </View>
               <FlatList
                 contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
@@ -115,12 +119,14 @@ const Mission = () => {
                 data={dummyMission}
                 renderItem={({item}) => (
                   <MissionAcceptCard
-                    date={item.date}
+                    dayOfWeek={item.dayOfWeek}
+                    startDate={item.startDate}
                     mission={item.mission}
                     missionId={item.missionId}
                     point={item.point}
                     userId={item.userId}
                     userName={item.userName}
+                    seperate={seperate}
                   />
                 )}
               />

@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
-import {Colors} from 'react-native-paper';
-import {IMission} from '../../data/IMissions';
-import { DesignSystem } from '../../assets/DesignSystem';
+import {dayofweekType, IMission} from '../../data/IMissions';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 
 //prettier-ignore
-export const MissionAcceptCard: FC<IMission> = ({date, mission, missionId, point, userId, userName}) => {
+export const MissionAcceptCard: FC<IMission> = ({dayOfWeek, mission, missionId, point, startDate, userId, userName, seperate}) => {
   const nowDate = new Date();
   function timeForToday(now: any, cutomerTime: any) {
     const betweenTime = Math.floor((now.getTime() - cutomerTime.getTime()) / 1000 / 60);
@@ -34,37 +33,66 @@ export const MissionAcceptCard: FC<IMission> = ({date, mission, missionId, point
     console.log('수락');
   }
   const buttonWidth = (Dimensions.get('screen').width - 66 - 15 ) / 2;
-
-  return (
-    <View style={[styles.missionCardWrap]}>
-      <View style={[styles.missionCard]}>
-        <View style={[styles.nameBox]}>
-          <Text style={[DesignSystem.body2Lt, {color: '#E03D32'}]}>성공요청 • {timeForToday(nowDate, new Date("2022-07-16T15:16:39.528Z"))}</Text>
-          <Text style={[DesignSystem.title3SB, DesignSystem.grey14]}>{userName}</Text>
-        </View>
-        <View style={[styles.missionBox]}>
-          <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>
-            <Text style={[DesignSystem.body1Lt, {color: 'black'}]}>결제시 </Text>
-            <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
-        </View>
-        <View style={[styles.missionTwoButton]}>
-          <TouchableOpacity style={[styles.missionButtonDeny, {width: buttonWidth}]} onPress={handleDeny}>
-            <View >
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>거절</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handleAccept}>
-            <View>
-              <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>수락</Text>
-            </View>
-          </TouchableOpacity>
-         </View>
+  const seperateWidth = (Dimensions.get('screen').width - 32 - 132 ) / 2;
+  const DAYOFWEEK: dayofweekType = {
+    'MONDAY': '월', 'TUESDAY': '화', 'WEDNESDAY': '수', 'THURSDAY': '목', 'FRIDAY': '금', 'SATURDAY': '토', 'SUNDAY': '일',
+  };
+  function test() {
+    seperate.current = startDate.slice(0,10);
+    return (
+      <View style={[styles.seperateWrap]}>
+        <View style={[styles.seperateLine, {width: seperateWidth}]} />
+        <Text style={[DesignSystem.body2Lt, DesignSystem.grey8]}>
+          {(seperate.current).slice(0,4)}.{(seperate.current).slice(5,7)}.{(seperate.current).slice(8,10)} {DAYOFWEEK[dayOfWeek]}요일
+          </Text>
+        <View style={[styles.seperateLine, {width: seperateWidth}]} />
       </View>
-    </View>
+    );
+  }
+  return (
+    <>
+      {seperate.current !== startDate.slice(0, 10) ? (test()) : (null)}
+      <View style={[styles.missionCardWrap]}>
+        <View style={[styles.missionCard]}>
+          <View style={[styles.nameBox]}>
+            <Text style={[DesignSystem.body2Lt, {color: '#E03D32'}]}>성공요청 • {timeForToday(nowDate, new Date(startDate))}</Text>
+            <Text style={[DesignSystem.title3SB, DesignSystem.grey14]}>{userName}</Text>
+          </View>
+          <View style={[styles.missionBox]}>
+            <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>
+              <Text style={[DesignSystem.body1Lt, {color: 'black'}]}>결제시 </Text>
+              <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
+          </View>
+          <View style={[styles.missionTwoButton]}>
+            <TouchableOpacity style={[styles.missionButtonDeny, {width: buttonWidth}]} onPress={handleDeny}>
+              <View >
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>거절</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handleAccept}>
+              <View>
+                <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>수락</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  seperateWrap: {
+    marginHorizontal: 16,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  seperateLine: {
+    height: 1,
+    backgroundColor: '#DFDFDF',
+  },
   missionCardWrap: {
     marginLeft: 16,
     marginRight: 16,

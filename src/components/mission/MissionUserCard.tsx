@@ -9,14 +9,14 @@ import {calHeight} from '../../assets/CalculateLength';
 import {IMission} from '../../data/IMissions';
 
 //prettier-ignore
-export const MissionUserCard: FC<IMission> = ({date, mission, missionId, point, userId, userName}) => {
+export const MissionUserCard: FC<IMission> = ({mission, missionId, point, startDate, userId, userName}) => {
     //const navigation = useNavigation();
     return (
     <View style={[styles.missionCardWrap]}>
       <View style={[styles.missionCard]}>
         <View style={[styles.missionMain]}>
           <View style={[styles.nameBox]}>
-              <Text style={[DesignSystem.body2Lt, {color: '#558FFF'}]}>{date.slice(11,16)} 미션시작</Text>
+              <Text style={[DesignSystem.body2Lt, {color: '#558FFF'}]}>{startDate.slice(11,16)} 미션시작</Text>
               <Text style={[DesignSystem.title3SB, {color: '#2A2A2A'}]}>{userName}</Text>
               <Text style={[DesignSystem.body2Lt, {color: '#616161', marginBottom: 8}]}>{userId}</Text>
           </View>
