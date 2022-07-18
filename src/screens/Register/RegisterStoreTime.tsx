@@ -2,6 +2,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
+import { customAxios } from '../../api';
 import {RegisterHeader, RegisterNextButton} from '../../components';
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
 import {RegisterStoreImages} from '../../components/Register/RegisterStoreImages';
@@ -14,7 +15,14 @@ type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreTime'>;
 const RegisterStoreTime = ({navigation, route}: Props) => {
   const [registerStoreData, setRegisterStoreData] = useState(route.params.storeData);
   const [storeImages, setStoreImages] = useState<ImageInterface[]>([]);
-
+  const postRegister = async () => {
+    try {
+      const response = await customAxios().post('/api/v1/stores', registerStoreData);
+      console.log('post stores register:', response.data);
+    } catch (error) {
+      console.log('post stores register:', error);
+    }
+  };
   const {
     control,
     handleSubmit,
@@ -32,8 +40,9 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
     });
   };
 
-  const goNext = () => {
-    navigation.navigate('RegisterDone', {status: 1});
+  const goNext = async () => {
+    await postRegister();
+    navigation.navigate('MainNavigator');
   };
   return (
     <>
@@ -87,7 +96,7 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
 
           <RegisterTime setRegisterData={setRegisterStoreData} registerData={registerStoreData} />
         </ScrollView>
-        <RegisterNextButton goNext={goNext} buttonState={2} />
+        <RegisterNextButton goNext={handleSubmit(goNext)} buttonState={2} />
       </SafeAreaView>
     </>
   );

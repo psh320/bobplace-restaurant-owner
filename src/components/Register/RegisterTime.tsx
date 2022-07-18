@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {OperationTime, RegisterStoreInterface} from '../../data';
 import {CheckBoxRectangle} from '../common/CheckBoxRectangle';
 import {OperationTimeModal} from '../../modal';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type RegisterTimeProps = {
   setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
@@ -112,7 +113,10 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
 
   return (
     <View style={[styles.TimeWrap]}>
-      <Text style={[styles.formHeadText]}>운영시간</Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>운영시간</Text>
+        <Text style={{color: '#6C69FF'}}> * </Text>
+      </View>
       <View
         style={{
           width: '100%',

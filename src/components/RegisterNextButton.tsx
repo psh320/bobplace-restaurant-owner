@@ -33,7 +33,7 @@ export const RegisterNextButton: FC<RegisterNextButtonProps> = ({
             buttonState === 0 ? styles.stateDisabledText : styles.stateNextText,
           ]}
         >
-          {buttonState === 2 ? '확인' : '다음'}
+          {buttonState === 2 ? '입점 요청' : '다음'}
         </Text>
       </View>
     </TouchableOpacity>
@@ -49,9 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  stateDisabledButton: {
-    backgroundColor: Colors.grey300,
-  },
+  stateDisabledButton: {backgroundColor: '#E8E8E8'},
   stateNextButton: {backgroundColor: '#2A2A2A'},
   stateFinishButton: {backgroundColor: '#615EFF'},
   buttonText: {

@@ -5,6 +5,7 @@ import {ImageInterface} from '../../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {RenderUploadImage} from '../common/RenderUploadImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { DesignSystem } from '../../assets/DesignSystem';
 
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
@@ -79,11 +80,18 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({
 
   return (
     <View style={[styles.ImageSelectContainer]}>
-      <View style={[styles.flexRow, {alignItems: 'baseline'}]}>
-        <Text style={[styles.formHeadText]}>가게사진</Text>
-        <Text style={[styles.formSubText]}> 1/8</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>가게사진</Text>
+          <Text style={{color: '#6C69FF'}}> * </Text>
+          <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> 1/3</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{color: '#6C69FF'}}>* </Text>
+          <Text style={[DesignSystem.caption1Lt, DesignSystem.grey10]}>필수입력</Text>
+        </View>
       </View>
-      <Text style={[styles.formSubText, {marginBottom: 12}]}>
+      <Text style={[DesignSystem.body2Lt, DesignSystem.grey9, {marginBottom: 12}]}>
         가게를 대표하는 사진을 첨부해주세요!
       </Text>
 

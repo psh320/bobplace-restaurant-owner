@@ -16,8 +16,9 @@ const RegisterDone = ({navigation, route}: Props) => {
   };
 
   const goRegisterStore = () => {
-    console.log('go Register Store!');
-    navigation.navigate('RegisterStore');
+    navigation.navigate('Login'); //입점요청 승낙받을때까지 로그인화면 슝
+    // console.log('go Register Store!');
+    // navigation.navigate('RegisterStore');
   };
 
   const ownerRegister = () => {

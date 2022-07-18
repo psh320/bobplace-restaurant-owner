@@ -17,6 +17,7 @@ import {RegisterStoreType} from '../../components/Register/RegisterStoreType';
 import {RegisterStoreTable} from '../../components/Register/RegisterStoreTable';
 import {RegisterStoreIntro} from '../../components/Register/RegisterStoreIntro';
 import {RegisterStoreAddressDetail} from '../../components/Register/RegisterStoreAddressDetail';
+import { DesignSystem } from '../../assets/DesignSystem';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreInfo'>;
 
@@ -55,8 +56,15 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView style={[styles.flex, styles.formWrap]}>
-          <Text style={[styles.RegisterFormTitle]}>영업정보</Text>
-
+          <View
+            style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline'}}
+          >
+            <Text style={[styles.RegisterFormTitle]}>영업정보</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{color: '#6C69FF'}}>* </Text>
+              <Text style={[DesignSystem.caption1Lt, DesignSystem.grey10]}>필수입력</Text>
+            </View>
+          </View>
           <Controller
             control={control}
             rules={{
