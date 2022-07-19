@@ -1,5 +1,6 @@
 import {atom} from 'recoil';
-import {ImageInterface, RegisterStoreInterface} from '../data';
+import {ImageInterface} from '../data';
+import {RegisterStoreInterface} from '../data/IStore';
 
 export const userToken = atom({
   key: 'userToken',
@@ -99,4 +100,14 @@ export const storeImage = atom<ImageInterface[]>({
 export const menuImage = atom<ImageInterface[]>({
   key: 'menuImage',
   default: [],
+});
+
+export const RCprogressNow = atom({
+  key: 'RCprogressNow',
+  default: true,
+});
+
+export const RCnowWrite = atom({
+  key: 'RCnowWrite',
+  default: true,
 });

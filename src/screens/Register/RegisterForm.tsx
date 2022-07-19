@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RegisterNextButton, RegisterHeader, RegisterName, RegisterGender} from '../../components';
-import {RegisterInterface} from '../../data';
+import {RegisterInterface} from '../../data/IRegister';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../nav';
 import {useForm, Controller} from 'react-hook-form';

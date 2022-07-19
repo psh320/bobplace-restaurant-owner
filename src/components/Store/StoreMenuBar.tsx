@@ -64,12 +64,14 @@ const styles = StyleSheet.create({
   },
   toggleTextOff: {
     fontFamily: 'Pretendard-Light',
-    fontSize: 16,
+    fontSize: 14,
+    lineHeight: 22,
     color: '#949494',
   },
   toggleTextOn: {
     fontFamily: 'Pretendard-SemiBold',
-    fontSize: 16,
+    fontSize: 14,
+    lineHeight: 22,
     color: '#111111',
   },
 });

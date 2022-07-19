@@ -9,7 +9,7 @@ import {StoreTime} from './StoreTime';
 import {storeData} from '../../state';
 import {useRecoilValue} from 'recoil';
 import {ImageSwiper} from '../common/ImageSwiper';
-import { DesignSystem } from '../../assets/DesignSystem';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 const dummyImage: ImageInterface[] = [
   {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},

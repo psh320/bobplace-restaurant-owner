@@ -6,35 +6,12 @@ import {queryKey} from '../../api/queryKey';
 import {NoBobpool} from '../common/NoBobpool';
 import {MyInquiryDetails} from './MyInquiryListDetails';
 import {MyInquiryMakeButton} from './MyInquiryMakeButton';
+import {RCnowWrite} from '../../state';
+import {useRecoilState} from 'recoil';
 
-const dummyMission = [
-  {
-    title: '제목은 미션이 더 많았으면 좋겠어요',
-    body: '본문 미션 더 주세영',
-    date: '2022-12-03T16:01:34.864Z',
-    status: '답변 대기중',
-    inquiryId: 1,
-  },
-  {
-    title: '제목22222222222222222222222222222222',
-    body: '본문 미션 더 주세영',
-    date: '2022-12-03T16:01:34.864Z',
-    status: '답변 대기중',
-    inquiryId: 2,
-  },
-  {
-    title: '제목33',
-    body: '본문 미션 더 주세영',
-    date: '2022-12-03T16:01:34.864Z',
-    status: '답변 대기중',
-    inquiryId: 3,
-  },
-];
-export type goWriteProps = {
-  setNowWrite: any;
-};
+export const MyInquiryList = () => {
+  const [nowWrite, setNowWrite] = useRecoilState(RCnowWrite);
 
-export const MyInquiryList: FC<goWriteProps> = ({setNowWrite}) => {
   const goWrite = () => {
     setNowWrite(true);
   };
@@ -78,4 +55,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-

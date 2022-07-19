@@ -1,11 +1,9 @@
 import React from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Colors} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type MissionCardProps = {
   storeName: string;
@@ -16,26 +14,35 @@ type MissionCardProps = {
   isPresent: boolean;
   navigation: StackNavigationProp<StoreStackParamList, 'StoreMission', undefined>;
 };
+const closeMission = () => {
+  console.log('배포 중지!');
+};
+const reopenMission = () => {
+  console.log('재배포 요청 !!');
+};
 
 //prettier-ignore
 export const MissionCard: FC<MissionCardProps> = ({storeName, storeId, category, mission, point, isPresent, navigation}) => {
     return (
-        <View style={[styles.missionCardWrap]}>
+      <View style={[styles.missionCardWrap]}>
         <TouchableOpacity onPress={() => {navigation.navigate('StoreMissionDetail', {missionId: storeId})}} >
           <View style={[styles.missionCard]}>
-          <View style={[styles.nameBox]}>
-            <Text style={[isPresent ? styles.ongoingText : styles.stoppedText]}>{isPresent ? '배포중' : '배포중지' }</Text>
-            <Text style={[styles.nameText]}>{storeName}</Text>
-            <Text style={[styles.categoryText]}>{category}</Text>
-          </View>
-          <View style={[styles.seperateLine]} />
-          <View>
-            <Text>
-              <Text style={[styles.costText]}>{mission}</Text>
-              <Text style={[styles.normalText]}>의 식사시 </Text>
-              <Text style={[styles.pointText]}>{point}P 적립</Text>
-            </Text>
-          </View>
+            <View style={[styles.nameBox]}>
+              <Text style={[DesignSystem.caption1Lt, {color: isPresent ? '#6C69FF' : '#E24C44'}]}>{isPresent ? '배포중' : '배포중지' }</Text>
+              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{storeName}</Text>
+              <Text style={[DesignSystem.body2Lt, DesignSystem.grey10]}>{category}</Text>
+            </View>
+            <View style={[styles.seperateLine]} />
+            <View>
+              <Text>
+                <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>
+                <Text style={[DesignSystem.body1Lt, {color: 'black'}]}>결제시 </Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
+              </Text>
+            </View>
+            <TouchableOpacity style={[styles.openBtnWrap]} onPress={isPresent? closeMission : reopenMission}>
+              <Text style={[DesignSystem.h3SB, DesignSystem.grey8]}>{isPresent ? '배포 중지 요청' : '재배포 요청' }</Text>
+            </TouchableOpacity>
           </View>
       </TouchableOpacity>
     </View>
@@ -43,37 +50,34 @@ export const MissionCard: FC<MissionCardProps> = ({storeName, storeId, category,
 };
 
 const styles = StyleSheet.create({
-  missionCardWrap: {marginLeft: 16, marginRight: 16},
+  missionCardWrap: {
+    marginLeft: 16,
+    marginRight: 16,
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
+  },
   missionCard: {
-    backgroundColor: Colors.white,
+    backgroundColor: 'white',
     borderRadius: 10,
-    alignItems: 'center', //
+    alignItems: 'center',
     borderColor: '#EFEFEF',
     borderWidth: 1,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     width: '100%',
   },
-  nameBox: {flexDirection: 'column', justifyContent: 'center', alignItems: 'center'},
+  nameBox: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
 
   seperateLine: {
     borderWidth: 0.5,
     width: '100%',
     borderColor: '#DFDFDF',
-    marginBottom: 16,
-  },
-  ongoingText: {
-    fontFamily: 'Pretendard-Medium',
-    color: '#6C69FF',
-    fontSize: 12,
-    lineHeight: 20,
-    marginBottom: 4,
-  },
-  stoppedText: {
-    fontFamily: 'Pretendard-Medium',
-    color: '#ff6969',
-    fontSize: 12,
-    lineHeight: 20,
-    marginBottom: 4,
+    marginBottom: 10,
   },
   nameText: {
     fontFamily: 'Pretendard-Medium',
@@ -117,5 +121,14 @@ const styles = StyleSheet.create({
     alignItems: 'baseline',
     justifyContent: 'center',
   },
-  hidden: {opacity: 0},
+  openBtnWrap: {
+    marginTop: 10,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C8C8C8',
+  },
 });

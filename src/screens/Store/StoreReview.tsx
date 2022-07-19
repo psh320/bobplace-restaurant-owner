@@ -145,8 +145,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },

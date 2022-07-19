@@ -1,29 +1,59 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, Switch, SafeAreaView} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MyStackParamList} from '../../nav/MyNavigator';
 import {MyHeader} from '../../components/My/MyHeader';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {calHeight} from '../../assets/CalculateLength';
+import {useMutation, useQuery} from 'react-query';
+import {queryKey} from '../../api/queryKey';
+import {getNotifications, patchNotifications} from '../../api/my';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = NativeStackScreenProps<MyStackParamList, 'MyNotificationsSetting'>;
 
 export const MyNotificationsSetting = ({navigation}: Props) => {
-  const goBack = () => {
-    navigation.goBack();
-  };
   const [onRequestSuccess, setOnRequestSuccess] = useState(false);
   const [onNewReview, setOnNewReview] = useState(false);
   const [onReplyInquiry, setOnReplyInquiry] = useState(false);
-  const [onNewEvent, setOnNewEvent] = useState(false);
+  // const [onNewEvent, setOnNewEvent] = useState(false); //새로운 이벤트
+  const DataNotifications = useQuery(queryKey.NOTIFICATIONS, getNotifications);
+  // console.log('nononti', DataNotifications.data);
+  useEffect(() => {
+    if (DataNotifications.data !== undefined) {
+      setOnRequestSuccess(DataNotifications.data.request);//성공요청 키값뭐냐
+      setOnNewReview(DataNotifications.data.review);
+      setOnReplyInquiry(DataNotifications.data.question);//문의내역답변
+    }
+  }, [DataNotifications.data]);
 
+  const notificationsMutation = useMutation(
+    (data: {request: boolean; review: boolean; question: boolean}) => patchNotifications(data),
+    {
+      onSuccess(data) {
+        console.log('알림설정 patch 성공', data);
+      },
+    },
+  );
+  const submitReview = async () => {
+    await notificationsMutation.mutate({
+      request: onRequestSuccess,
+      review: onNewReview,
+      question: onReplyInquiry,
+    });
+  };
+  const goBack = () => {
+    navigation.goBack();
+    submitReview();
+  };
   return (
     <>
       <SafeAreaView style={{flex:0, backgroundColor: '#FFFFFF'}} />
-      <SafeAreaView style={[styles.flex, {backgroundColor: '#F8F8F8'}]}>
+      <SafeAreaView style={[styles.flex, {backgroundColor: '#F7F7F7'}]}>
         <MyHeader goBack={goBack} title={'알림 설정'} />
+        <View style={{height: 1, backgroundColor: '#EFEFEF'}} />
         <View style={[styles.eachNotifications]}>
-          <Text style={[styles.eachNotiText]}>미션 성공 요청</Text>
+          <Text style={[styles.eachNotiText, DesignSystem.body1Lt]}>미션 성공 요청</Text>
           <Switch
             value={onRequestSuccess}
             trackColor={{false: '#DFDFDF', true: '#6C69FF'}}
@@ -33,7 +63,7 @@ export const MyNotificationsSetting = ({navigation}: Props) => {
           />
         </View>
         <View style={[styles.eachNotifications]}>
-          <Text style={[styles.eachNotiText]}>새로운 리뷰</Text>
+          <Text style={[styles.eachNotiText, DesignSystem.body1Lt]}>새로운 리뷰</Text>
           <Switch
             value={onNewReview}
             trackColor={{false: '#DFDFDF', true: '#6C69FF'}}
@@ -43,7 +73,7 @@ export const MyNotificationsSetting = ({navigation}: Props) => {
           />
         </View>
         <View style={[styles.eachNotifications]}>
-          <Text style={[styles.eachNotiText]}>문의 내역 답변</Text>
+          <Text style={[styles.eachNotiText, DesignSystem.body1Lt]}>문의 내역 답변</Text>
           <Switch
             value={onReplyInquiry}
             trackColor={{false: '#DFDFDF', true: '#6C69FF'}}
@@ -52,8 +82,9 @@ export const MyNotificationsSetting = ({navigation}: Props) => {
             style={{marginRight: 16}}
           />
         </View>
-        <View style={[styles.eachNotifications]}>
-          <Text style={[styles.eachNotiText]}>새로운 이벤트</Text>
+        {/* 나중에 추가할 스위치 - 승민 */}
+        {/* <View style={[styles.eachNotifications]}>
+          <Text style={[styles.eachNotiText, DesignSystem.body1Lt]}>새로운 이벤트</Text>
           <Switch
             value={onNewEvent}
             trackColor={{false: '#DFDFDF', true: '#6C69FF'}}
@@ -61,7 +92,7 @@ export const MyNotificationsSetting = ({navigation}: Props) => {
             onValueChange={() => setOnNewEvent(!onNewEvent)}
             style={{marginRight: 16}}
           />
-        </View>
+        </View> */}
       </SafeAreaView>
     </>
   );
@@ -79,8 +110,5 @@ const styles = StyleSheet.create({
   eachNotiText: {
     marginLeft: 21.87,
     color: '#000000',
-    fontFamily: 'Pretendard-Light',
-    lineHeight: 24,
-    fontSize: 16,
   },
 });

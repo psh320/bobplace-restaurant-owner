@@ -11,6 +11,7 @@ import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MissionCard} from '../../components/mission/MissionCard';
 import {MissionStopModal} from '../../modal/MissionStopModal';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
@@ -60,7 +61,7 @@ const StoreMission = ({navigation}: Props) => {
       <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
       <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
-          <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
+          <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
@@ -76,7 +77,7 @@ const StoreMission = ({navigation}: Props) => {
         </View>
 
         <FlatList
-          contentContainerStyle={{backgroundColor: '#F8F8F8', marginTop: 12}}
+          contentContainerStyle={{backgroundColor: '#F8F8F8'}}
           scrollEventThrottle={10}
           data={dummyMission}
           renderItem={({item}) => (
@@ -99,11 +100,10 @@ const StoreMission = ({navigation}: Props) => {
               style={[styles.missionStopButtonWrap]}
             >
               <View>
-                <Text style={[styles.missionStopText]}>미션 중지 요청</Text>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>전체 배포 중지 요청</Text>
               </View>
             </TouchableOpacity>
           )}
-          ListFooterComponentStyle={styles.missionStopButtonContainer}
         />
         <MissionStopModal
           visible={missionStopModal}
@@ -119,7 +119,7 @@ const StoreMission = ({navigation}: Props) => {
 export default StoreMission;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#F6F6FA'},
+  flex: {flex: 1, backgroundColor: '#F8F8F8'},
   screenHeaderWrap: {
     height: 50,
     backgroundColor: '#FFFFFF',
@@ -128,8 +128,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
@@ -143,21 +141,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
+    marginBottom: 16,
   },
   missionSeperate: {
-    marginTop: 16,
-  },
-  screenHeaderTitle: {
-    fontSize: 16,
-    fontFamily: 'Pretendard-Regular',
-    fontWeight: '600',
-    lineHeight: 24,
-  },
-  missionStopText: {
-    fontSize: 14,
-    lineHeight: 22,
-    fontFamily: 'Pretendard-SemiBold',
-    color: '#C8C8C8',
+    marginTop: 10,
   },
   missionStatText: {
     fontSize: 16,
@@ -171,18 +158,8 @@ const styles = StyleSheet.create({
   },
   missionStopButtonWrap: {
     width: '100%',
-    height: 40,
+    marginVertical: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    borderColor: '#C8C8C8',
-    borderWidth: 1,
-  },
-  missionStopButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 12,
-    marginLeft: 16,
-    marginRight: 16,
   },
 });

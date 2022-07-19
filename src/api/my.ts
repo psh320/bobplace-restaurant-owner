@@ -6,21 +6,17 @@ import {customAxios} from './customAxios';
 //   return data.result;
 // };
 
-// // 마이페이지 - 알림 설정 조회
-// export const getNotifications = async () => {
-//   const response = await customAxios().get('/api/v1/users/me/notification');
-//   return response.data.result;
-// };
-
-// //마이페이지 - 알림 설정 수정
-// export const patchNotifications = async (data: {
-//   event: boolean;
-//   review: boolean;
-//   question: boolean;
-// }) => {
-//   const response = await customAxios().patch('/api/v1/users/me/notification', data);
-//   return response.data;
-// };
+//알림
+export const getNotifications = async () => {
+  const response = await customAxios().get(`/api/v1/push-notifications/me`);
+  return response.data.result;
+};
+//알림 확인
+export const patchNotificationsStatus = async (notiId: number) => {
+  const response = await customAxios().patch(`/api/v1/push-notifications/me/${notiId}`);
+  console.log('sdsd', response.data);
+  return response.data.message;
+};
 
 //문의하기
 export const postQuestions = async (data: {content: string; title: string}) => {
