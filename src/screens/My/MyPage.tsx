@@ -4,6 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MyUser} from '../../components/My/MyUser';
 import {useNavigation} from '@react-navigation/native';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {queryKey} from '../../api/queryKey';
+import {useQuery} from 'react-query';
+import {IgetUsersMe} from '../../data/IUser';
+import {getUserInfo} from '../../api/user';
 
 const MyPage = () => {
   const navigation = useNavigation();
@@ -19,12 +23,8 @@ const MyPage = () => {
     storeData('');
   };
   console.log(AsyncStorage.getItem('userToken'));
-
-  // 서버연결 후 수정
-  const name = '밥풀이';
-  const email = 'bobPlace@bob.com';
-  const point = 2500;
-  const [authentication, setAuthentication] = useState<boolean>(false);
+  const {data, isError, refetch, isLoading} = useQuery<IgetUsersMe>(queryKey.USERINFO, getUserInfo);
+  // console.log('유저정보', data);// {"authentication": false, "email": "yejin9487@daum.net", "name": "23", "point": 0, "userId": 307}
 
   return (
     <>
@@ -33,7 +33,11 @@ const MyPage = () => {
         <View style={[styles.headerWrap]}>
           <Text style={[styles.headerText, DesignSystem.h2SB]}>마이페이지</Text>
         </View>
-        <MyUser authentication={authentication} email={email} name={name} point={point} />
+        {data !== undefined ? (
+          <MyUser email={data.email} name={data.name} />
+        ) : (
+          <MyUser email={''} name={''} />
+        )}
         <TouchableOpacity onPress={() => navigation.navigate('MyNotificationsSetting')}>
           <View style={[styles.myMenuWrap]}>
             <Text style={[styles.userMenu]}>알림 설정</Text>
