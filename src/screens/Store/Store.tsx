@@ -4,7 +4,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StoreInfo} from '../../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
-import {storeData} from '../../state';
+import {storeData, storeGetData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {RegisterStoreInterface} from '../../data/IStore';
 import {DesignSystem} from '../../assets/DesignSystem';
@@ -89,7 +89,7 @@ const dummyStore: RegisterStoreInterface = {
 };
 
 const Store = () => {
-  const [store, setStore] = useRecoilState(storeData);
+  const [store, setStore] = useRecoilState(storeGetData);
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo, {
@@ -97,13 +97,13 @@ const Store = () => {
       setStore(data);
     },//쿼리요청 성공하면 리턴받은값으로 리코일 갱신 ..하고싶
   });
-  console.log('datasroeInfo query', DataStoreInfo);
+  console.log('datasroeInfo query', DataStoreInfo.data);
   console.log('고럼 stroe', store);
-  useEffect(() => {
-    //가게 정보 get을 통해서 1회 받고 리코일에 저장하기
-    //axios 어쩌구
-    setStore(dummyStore); //쿼리요청되고 리코일 갱신되면 이 useEffect지워도 될듯
-  }, [setStore]);
+  // useEffect(() => {
+  //   //가게 정보 get을 통해서 1회 받고 리코일에 저장하기
+  //   //axios 어쩌구
+  //   setStore(dummyStore); //쿼리요청되고 리코일 갱신되면 이 useEffect지워도 될듯
+  // }, [setStore]);
 
   return (
     <>

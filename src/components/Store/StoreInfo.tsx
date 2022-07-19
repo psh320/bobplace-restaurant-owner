@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import {ImageInterface, RegisterStoreInterface} from '../../data';
 import {RenderImageList} from '../common/RenderImageList';
 import {StoreTime} from './StoreTime';
-import {storeData} from '../../state';
+import {storeGetData} from '../../state';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {ImageSwiper} from '../common/ImageSwiper';
 import {DesignSystem} from '../../assets/DesignSystem';
@@ -23,7 +23,7 @@ const dummyImage: ImageInterface[] = [
 const STORETYPE = ['한식당', '일식당', '중식당', '양식당', '치킨집', '분식집', '고기/구이', '도시락', '야식(족발,보쌈)', '패스트푸드', '디저트/카페', '아시안푸드'];
 
 export const StoreInfo = () => {
-  const store = useRecoilValue(storeData); //쿼리?
+  const store = useRecoilValue(storeGetData); //쿼리?
   // const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo);
   // const [RCstoreInfo, setRCstoreInfo] = useRecoilState<RegisterStoreInterface>(DataStoreInfo.data);
   // console.log('datasroeInfo query', DataStoreInfo);
@@ -86,7 +86,7 @@ export const StoreInfo = () => {
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>운영시간</Text>
-          <StoreTime operationData={store.operationTimeVO} />
+          <StoreTime operationData={store.operationTimeRes} />
         </View>
       </View>
     </ScrollView>

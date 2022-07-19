@@ -7,6 +7,7 @@ export type OperationTime = {
   endTime: string;
   hasBreak: boolean;
   hasOperationiTime: boolean;
+  operationTimeId?: number;
   startTime: string;
 };
 
@@ -17,6 +18,19 @@ export type RegisterStoreInterface = {
   addressStreet: string;
   intro: string;
   operationTimeVO: OperationTime[];
+  representativeMenuName: string;
+  storeName: string;
+  storeTypeId: number;
+  tableNum: number;
+  x: number;
+  y: number;
+};
+export type RegisterStoreGetInterface = {
+  addressDetail: string;
+  addressDong: string;
+  addressStreet: string;
+  intro: string;
+  operationTimeRes: OperationTime[];
   representativeMenuName: string;
   storeName: string;
   storeTypeId: number;

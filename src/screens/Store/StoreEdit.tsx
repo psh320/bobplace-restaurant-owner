@@ -16,7 +16,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {useForm, Controller} from 'react-hook-form';
 import {ImageInterface, RegisterStoreInterface} from '../../data';
-import {storeData} from '../../state';
+import {storeGetData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {ImageSwiper} from '../../components/common/ImageSwiper';
 import {ImageSwiperModal} from '../../modal/ImageSwiperModal';
@@ -26,19 +26,19 @@ import {
   RegisterStoreTable,
   RegisterStoreType,
 } from '../../components';
-import {RegisterStoreDescription} from '../../components/Register/RegisterStoreDescription';
-import {RegisterStoreMenuName} from '../../components/Register/RegisterStoreMenuName';
 import {RegisterTime} from '../../components/Register/RegisterTime';
-import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages';
+import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages'; //주석 중
+import {RegisterStoreIntro} from '../../components/Register/RegisterStoreIntro';
+import {RegisterStoreAddressDetail} from '../../components/Register/RegisterStoreAddressDetail';
+import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
+import { putStoresMe } from '../../api/store';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 
 const StoreEdit = ({navigation}: Props) => {
-  const [store, setStore] = useRecoilState(storeData);
-  const [storeEditData, setStoreEditData] = useState(store);
-  const [imageSwiperModal, setImageSwiperModal] = useState(false);
+  const [store, setStore] = useRecoilState(storeGetData);
+  const [imageSwiperModal, setImageSwiperModal] = useState(false);//수정전 주석중
   const insets = useSafeAreaInsets();
-  console.log('수정한 스토어 시간 데이터', storeEditData.operationTimeVO);
   const {
     control,
     handleSubmit,
@@ -46,20 +46,36 @@ const StoreEdit = ({navigation}: Props) => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
+      addressDetail: store.addressDetail,
+      addressDong: store.addressDong,
+      addressStreet: store.addressStreet,
+      intro: store.intro,
+      operationTimeRes: store.operationTimeRes,
+      representativeMenuName: store.representativeMenuName,
       storeName: store.storeName,
       storeTypeId: store.storeTypeId,
       tableNum: store.tableNum,
-      address: store.addressStreet,
-      representativeMenuName: store.representativeMenuName,
-      description: store.description,
-      menuImages: store.menuImage.length,
+      x: store.x,
+      y: store.y,
     },
   });
 
   const onSubmit = () => {
-    setStore(storeEditData);
-    //patch store to server
+    //patch store to server--------------!!!!!!!!!!!!!!!!!!!!!!!
+    putStoresMe(
+      store.addressDetail,
+      store.addressDong,
+      store.addressStreet,
+      store.intro,
+      store.representativeMenuName,
+      store.storeName,
+      store.storeTypeId,
+      store.tableNum,
+      store.x,
+      store.y,
+    );
     navigation.goBack();
+    console.log('저장!!');
   };
 
   return (
@@ -84,7 +100,8 @@ const StoreEdit = ({navigation}: Props) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-          <View>
+          {/* 이미지 이거 아직 수정 안해서 꺼놓음 */}
+          {/* <View>
             <ImageSwiperModal
               visible={imageSwiperModal}
               closeImageSwiperModal={() => setImageSwiperModal(false)}
@@ -100,7 +117,7 @@ const StoreEdit = ({navigation}: Props) => {
                 <Icon name="pencil" size={18} color="#323232" />
               </View>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <View style={[styles.storeInfoWrap]}>
             <Controller
               control={control}
@@ -110,8 +127,6 @@ const StoreEdit = ({navigation}: Props) => {
               render={({field: {onChange, value}}) => {
                 return (
                   <RegisterStoreName
-                    registerData={storeEditData}
-                    setRegisterData={setStoreEditData}
                     onChange={onChange}
                     value={value}
                     error={errors.storeName !== undefined}
@@ -127,24 +142,13 @@ const StoreEdit = ({navigation}: Props) => {
             <Controller
               control={control}
               rules={{
-                required: true,
+                required: false,
               }}
               render={({field: {onChange, value}}) => {
-                return (
-                  <RegisterStoreDescription
-                    registerData={storeEditData}
-                    setRegisterData={setStoreEditData}
-                    onChange={onChange}
-                    value={value}
-                    error={errors.description !== undefined}
-                  />
-                );
+                return <RegisterStoreIntro onChange={onChange} value={value} error={false} />;
               }}
-              name="description"
+              name="intro"
             />
-            {errors.description?.type === 'required' && (
-              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-            )}
 
             <Controller
               control={control}
@@ -154,18 +158,41 @@ const StoreEdit = ({navigation}: Props) => {
               render={({field: {onChange, value}}) => {
                 return (
                   <RegisterAddress
-                    registerData={storeEditData}
-                    setRegisterData={setStoreEditData}
                     onChange={onChange}
                     value={value}
-                    error={errors.address !== undefined}
+                    error={errors.addressStreet !== undefined}
                   />
                 );
               }}
-              name="address"
+              name="addressStreet"
             />
-            {errors.address?.type === 'required' && (
+            {errors.addressStreet?.type === 'required' && (
               <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+
+            {/* 상세주소 */}
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <>
+                    <RegisterStoreAddressDetail
+                      onChange={onChange}
+                      value={value}
+                      error={errors.addressDetail !== undefined}
+                    />
+                  </>
+                );
+              }}
+              name="addressDetail"
+            />
+            {errors.addressDetail?.type === 'required' ? (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            ) : (
+              <View style={{height: 20}} />
             )}
 
             <Controller
@@ -176,8 +203,6 @@ const StoreEdit = ({navigation}: Props) => {
               render={({field: {onChange, value}}) => {
                 return (
                   <RegisterStoreType
-                    registerData={storeEditData}
-                    setRegisterData={setStoreEditData}
                     onChange={onChange}
                     value={value}
                     error={errors.storeTypeId !== undefined}
@@ -198,8 +223,6 @@ const StoreEdit = ({navigation}: Props) => {
               render={({field: {onChange, value}}) => {
                 return (
                   <RegisterStoreTable
-                    registerData={storeEditData}
-                    setRegisterData={setStoreEditData}
                     onChange={onChange}
                     value={value}
                     error={errors.tableNum !== undefined}
@@ -219,9 +242,7 @@ const StoreEdit = ({navigation}: Props) => {
               }}
               render={({field: {onChange, value}}) => {
                 return (
-                  <RegisterStoreMenuName
-                    registerData={storeEditData}
-                    setRegisterData={setStoreEditData}
+                  <RegisterMenuName
                     onChange={onChange}
                     value={value}
                     error={errors.representativeMenuName !== undefined}
@@ -234,7 +255,8 @@ const StoreEdit = ({navigation}: Props) => {
               <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
             )}
 
-            <Controller
+            {/* 메뉴이미지 */}
+            {/* <Controller
               control={control}
               rules={{
                 min: 1,
@@ -253,9 +275,9 @@ const StoreEdit = ({navigation}: Props) => {
             />
             {errors.menuImages?.type === 'min' && (
               <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-            )}
+            )} */}
 
-            <RegisterTime setRegisterData={setStoreEditData} registerData={storeEditData} />
+            <RegisterTime get={1} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
