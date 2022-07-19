@@ -9,6 +9,8 @@ import {queryKey} from '../api/queryKey';
 import {useRecoilState} from 'recoil';
 import {RCprogressNow} from '../state';
 import {patchNotificationsStatus} from '../api/my';
+import {MissionStackParamList} from '../nav/MissionNavigator';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type NotificationCardProps = {
   pushType: string; //미션알림1인지 리뷰남기란 알림0인지
@@ -19,12 +21,13 @@ export type NotificationCardProps = {
   date: string;
   checked: boolean;
   id: number;
+  navigation: NativeStackNavigationProp<MissionStackParamList, 'Notifications', undefined>;
 };
 
 //prettier-ignore
-export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, storeName, storeId, missionId, mission, date, checked, checkedNoti}) => {
+export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, storeName, storeId, missionId, mission, date, checked, checkedNoti, navigation}) => {
   const queryClient = useQueryClient();
-  const navigation = useNavigation();
+
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const missionSuccessRequestMutation = useMutation(
     (notiId: number) => patchNotificationsStatus(notiId),
@@ -67,7 +70,8 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
           // navigation.navigate('StoreNavigator'); ////////////////////////
-          navigation.navigate('StoreNavigator', { screen: 'storeReview' });
+          navigation.pop();
+          navigation.navigate('StoreNavigator', { screen: 'StoreReview' });
           missionSuccessRequestMutation.mutate(id);
         }}
       >

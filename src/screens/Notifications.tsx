@@ -116,6 +116,7 @@ export const Notifications = ({navigation}: Props) => {
                 date={item.date}
                 checked={item.checked}
                 id={item.id}
+                navigation={navigation}
               />
             )}
             ItemSeparatorComponent={() => <View style={{marginTop: 8}} />}

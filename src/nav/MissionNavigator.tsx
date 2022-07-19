@@ -10,8 +10,6 @@ export type MissionStackParamList = {
   Main: undefined;
   Notifications: undefined;
   Mission: {missionId: number};
-  StoreReview: undefined;
-  StoreNavigator: undefined;
 };
 
 const Stack = createStackNavigator<MissionStackParamList>();
@@ -29,7 +27,6 @@ export const MissionNavigator = ({navigation, route}) => {
     <Stack.Navigator initialRouteName="Mission" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Mission" component={Mission} />
       <Stack.Screen name="Notifications" component={Notifications} />
-      <Stack.Screen name="StoreNavigator" component={StoreNavigator} />
     </Stack.Navigator>
   );
 };
