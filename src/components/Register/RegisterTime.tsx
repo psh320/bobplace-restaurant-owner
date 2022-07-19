@@ -9,7 +9,7 @@ import {useRecoilState} from 'recoil';
 import {storeData, storeGetData} from '../../state';
 
 type RegisterTimeProps = {
-  get?: number;
+  get?: number; //1이면 가게관리에서 수정하는거. 처음registser할땐 값 안넘김
 };
 
 const MapIndexToDay = ['월', '화', '수', '목', '금', '토', '일'];
@@ -106,7 +106,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
     return (
       <>
         {RCstoreGetData.operationTimeRes.map((item, index) => {
-          if (item.hasOperationiTime) {
+          if (!item.hasOperationiTime) {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
                 <View style={[styles.checkboxWrap]}>
@@ -193,13 +193,23 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
           <Text>브레이크 타임</Text>
         </View>
       </View>
+      {/* {renderedTimeTable()} */}
       {get === 1 ? renderedTimeTableGet() : renderedTimeTable()}
-      <OperationTimeModal
-        visible={operationTimeModal}
-        closeOperationTimeModal={() => setOperationTimeModal(false)}
-        index={dayIndex}
-        item={RCstoreGetData.operationTimeRes[dayIndex]}
-      />
+      {get === 1 ? (
+        <OperationTimeModal
+          visible={operationTimeModal}
+          closeOperationTimeModal={() => setOperationTimeModal(false)}
+          index={dayIndex}
+          item={RCstoreGetData.operationTimeRes[dayIndex]}
+        />
+      ) : (
+        <OperationTimeModal
+          visible={operationTimeModal}
+          closeOperationTimeModal={() => setOperationTimeModal(false)}
+          index={dayIndex}
+          item={RCstoreData.operationTimeVO[dayIndex]}
+        />
+      )}
     </View>
   );
 };

@@ -48,7 +48,7 @@ export const MainNavigator = () => {
       <Tab.Screen
         name="StoreNavigator"
         component={StoreNavigator}
-        options={{tabBarLabel: '점포관리'}}
+        options={{tabBarLabel: '가게관리'}}
       />
       <Tab.Screen
         name="MyNavigator"

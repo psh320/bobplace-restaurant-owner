@@ -39,8 +39,8 @@ export const RegisterMenuName: FC<RegisterMenuNameProps> = ({onChange, value, er
         ]}
         onChangeText={(text) => {
           onChange(text);
-          setRCstoreData({...RCstoreData, storeName: text});
-          setRCstoreGetData({...RCstoreGetData, storeName: text});
+          setRCstoreData({...RCstoreData, representativeMenuName: text});
+          setRCstoreGetData({...RCstoreGetData, representativeMenuName: text});
         }}
         value={value}
         placeholder="대표메뉴 이름 입력"

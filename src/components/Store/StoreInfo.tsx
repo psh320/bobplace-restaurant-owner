@@ -24,6 +24,7 @@ const STORETYPE = ['한식당', '일식당', '중식당', '양식당', '치킨�
 
 export const StoreInfo = () => {
   const store = useRecoilValue(storeGetData); //쿼리?
+  console.log('storeInfo에서 store', store);
   // const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo);
   // const [RCstoreInfo, setRCstoreInfo] = useRecoilState<RegisterStoreInterface>(DataStoreInfo.data);
   // console.log('datasroeInfo query', DataStoreInfo);
@@ -65,7 +66,9 @@ export const StoreInfo = () => {
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>테이블 수</Text>
           <View style={[styles.fieldBox]}>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>{store.tableNum}</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>
+              {store.tableNum === 0 ? '0~2개' : '3개 이상'}
+            </Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>

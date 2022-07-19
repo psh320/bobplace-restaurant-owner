@@ -98,7 +98,6 @@ const Store = () => {
     },//쿼리요청 성공하면 리턴받은값으로 리코일 갱신 ..하고싶
   });
   console.log('datasroeInfo query', DataStoreInfo.data);
-  console.log('고럼 stroe', store);
   // useEffect(() => {
   //   //가게 정보 get을 통해서 1회 받고 리코일에 저장하기
   //   //axios 어쩌구
