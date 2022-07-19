@@ -1,7 +1,6 @@
 import React from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Colors} from 'react-native-paper';
 
 export type RegisterNextButtonProps = {
   goNext: () => void;
@@ -33,7 +32,7 @@ export const RegisterNextButton: FC<RegisterNextButtonProps> = ({
             buttonState === 0 ? styles.stateDisabledText : styles.stateNextText,
           ]}
         >
-          {buttonState === 2 ? '확인' : '다음'}
+          {buttonState === 2 ? '확인' : buttonState === 3 ? '입점 요청' : '다음'}
         </Text>
       </View>
     </TouchableOpacity>
@@ -49,9 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  stateDisabledButton: {
-    backgroundColor: Colors.grey300,
-  },
+  stateDisabledButton: {backgroundColor: '#E8E8E8'},
   stateNextButton: {backgroundColor: '#2A2A2A'},
   stateFinishButton: {backgroundColor: '#615EFF'},
   buttonText: {
@@ -59,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   stateDisabledText: {
-    color: Colors.grey500,
+    color: '#C8C8C8',
   },
   stateNextText: {
     color: '#FFFFFF',

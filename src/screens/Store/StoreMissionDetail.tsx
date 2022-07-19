@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StoreStackParamList} from '../nav/StoreNavigator';
+import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MissionDetailCard} from '../components/mission/MissionDetailCard';
+import {MissionDetailCard} from '../../components/mission/MissionDetailCard';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionDetail'>;
 

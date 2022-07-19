@@ -6,6 +6,7 @@ import {useRecoilValue} from 'recoil';
 import {address} from '../../state';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RegisterStoreInterface} from '../../data';
+import {DesignSystem} from '../../assets/DesignSystem';
 type RegisterAddressProps = {
   setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
   registerData: RegisterStoreInterface;
@@ -43,7 +44,12 @@ export const RegisterAddress: FC<RegisterAddressProps> = ({
         closeAddressModal={() => setAddressModal(false)}
         onChange={onChange}
       />
-      <Text style={[styles.formHeadText]}>주소</Text>
+      <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+        <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>가게 주소</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{color: '#6C69FF'}}> * </Text>
+        </View>
+      </View>
       <TouchableOpacity onPress={() => setAddressModal(true)}>
         <View
           style={[
@@ -53,7 +59,7 @@ export const RegisterAddress: FC<RegisterAddressProps> = ({
           ]}
         >
           <Text style={[value === '' && styles.placeholder]}>
-            {value === '' ? '주소 찾기' : value}
+            {value === '' ? '주소 선택' : value}
           </Text>
           <Icon name="chevron-down" size={24} />
         </View>
@@ -63,7 +69,7 @@ export const RegisterAddress: FC<RegisterAddressProps> = ({
 };
 
 const styles = StyleSheet.create({
-  addressWrap: {marginTop: 40},
+  addressWrap: {marginTop: 0},
   formHeadText: {
     fontSize: 18,
     fontWeight: '600',

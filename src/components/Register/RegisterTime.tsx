@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {OperationTime, RegisterStoreInterface} from '../../data';
 import {CheckBoxRectangle} from '../common/CheckBoxRectangle';
 import {OperationTimeModal} from '../../modal';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type RegisterTimeProps = {
   setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
@@ -30,13 +31,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
           if (item.isOpen) {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
-                <View
-                  style={{
-                    flex: 0.22,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
+                <View style={[styles.checkboxWrap]}>
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
                     onPress={() => {
@@ -80,13 +75,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
           } else {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#F5F5F5'}]} key={index}>
-                <View
-                  style={{
-                    flex: 0.22,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
+                <View style={[styles.checkboxWrap]}>
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
                     onPress={() => {
@@ -112,15 +101,11 @@ export const RegisterTime: FC<RegisterTimeProps> = ({setRegisterData, registerDa
 
   return (
     <View style={[styles.TimeWrap]}>
-      <Text style={[styles.formHeadText]}>운영시간</Text>
-      <View
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          borderBottomColor: '#DFDFDF',
-          borderBottomWidth: 1,
-        }}
-      >
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>운영시간</Text>
+        <Text style={{color: '#6C69FF'}}> * </Text>
+      </View>
+      <View style={[styles.columnWrap]}>
         <View style={{flex: 0.22, height: 30, alignItems: 'center', justifyContent: 'center'}}>
           <Text>영업일</Text>
         </View>
@@ -162,5 +147,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5F5F5',
+  },
+  checkboxWrap: {
+    flex: 0.22,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  columnWrap: {
+    width: '100%',
+    flexDirection: 'row',
+    borderBottomColor: '#DFDFDF',
+    borderBottomWidth: 1,
   },
 });

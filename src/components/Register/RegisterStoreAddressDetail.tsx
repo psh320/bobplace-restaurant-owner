@@ -4,7 +4,7 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {RegisterStoreInterface} from '../../data';
 import {DesignSystem} from '../../assets/DesignSystem';
 
-type RegisterStoreNameProps = {
+type RegisterStoreAddressDetailProps = {
   setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
   registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
@@ -12,49 +12,42 @@ type RegisterStoreNameProps = {
   error: boolean;
 };
 
-export const RegisterStoreName: FC<RegisterStoreNameProps> = ({
+export const RegisterStoreAddressDetail: FC<RegisterStoreAddressDetailProps> = ({
   setRegisterData,
   registerData,
   onChange,
   value,
   error,
 }) => {
-  const [focusedName, setFocusedName] = useState(false);
+  const [focusedDetail, setFocusedDetail] = useState(false);
   return (
-    <View style={[styles.addressWrap]}>
-      <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-        <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>상호명</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={{color: '#6C69FF'}}> * </Text>
-        </View>
-      </View>
+    <View>
       <TextInput
         style={[
           styles.nameInput,
-          error && focusedName
+          error && focusedDetail
             ? styles.errorBorderFocus
-            : error && !focusedName
+            : error && !focusedDetail
             ? styles.errorBorderNoFocus
-            : focusedName
+            : focusedDetail
             ? styles.focusBorder
             : styles.unfocusBorder,
         ]}
         onChangeText={(text) => {
           onChange(text);
-          setRegisterData({...registerData, storeName: text});
+          setRegisterData({...registerData, addressDetail: text});
         }}
         value={value}
-        placeholder="상호명 입력"
+        placeholder="상세주소 입력"
         selectionColor={'#6C69FF'}
-        onBlur={() => setFocusedName(false)}
-        onFocus={() => setFocusedName(true)}
+        onBlur={() => setFocusedDetail(false)}
+        onFocus={() => setFocusedDetail(true)}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  addressWrap: {marginTop: 20},
   nameInput: {
     width: '100%',
     height: 44,

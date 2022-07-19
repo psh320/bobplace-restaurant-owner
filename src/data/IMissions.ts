@@ -1,3 +1,27 @@
+export type IMissionDtoType = {
+  mission: string;
+  missionId: number;
+  point: number;
+  startDate: string;
+  userId: number;
+  userName: string;
+};
+//미션탭 진행중
+export type IMissionProgressType = {
+  missionOnProgressCount: number;
+  ownerMissionDto: IMissionDtoType[];
+};
+//미션탭 성공요청
+export type IMissionSuccessType = {
+  date: string;
+  dayOfWeek: string;
+  mission: string;
+  missionId: number;
+  point: number;
+  userId: number;
+  userName: string;
+  seperate?: any;
+};
 export type dayofweekType = {
   [index: string]: string;
   MONDAY: string;
@@ -7,19 +31,4 @@ export type dayofweekType = {
   FRIDAY: string;
   SATURDAY: string;
   SUNDAY: string;
-};
-//미션탭 진행중-성공요청 둘다에서 쓰이는 미션카드(타입동일(?))
-export type IMission = {
-  dayOfWeek: string;
-  mission: string;
-  missionId: number;
-  point: number;
-  startDate: string;
-  userId: number;
-  userName: string;
-  seperate?: any;
-};
-export type IMissionProgress = {
-  missionOnProgressCount: number;
-  ownerMissionDto: IMission[];
 };

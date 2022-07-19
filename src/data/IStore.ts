@@ -9,7 +9,7 @@ export type OperationTime = {
   isOpen: boolean;
 };
 
-//가입 post 할때 쓰는 타입
+//가입 post 할때 쓰는 타입 //storeInfo에서 useREcoildVAlue 로도 씀?
 export type RegisterStoreInterface = {
   addressDetail: string;
   addressDong: string;

@@ -1,12 +1,12 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Store from '../screens/Store';
-import StoreEdit from '../screens/StoreEdit';
-import StoreMission from '../screens/StoreMission';
-import StoreReview from '../screens/StoreReview';
-import StoreMissionDetail from '../screens/StoreMissionDetail';
-import StoreMissionPayment from '../screens/StoreMissionPayment';
+import Store from '../screens/Store/Store';
+import StoreEdit from '../screens/Store/StoreEdit';
+import StoreMission from '../screens/Store/StoreMission';
+import StoreReview from '../screens/Store/StoreReview';
+import StoreMissionDetail from '../screens/Store/StoreMissionDetail';
+import StoreMissionPayment from '../screens/Store/StoreMissionPayment';
 
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
