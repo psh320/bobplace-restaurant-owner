@@ -1,16 +1,18 @@
 import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {StoreMenuBar} from '../components/Store/StoreMenuBar';
-import {StoreInfo} from '../components/Store/StoreInfo';
+import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
+import {StoreInfo} from '../../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
-import {storeData} from '../state';
+import {storeData} from '../../state';
 import {useRecoilState} from 'recoil';
-import {RegisterStoreInterface} from '../data';
+import {RegisterStoreInterface} from '../../data';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 const dummyStore: RegisterStoreInterface = {
   addressDong: '강남구',
   addressStreet: '서울특별시 강남구 논현로150길 16',
+  intro: '맛있는 고기집',
   operationTimeVO: [
     {
       breakEndTime: '16:00:00',
@@ -70,11 +72,9 @@ const dummyStore: RegisterStoreInterface = {
     },
   ],
   representativeMenuName: '삼겹살',
-  storeName: '강남고기집 신칠성집',
+  storeName: '강남고기집 신칠성집xx',
   storeTypeId: 6,
   tableNum: 1,
-  x: 133,
-  y: 124,
   storeImage: [
     {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '1.jpg'},
     {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '2.jpg'},
@@ -84,7 +84,6 @@ const dummyStore: RegisterStoreInterface = {
     {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
     {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '2.jpg'},
   ],
-  description: '맛있는 고기집',
 };
 
 const Store = () => {
@@ -102,9 +101,9 @@ const Store = () => {
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
       <SafeAreaView style={[styles.flex, {paddingTop: insets.top}]}>
         <View style={[styles.screenHeaderWrap]}>
-          <Text style={[styles.screenHeaderTitle, {color: 'black'}]}>가게 관리</Text>
+          <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
           <TouchableOpacity onPress={() => navigation.navigate('StoreEdit')}>
-            <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>편집</Text>
+            <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>편집</Text>
           </TouchableOpacity>
         </View>
         <StoreMenuBar
@@ -131,8 +130,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },

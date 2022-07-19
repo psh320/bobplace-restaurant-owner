@@ -21,6 +21,7 @@ export const storeData = atom<RegisterStoreInterface>({
   default: {
     addressDong: '',
     addressStreet: '',
+    intro: '',
     operationTimeVO: [
       {
         breakEndTime: '00:00:00',
@@ -87,7 +88,6 @@ export const storeData = atom<RegisterStoreInterface>({
     y: '0',
     storeImage: [],
     menuImage: [],
-    description: '',
   },
 });
 

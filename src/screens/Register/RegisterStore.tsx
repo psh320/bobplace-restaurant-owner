@@ -33,7 +33,7 @@ const RegisterStore = ({navigation, route}: Props) => {
     await postStoreAuthImages(imageUri);////////////////////////////////////////////////////
     navigation.navigate('RegisterDone', {status: 1});
   };
-
+  console.log(imageUri);
   const showImageLibrary = async () => {
     const result = await launchImageLibrary(options, (response) => {
       if (response.didCancel) {
@@ -50,7 +50,7 @@ const RegisterStore = ({navigation, route}: Props) => {
       };
       setImageUri([...imageUri, data]);
     }
-    console.log(result);
+    console.log('showImageLibrary result', result);
   };
   const removeImage = (imageName: string) => {
     setImageUri((current) =>

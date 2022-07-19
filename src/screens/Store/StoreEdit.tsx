@@ -11,25 +11,25 @@ import {
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StoreMenuBar} from '../components/Store/StoreMenuBar';
+import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StackScreenProps} from '@react-navigation/stack';
-import {StoreStackParamList} from '../nav/StoreNavigator';
+import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {useForm, Controller} from 'react-hook-form';
-import {ImageInterface, RegisterStoreInterface} from '../data';
-import {storeData} from '../state';
+import {ImageInterface, RegisterStoreInterface} from '../../data';
+import {storeData} from '../../state';
 import {useRecoilState} from 'recoil';
-import {ImageSwiper} from '../components/common/ImageSwiper';
-import {ImageSwiperModal} from '../modal/ImageSwiperModal';
+import {ImageSwiper} from '../../components/common/ImageSwiper';
+import {ImageSwiperModal} from '../../modal/ImageSwiperModal';
 import {
   RegisterAddress,
   RegisterStoreName,
   RegisterStoreTable,
   RegisterStoreType,
-} from '../components';
-import {RegisterStoreDescription} from '../components/Register/RegisterStoreDescription';
-import {RegisterStoreMenuName} from '../components/Register/RegisterStoreMenuName';
-import {RegisterTime} from '../components/Register/RegisterTime';
-import {RegisterMenuImages} from '../components/Register/RegisterMenuImages';
+} from '../../components';
+import {RegisterStoreDescription} from '../../components/Register/RegisterStoreDescription';
+import {RegisterStoreMenuName} from '../../components/Register/RegisterStoreMenuName';
+import {RegisterTime} from '../../components/Register/RegisterTime';
+import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 

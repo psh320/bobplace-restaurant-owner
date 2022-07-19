@@ -22,6 +22,7 @@ export const postStoreAuthImages = async (imageList: imageData[]) => {
           name: 'image',
         });
     formdata.append('authImage', photo);
+    console.log('formdata', formdata, photo);
   });
 
   const response = await customAxios().post(
