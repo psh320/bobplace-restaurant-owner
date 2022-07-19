@@ -8,92 +8,101 @@ import {storeData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {RegisterStoreInterface} from '../../data/IStore';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {queryKey} from '../../api/queryKey';
+import {getStoreInfo} from '../../api/store';
+import {useQuery} from 'react-query';
 
 const dummyStore: RegisterStoreInterface = {
+  addressDetail: '1층 2층 3층',
   addressDong: '강남구',
   addressStreet: '서울특별시 강남구 논현로150길 16',
-  intro: '맛있는 고기집',
+  intro: '고기먹고싶다',
   operationTimeVO: [
     {
       breakEndTime: '16:00:00',
       breakStartTime: '14:00:00',
+      dayOfWeek: 'MONDAY',
       endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'MONDAY',
-      isOpen: true,
+      hasBreak: true,
+      hasOperationiTime: false,
+      startTime: '23:00:00',
     },
     {
       breakEndTime: '16:00:00',
       breakStartTime: '14:00:00',
+      dayOfWeek: 'TUESDAY',
       endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'TUESDAY',
-      isOpen: true,
+      hasBreak: false,
+      hasOperationiTime: true,
+      startTime: '23:00:00',
     },
     {
       breakEndTime: '16:00:00',
       breakStartTime: '14:00:00',
+      dayOfWeek: 'WEDNESDSAY',
       endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'WEDNESDAY',
-      isOpen: true,
+      hasBreak: false,
+      hasOperationiTime: true,
+      startTime: '23:00:00',
     },
     {
       breakEndTime: '16:00:00',
       breakStartTime: '14:00:00',
+      dayOfWeek: 'THURSDAY',
       endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'THURSDAY',
-      isOpen: true,
+      hasBreak: true,
+      hasOperationiTime: true,
+      startTime: '23:00:00',
     },
     {
       breakEndTime: '16:00:00',
       breakStartTime: '14:00:00',
+      dayOfWeek: 'FRIDAY',
       endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'FRIDAY',
-      isOpen: true,
+      hasBreak: true,
+      hasOperationiTime: true,
+      startTime: '23:00:00',
     },
     {
       breakEndTime: '16:00:00',
       breakStartTime: '14:00:00',
+      dayOfWeek: 'SATURDAY',
       endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'SATURDAY',
-      isOpen: true,
+      hasBreak: true,
+      hasOperationiTime: true,
+      startTime: '23:00:00',
     },
     {
       breakEndTime: '16:00:00',
       breakStartTime: '14:00:00',
+      dayOfWeek: 'SUNDAY',
       endTime: '23:00:00',
-      startTime: '17:00:00',
-      dayofweek: 'SUNDAY',
-      isOpen: true,
+      hasBreak: true,
+      hasOperationiTime: true,
+      startTime: '23:00:00',
     },
   ],
   representativeMenuName: '삼겹살',
   storeName: '강남고기집 신칠성집xx',
   storeTypeId: 6,
   tableNum: 1,
-  storeImage: [
-    {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '1.jpg'},
-    {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '2.jpg'},
-    {uri: 'https://source.unsplash.com/1024x768/?restaurant', type: 'image/jpg', name: '3.jpg'},
-  ],
-  menuImage: [
-    {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
-    {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '2.jpg'},
-  ],
 };
 
 const Store = () => {
   const [store, setStore] = useRecoilState(storeData);
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo, {
+    onSuccess: (data) => {
+      setStore(data);
+    },//쿼리요청 성공하면 리턴받은값으로 리코일 갱신 ..하고싶
+  });
+  console.log('datasroeInfo query', DataStoreInfo);
+  console.log('고럼 stroe', store);
   useEffect(() => {
     //가게 정보 get을 통해서 1회 받고 리코일에 저장하기
     //axios 어쩌구
-    setStore(dummyStore);
+    setStore(dummyStore); //쿼리요청되고 리코일 갱신되면 이 useEffect지워도 될듯
   }, [setStore]);
 
   return (

@@ -19,7 +19,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
     return (
       <>
         {operationData.map((item, index) => {
-          if (item.isOpen) {
+          if (item.hasOperationiTime) {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
                 <View
@@ -31,7 +31,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
                 >
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    isChecked={item.isOpen}
+                    isChecked={item.hasOperationiTime}
                     onPress={() => {}}
                   />
                 </View>
@@ -48,9 +48,13 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
                   style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
                 >
                   <View style={{height: 50, justifyContent: 'center'}}>
-                    <Text>
-                      {processTime(item.breakStartTime)}~{processTime(item.breakEndTime)}
-                    </Text>
+                    {item.hasBreak ? (
+                      <Text>
+                        {processTime(item.breakStartTime)}~{processTime(item.breakEndTime)}
+                      </Text>
+                    ) : (
+                      <Text>없음</Text>
+                    )}
                   </View>
                 </View>
               </View>
@@ -67,7 +71,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
                 >
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    isChecked={item.isOpen}
+                    isChecked={item.hasOperationiTime}
                     onPress={() => {}}
                   />
                 </View>

@@ -3,13 +3,14 @@ import {ImageInterface} from './ImageInterface';
 export type OperationTime = {
   breakEndTime: string;
   breakStartTime: string;
+  dayOfWeek: string;
   endTime: string;
+  hasBreak: boolean;
+  hasOperationiTime: boolean;
   startTime: string;
-  dayofweek: string;
-  isOpen: boolean;
 };
 
-//가입 post 할때 쓰는 타입 //storeInfo에서 useREcoildVAlue 로도 씀?
+//가입 post 할때 쓰는 타입 ///api/v1/stores 가게 정보 등록 //요거로 통일!!..?!
 export type RegisterStoreInterface = {
   addressDetail: string;
   addressDong: string;
@@ -20,12 +21,11 @@ export type RegisterStoreInterface = {
   storeName: string;
   storeTypeId: number;
   tableNum: number;
-  x: string;
-  y: string;
-  description: string;
+  x: number;
+  y: number;
 };
 
-//Get할때 쓰는 타입
+//Get할때 쓰는 타입 ///api/v1/stores/{storeId}가게 상세 정보 조회
 export type IStore = {
   address: {
     detail: string;
@@ -36,7 +36,12 @@ export type IStore = {
   };
   averageRate: number;
   category: string;
-  images: [
+  storeImages: [
+    {
+      imageUrl: string;
+    },
+  ];
+  representativeImgaes: [
     {
       imageUrl: string;
     },

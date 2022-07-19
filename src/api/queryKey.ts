@@ -7,7 +7,7 @@ export const queryKey = {
   // MISSIONSPROGRESS: 'missionsProgress',
   // MISSIONSCOMPLETE: 'missionsComplete',
   USERINFO: 'userInfo',
-  // STOREINFO: 'storeInfo',
+  STOREINFO: 'storeInfo',
   // STORELIST: 'storeList',
   // STOREDATA: 'storeData',
   // STOREREVIEWIMAGES: 'storeReviewImages',
