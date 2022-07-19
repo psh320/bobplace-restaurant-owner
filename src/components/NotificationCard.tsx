@@ -48,8 +48,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
           navigation.navigate('Mission');
           setProgressNow(false);
           missionSuccessRequestMutation.mutate(id);
-        }
-      }
+        }}
       >
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
@@ -67,15 +66,16 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
+          // navigation.navigate('StoreNavigator'); ////////////////////////
+          navigation.navigate('StoreNavigator', { screen: 'storeReview' });
           missionSuccessRequestMutation.mutate(id);
-        }
-      }
+        }}
       >
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
             <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>OWNERREVIEW.</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>의 음식이 맛있었다면 리뷰를 남겨주세요.</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>리뷰 달림</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>
@@ -87,15 +87,15 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
+          navigation.navigate('MyInquiry');
           missionSuccessRequestMutation.mutate(id);
-        }
-      }
+        }}
       >
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
             <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>ANSWER.</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>의 음식이 맛있었다면 리뷰를 남겨주세요.</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>1:1문의 답옴.</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>

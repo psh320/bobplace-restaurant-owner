@@ -42,7 +42,7 @@ const dummy = [
     subTitle: 'string',
   },
   {
-    checked: true,
+    checked: false,
     date: '2022-07-19T06:44:56.115Z',
     id: 0,
     missionId: 0,

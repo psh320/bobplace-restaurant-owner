@@ -3,14 +3,15 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import Mission from '../screens/Mission';
 import {Notifications} from '../screens/Notifications';
+import StoreReview from '../screens/Store/StoreReview';
+import {StoreNavigator} from './StoreNavigator';
 
 export type MissionStackParamList = {
   Main: undefined;
-  HomeMissionDetails: {missionId: number};
   Notifications: undefined;
   Mission: {missionId: number};
-  HowToLong: undefined;
-  MyPoint: {point: number};
+  StoreReview: undefined;
+  StoreNavigator: undefined;
 };
 
 const Stack = createStackNavigator<MissionStackParamList>();
@@ -28,6 +29,7 @@ export const MissionNavigator = ({navigation, route}) => {
     <Stack.Navigator initialRouteName="Mission" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Mission" component={Mission} />
       <Stack.Screen name="Notifications" component={Notifications} />
+      <Stack.Screen name="StoreNavigator" component={StoreNavigator} />
     </Stack.Navigator>
   );
 };
