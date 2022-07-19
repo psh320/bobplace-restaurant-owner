@@ -28,7 +28,7 @@ export const MissionReopenModal: FC<MissionReopenModalProps> = ({
           <View style={styles.warningContainer}>
             <Text style={styles.headText}>미션 재배포 요청시 주의사항</Text>
             <Text style={styles.fieldText}>
-              현미션 재배포까지 최대 7일의 시간이 소요될 수 있습니다.
+              미션 재배포까지 최대 7일의 시간이 소요될 수 있습니다.
             </Text>
           </View>
           <View style={styles.buttonContainer}>

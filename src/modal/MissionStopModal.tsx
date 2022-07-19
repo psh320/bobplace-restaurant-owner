@@ -24,9 +24,10 @@ export const MissionStopModal: FC<MissionStopModalProps> = ({visible, closeMissi
         <View style={styles.modalContainer}>
           <View style={styles.warningContainer}>
             <Text style={styles.headText}>미션 중지 요청 주의사항</Text>
-            <Text style={styles.fieldText}>현재까지 배포된 미션은 소멸되지 않으며, 모든</Text>
-            <Text style={styles.fieldText}>미션이 없어지기까지 최대 7일이 소요될 수</Text>
-            <Text style={styles.fieldText}>있습니다.</Text>
+            <Text style={styles.fieldText}>
+              현재까지 배포된 미션은 소멸되지 않으며, 모든 미션이 없어지기까지 최대 7일까지 소요될
+              수 있습니다.
+            </Text>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={closeMissionStopModal}>
