@@ -6,7 +6,7 @@ import {StoreInfo} from '../../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
 import {storeData} from '../../state';
 import {useRecoilState} from 'recoil';
-import {RegisterStoreInterface} from '../../data';
+import {RegisterStoreInterface} from '../../data/IStore';
 import {DesignSystem} from '../../assets/DesignSystem';
 
 const dummyStore: RegisterStoreInterface = {

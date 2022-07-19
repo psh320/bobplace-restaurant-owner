@@ -1,23 +1,26 @@
-import React, {FC} from 'react';
-//prettier-ignore
-import {View, StyleSheet, Text, FlatList, TouchableOpacity, SafeAreaView, Modal, Image} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  SafeAreaView,
+  Image,
+} from 'react-native';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MissionStackParamList} from '../nav/MissionNavigator';
 import {MyHeader} from '../components/My/MyHeader';
 import {NotificationCard} from '../components/NotificationCard';
-// import {getNotifications, patchNotificationsStatus} from '../api';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
-// import {INotiType} from '../data';
 import {queryKey} from '../api/queryKey';
-import {INotiType} from '../data/IMissions';
-import {getNotifications, patchNotificationsStatus} from '../data/INoti';
 import {DesignSystem} from '../assets/DesignSystem';
+import {getNotifications} from '../api/my';
+import {INotiType} from '../data/IMissions';
 
-type NotiModalProps = {
-  visible: boolean;
-  closeNotiModal: () => void;
-  goRequest: () => void;
-};
+type Props = NativeStackScreenProps<MissionStackParamList, 'Notifications'>;
 
-export const NotiModal: FC<NotiModalProps> = ({visible, closeNotiModal, goRequest}) => {
+export const Notifications = ({navigation}: Props) => {
   const queryClient = useQueryClient();
 
   const DataNoti = useQuery<INotiType[]>(queryKey.NOTIFICATIONS, getNotifications, {
@@ -43,11 +46,15 @@ export const NotiModal: FC<NotiModalProps> = ({visible, closeNotiModal, goReques
   const checkedNoti = (notiId: number) => {
     missionSuccessRequestMutation.mutate(notiId);
   };
-  // console.log('DATANOTI', DataNoti.data?.length === 0); //스웨거에서result인 배열
+  console.log('DATANOTI', DataNoti.data); //스웨거에서result인 배열
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
-    <Modal visible={visible}>
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex]}>
-        <MyHeader goBack={closeNotiModal} title={'알림'} />
+        <MyHeader goBack={goBack} title={'알림'} />
         {DataNoti.data?.length !== 0 ? (
           <FlatList
             style={{marginLeft: 16, marginRight: 16}}
@@ -65,24 +72,21 @@ export const NotiModal: FC<NotiModalProps> = ({visible, closeNotiModal, goReques
                 date={item.date}
                 checked={item.checked}
                 id={item.id}
-                goRequest={goRequest}
               />
             )}
             ItemSeparatorComponent={() => <View style={{marginTop: 8}} />}
           />
         ) : (
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <View style={[DesignSystem.centerArrange, {marginBottom: 30}]}>
-              <Text style={[DesignSystem.title1SB, {color: '#111111', marginBottom: 38}]}>
-                아직 받은 알람이 없어요!
-              </Text>
+          <View style={[DesignSystem.centerArrange, {marginTop: 100, marginBottom: 50}]}>
+            <Text style={[DesignSystem.title1SB, {color: '#111111', marginBottom: 38}]}>
+              아직 받은 알람이 없어요!
+            </Text>
 
-              <Image source={require('../assets/images/bobpool/cryingBobBowl.png')} />
-            </View>
+            <Image source={require('../assets/images/bobpool/cryingBobBowl.png')} />
           </View>
         )}
       </SafeAreaView>
-    </Modal>
+    </>
   );
 };
 

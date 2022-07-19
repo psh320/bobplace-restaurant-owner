@@ -2,16 +2,16 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 Icon.loadFont();
-import Mission from '../screens/Mission';
 import {RouteProp, ParamListBase} from '@react-navigation/native';
 import {StoreNavigator} from './StoreNavigator';
 import {MyNavigator} from './MyNavigator';
 import {getMissionsProgress} from '../api/mission';
+import {MissionNavigator} from './MissionNavigator';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
 const icons: Record<string, string[]> = {
-  Mission: ['home', 'home-outline'],
+  MissionNavigator: ['home', 'home-outline'],
   StoreNavigator: ['food', 'food-outline'],
   MyNavigator: ['account-settings', 'account-settings-outline'],
 };
@@ -39,8 +39,12 @@ export const MainNavigator = () => {
 
   getMissionsProgress();
   return (
-    <Tab.Navigator screenOptions={screenOptions} initialRouteName="Mission">
-      <Tab.Screen name="Mission" component={Mission} options={{tabBarLabel: '미션'}} />
+    <Tab.Navigator screenOptions={screenOptions} initialRouteName="MissionNavigator">
+      <Tab.Screen
+        name="MissionNavigator"
+        component={MissionNavigator}
+        options={{tabBarLabel: '미션'}}
+      />
       <Tab.Screen
         name="StoreNavigator"
         component={StoreNavigator}

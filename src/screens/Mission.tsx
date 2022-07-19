@@ -10,6 +10,9 @@ import {queryKey} from '../api/queryKey';
 import {useQuery} from 'react-query';
 import {IMissionProgressType, IMissionSuccessType} from '../data/IMissions';
 import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
+import {useRecoilState} from 'recoil';
+import {RCprogressNow} from '../state';
+import {useNavigation} from '@react-navigation/native';
 
 const dummyProgress = [
   {
@@ -85,7 +88,10 @@ const dummySuccess = [
   },
 ];
 const Mission = () => {
-  const [progressNow, setProgressNow] = useState(true);
+  const navigation = useNavigation();
+
+  // const [progressNow, setProgressNow] = useState(true);
+  const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const [missionWaiting, setMissionWaiting] = useState(true);
   const [notiModal, setNotiModal] = useState(false);
   const seperate = useRef('');
@@ -100,7 +106,7 @@ const Mission = () => {
     queryKey.MISSIONSSUCCESS,
     getMissionsSuccess,
   );
-  console.log('성공요청', DataMissionsSuccess.data);
+  console.log('DataMissionsSuccess', DataMissionsSuccess.data);
   //Data___.data.키값(result내에서) 로 접근
   // console.log('-----', DataMissionsSuccess.data); //초기 undefined, 이후 []
   useEffect(() => {
@@ -114,7 +120,7 @@ const Mission = () => {
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
           {progressNow && (
-            <TouchableOpacity onPress={() => setNotiModal(true)}>
+            <TouchableOpacity onPress={() => navigation.navigate('Notifications', {userId: 0})}>
               <Icon name="bell-outline" size={24} color="#323232" />
             </TouchableOpacity>
           )}
@@ -182,7 +188,11 @@ const Mission = () => {
             missionWaiting={missionWaiting}
           />
         </View>
-        <NotiModal visible={notiModal} closeNotiModal={() => setNotiModal(false)} />
+        <NotiModal
+          visible={notiModal}
+          closeNotiModal={() => setNotiModal(false)}
+          goRequest={() => setProgressNow(false)}
+        />
       </SafeAreaView>
     </>
   );
