@@ -12,15 +12,20 @@ import {getUserInfo} from '../../api/user';
 const MyPage = () => {
   const navigation = useNavigation();
 
-  const storeData = async (value: string) => {
-    try {
-      await AsyncStorage.setItem('userToken', value);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const logout = () => {
-    storeData('');
+  // const storeData = async (value: string) => {
+  //   try {
+  //     await AsyncStorage.setItem('userToken', value);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  //   navigation.navigate('AuthNavigator');
+  // };
+  const logout = async () => {
+    await AsyncStorage.multiSet([
+      ['accessToken', ''],
+      ['refreshToken', ''],
+    ]);
+    navigation.navigate('AuthNavigator');
   };
   console.log(AsyncStorage.getItem('userToken'));
   const {data, isError, refetch, isLoading} = useQuery<IgetUsersMe>(queryKey.USERINFO, getUserInfo);

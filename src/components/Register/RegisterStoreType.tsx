@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RegisterStoreInterface} from '../../data';
 import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type RegisterAddressProps = {
   setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
@@ -23,7 +24,12 @@ export const RegisterStoreType: FC<RegisterAddressProps> = ({
 }) => {
   return (
     <View style={[styles.addressWrap]}>
-      <Text style={[styles.formHeadText]}>가게유형</Text>
+      <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+        <Text style={[DesignSystem.h2SB, DesignSystem.grey17, {marginBottom: 8}]}>가게 유형</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{color: '#6C69FF'}}> * </Text>
+        </View>
+      </View>
       <RNPickerSelect
         style={error ? pickerSelectErrorStyles : pickerSelectStyles}
         onValueChange={(itemValue: number) => {
@@ -56,7 +62,7 @@ export const RegisterStoreType: FC<RegisterAddressProps> = ({
 };
 
 const styles = StyleSheet.create({
-  addressWrap: {marginTop: 40},
+  addressWrap: {marginTop: 0},
   formHeadText: {
     fontSize: 18,
     fontWeight: '600',

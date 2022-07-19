@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StoreMenuBar} from '../components/Store/StoreMenuBar';
+import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StackScreenProps} from '@react-navigation/stack';
-import {StoreStackParamList} from '../nav/StoreNavigator';
-import {StoreReviewCard} from '../components/Store/StoreReviewCard';
-import {PhotoModal} from '../modal/PhotoModal';
-import { DesignSystem } from '../assets/DesignSystem';
+import {StoreStackParamList} from '../../nav/StoreNavigator';
+import {StoreReviewCard} from '../../components/Store/StoreReviewCard';
+import {PhotoModal} from '../../modal/PhotoModal';
+import { DesignSystem } from '../../assets/DesignSystem';
 
 const dummyReviews = [
   {

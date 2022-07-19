@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {RegisterStoreInterface} from '../../data';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type RegisterMenuNameProps = {
   setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
@@ -21,9 +22,12 @@ export const RegisterMenuName: FC<RegisterMenuNameProps> = ({
   const [focusedName, setFocusedName] = useState(false);
   return (
     <View style={[styles.nameWrap]}>
-      <Text style={[styles.formHeadText]}>대표메뉴</Text>
-      <Text style={[styles.formSubText, {marginBottom: 12}]}>
-        가게를 대표하는 사진을 첨부해주세요!
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>대표메뉴</Text>
+        <Text style={{color: '#6C69FF'}}> * </Text>
+      </View>
+      <Text style={[DesignSystem.body2Lt, DesignSystem.grey9, {marginBottom: 12}]}>
+        대표메뉴 미션을 위해 사용됩니다.
       </Text>
       <TextInput
         style={[

@@ -1,12 +1,11 @@
 import React from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
-import {dayofweekType, IMission} from '../../data/IMissions';
+import {dayofweekType, IMissionSuccessType} from '../../data/IMissions';
 import {DesignSystem} from '../../assets/DesignSystem';
 
-
 //prettier-ignore
-export const MissionAcceptCard: FC<IMission> = ({dayOfWeek, mission, missionId, point, startDate, userId, userName, seperate}) => {
+export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mission, missionId, point, userId, userName, seperate}) => {
   const nowDate = new Date();
   function timeForToday(now: any, cutomerTime: any) {
     const betweenTime = Math.floor((now.getTime() - cutomerTime.getTime()) / 1000 / 60);
@@ -38,7 +37,7 @@ export const MissionAcceptCard: FC<IMission> = ({dayOfWeek, mission, missionId, 
     'MONDAY': '월', 'TUESDAY': '화', 'WEDNESDAY': '수', 'THURSDAY': '목', 'FRIDAY': '금', 'SATURDAY': '토', 'SUNDAY': '일',
   };
   function test() {
-    seperate.current = startDate.slice(0,10);
+    seperate.current = date.slice(0,10);
     return (
       <View style={[styles.seperateWrap]}>
         <View style={[styles.seperateLine, {width: seperateWidth}]} />
@@ -51,12 +50,13 @@ export const MissionAcceptCard: FC<IMission> = ({dayOfWeek, mission, missionId, 
   }
   return (
     <>
-      {seperate.current !== startDate.slice(0, 10) ? (test()) : (null)}
+      {seperate.current !== date.slice(0, 10) ? (test()) : (null)}
       <View style={[styles.missionCardWrap]}>
         <View style={[styles.missionCard]}>
           <View style={[styles.nameBox]}>
-            <Text style={[DesignSystem.body2Lt, {color: '#E03D32'}]}>성공요청 • {timeForToday(nowDate, new Date(startDate))}</Text>
+            <Text style={[DesignSystem.body2Lt, {color: '#E03D32'}]}>성공요청 • {timeForToday(nowDate, new Date(date))}</Text>
             <Text style={[DesignSystem.title3SB, DesignSystem.grey14]}>{userName}</Text>
+            <Text style={[DesignSystem.body2Lt, {color: '#616161'}]}>{userId}</Text>
           </View>
           <View style={[styles.missionBox]}>
             <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>

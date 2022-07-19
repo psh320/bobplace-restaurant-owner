@@ -8,49 +8,82 @@ import {DesignSystem} from '../assets/DesignSystem';
 import {NotiModal} from '../modal/NotiModal';
 import {queryKey} from '../api/queryKey';
 import {useQuery} from 'react-query';
-import {IMission} from '../data/IMissions';
+import {IMissionProgressType, IMissionSuccessType} from '../data/IMissions';
 import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
-import {IMissionProgress} from '../data/IMissions';
 
-const dummyMission = [
+const dummyProgress = [
   {
-    dayOfWeek: 'TUESDAY',
-    startDate: '2022-07-18T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 234,
     point: 500,
+    startDate: '2022-07-18T15:16:39.528Z',
     userId: 1,
     userName: '김진범',
   },
   {
-    dayOfWeek: 'MONDAY',
-    startDate: '2022-07-17T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 23,
     point: 500,
+    startDate: '2022-07-17T15:16:39.528Z',
     userId: 13,
     userName: '이예진',
   },
   {
-    dayOfWeek: 'SUNDAY',
-    startDate: '2022-07-16T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 345345,
     point: 500,
+    startDate: '2022-07-16T15:16:39.528Z',
     userId: 14,
     userName: '박성호',
   },
   {
-    dayOfWeek: 'MONDAY',
-    startDate: '2022-07-16T15:16:39.528Z',
     mission: '10000원 이상',
     missionId: 345345,
     point: 500,
+    startDate: '2022-07-16T15:16:39.528Z',
     userId: 51,
     userName: '박성호',
   },
 ];
 
+const dummySuccess = [
+  {
+    date: '2022-07-18T15:16:39.528Z',
+    dayOfWeek: 'TUESDAY',
+    mission: '10000원 이상',
+    missionId: 234,
+    point: 500,
+    userId: 1,
+    userName: '김진범18',
+  },
+  {
+    date: '2022-07-17T15:16:39.528Z',
+    dayOfWeek: 'MONDAY',
+    mission: '10000원 이상',
+    missionId: 23,
+    point: 500,
+    userId: 13,
+    userName: '이예진17',
+  },
+  {
+    date: '2022-07-16T15:16:39.528Z',
+    dayOfWeek: 'SUNDAY',
+    mission: '10000원 이상',
+    missionId: 345345,
+    point: 500,
+    userId: 14,
+    userName: '박성호16',
+  },
+  {
+    date: '2022-07-16T15:16:39.528Z',
+    dayOfWeek: 'MONDAY',
+    mission: '10000원 이상',
+    missionId: 345345,
+    point: 500,
+    userId: 51,
+    userName: '이예진16',
+  },
+];
 const Mission = () => {
   const [progressNow, setProgressNow] = useState(true);
   const [missionWaiting, setMissionWaiting] = useState(true);
@@ -58,9 +91,16 @@ const Mission = () => {
   const seperate = useRef('');
 
   //진행중 카드 목록
-  const DataMissionsProgress = useQuery<IMissionProgress>(queryKey.MISSIONSPROGRESS, getMissionsProgress);
+  const DataMissionsProgress = useQuery<IMissionProgressType>(
+    queryKey.MISSIONSPROGRESS,
+    getMissionsProgress,
+  );
   //성공요청 카드 목록
-  const DataMissionsSuccess = useQuery<IMission[]>(queryKey.MISSIONSSUCCESS, getMissionsSuccess);
+  const DataMissionsSuccess = useQuery<IMissionSuccessType[]>(
+    queryKey.MISSIONSSUCCESS,
+    getMissionsSuccess,
+  );
+  console.log('성공요청', DataMissionsSuccess.data);
   //Data___.data.키값(result내에서) 로 접근
   // console.log('-----', DataMissionsSuccess.data); //초기 undefined, 이후 []
   useEffect(() => {
@@ -94,7 +134,8 @@ const Mission = () => {
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 showsVerticalScrollIndicator={false}
                 scrollEventThrottle={10}
-                data={dummyMission}
+                data={dummyProgress}
+                // data={DataMissionsProgress.ownerMissionDto}
                 renderItem={({item}) => (
                   <>
                     <MissionUserCard
@@ -116,11 +157,12 @@ const Mission = () => {
                 contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 scrollEventThrottle={10}
-                data={dummyMission}
+                data={dummySuccess}
+                // data={DataMissionsSuccess}
                 renderItem={({item}) => (
                   <MissionAcceptCard
+                    date={item.date}
                     dayOfWeek={item.dayOfWeek}
-                    startDate={item.startDate}
                     mission={item.mission}
                     missionId={item.missionId}
                     point={item.point}
