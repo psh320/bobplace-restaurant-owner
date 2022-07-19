@@ -106,3 +106,8 @@ export const RCprogressNow = atom({
   key: 'RCprogressNow',
   default: true,
 });
+
+export const RCnowWrite = atom({
+  key: 'RCnowWrite',
+  default: true,
+});

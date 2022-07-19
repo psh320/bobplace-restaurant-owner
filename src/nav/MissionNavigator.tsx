@@ -3,9 +3,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import Mission from '../screens/Mission';
 import {Notifications} from '../screens/Notifications';
-import StoreReview from '../screens/Store/StoreReview';
-import {StoreNavigator} from './StoreNavigator';
-
 export type MissionStackParamList = {
   Main: undefined;
   Notifications: undefined;

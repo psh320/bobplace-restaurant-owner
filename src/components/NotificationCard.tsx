@@ -2,12 +2,9 @@ import React from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {DesignSystem} from '../assets/DesignSystem';
-import {useNavigation} from '@react-navigation/native';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
-import {INotiType} from '../data';
-import {queryKey} from '../api/queryKey';
+import {useMutation, useQueryClient} from 'react-query';
 import {useRecoilState} from 'recoil';
-import {RCprogressNow} from '../state';
+import {RCnowWrite, RCprogressNow} from '../state';
 import {patchNotificationsStatus} from '../api/my';
 import {MissionStackParamList} from '../nav/MissionNavigator';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -27,8 +24,9 @@ export type NotificationCardProps = {
 //prettier-ignore
 export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, storeName, storeId, missionId, mission, date, checked, checkedNoti, navigation}) => {
   const queryClient = useQueryClient();
-
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
+  const [nowWrite, setNowWrite] = useRecoilState(RCnowWrite);
+
   const missionSuccessRequestMutation = useMutation(
     (notiId: number) => patchNotificationsStatus(notiId),
     {
@@ -48,6 +46,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
+          navigation.pop();
           navigation.navigate('Mission');
           setProgressNow(false);
           missionSuccessRequestMutation.mutate(id);
@@ -65,13 +64,13 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         </View>
       </TouchableOpacity>
       :
+      // 리뷰알림
       pushType === 'OWNERREVIEW' ?
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
-          // navigation.navigate('StoreNavigator'); ////////////////////////
           navigation.pop();
-          navigation.navigate('StoreNavigator', { screen: 'StoreReview' });
+          navigation.navigate('StoreNavigator', {screen: 'StoreReview'});
           missionSuccessRequestMutation.mutate(id);
         }}
       >
@@ -92,6 +91,8 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
           navigation.navigate('MyInquiry');
+          navigation.navigate('MyNavigator', {screen: 'MyInquiry'});
+          setNowWrite(false);
           missionSuccessRequestMutation.mutate(id);
         }}
       >

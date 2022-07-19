@@ -88,7 +88,7 @@ export const Notifications = ({navigation}: Props) => {
   const checkedNoti = (notiId: number) => {
     missionSuccessRequestMutation.mutate(notiId);
   };
-  console.log('DATANOTI', DataNoti.data); //스웨거에서result인 배열
+  console.log('DataNoti.data', DataNoti.data); //스웨거에서result인 배열
   const goBack = () => {
     navigation.goBack();
   };

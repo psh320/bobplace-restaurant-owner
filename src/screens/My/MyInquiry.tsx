@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MyStackParamList} from '../../nav/MyNavigator';
@@ -9,6 +9,8 @@ import {MyInquiryList} from '../../components/My/MyInquiryList';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {calHeight} from '../../assets/CalculateLength';
+import {useRecoilState} from 'recoil';
+import {RCnowWrite} from '../../state';
 
 type Props = NativeStackScreenProps<MyStackParamList, 'MyInquiry'>;
 
@@ -16,7 +18,7 @@ export const MyInquiry = ({navigation}: Props) => {
   const goBack = () => {
     navigation.goBack();
   };
-  const [nowWrite, setNowWrite] = useState(true);
+  const [nowWrite, setNowWrite] = useRecoilState(RCnowWrite);
   return (
     <SafeAreaView style={[styles.flex, {backgroundColor: '#FFFFFF'}]}>
       <MyHeader goBack={goBack} title={'1:1 문의'} />
@@ -50,11 +52,7 @@ export const MyInquiry = ({navigation}: Props) => {
           </Text>
         </TouchableOpacity>
       </View>
-      {nowWrite ? (
-        <MyWriteInquiry setNowWrite={setNowWrite} />
-      ) : (
-        <MyInquiryList setNowWrite={setNowWrite} />
-      )}
+      {nowWrite ? <MyWriteInquiry /> : <MyInquiryList />}
     </SafeAreaView>
   );
 };

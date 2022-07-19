@@ -73,7 +73,7 @@ export const MissionSwitch: FC<switchProps> = ({missionWaiting}) => {
             <Text
               style={
                 progressNow
-                  ? [DesignSystem.title4Md, {color: 'white'}]
+                  ? [DesignSystem.h3SB, {color: 'white'}]
                   : [DesignSystem.body2Lt, {color: '#616161'}]
               }
             >
@@ -90,7 +90,9 @@ export const MissionSwitch: FC<switchProps> = ({missionWaiting}) => {
           <View style={[styles.progressTextWrap]}>
             <Text
               style={
-                progressNow ? [{fontSize: 14, color: '#616161'}] : [{fontSize: 14, color: 'white'}]
+                progressNow
+                  ? [DesignSystem.body2Lt, {color: '#616161'}]
+                  : [DesignSystem.h3SB, {color: 'white'}]
               }
             >
               성공요청
