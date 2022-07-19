@@ -182,17 +182,8 @@ const Mission = () => {
           )}
         </View>
         <View style={[DesignSystem.centerArrange]}>
-          <MissionSwitch
-            progressnow={progressNow}
-            setProgressnow={setProgressNow}
-            missionWaiting={missionWaiting}
-          />
+          <MissionSwitch missionWaiting={missionWaiting} />
         </View>
-        <NotiModal
-          visible={notiModal}
-          closeNotiModal={() => setNotiModal(false)}
-          goRequest={() => setProgressNow(false)}
-        />
       </SafeAreaView>
     </>
   );

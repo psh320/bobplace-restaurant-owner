@@ -17,9 +17,51 @@ import {queryKey} from '../api/queryKey';
 import {DesignSystem} from '../assets/DesignSystem';
 import {getNotifications} from '../api/my';
 import {INotiType} from '../data/IMissions';
+import {patchNotificationsStatus} from '../data/INoti';
 
 type Props = NativeStackScreenProps<MissionStackParamList, 'Notifications'>;
-
+const dummy = [
+  {
+    checked: true,
+    date: '2022-07-19T06:44:56.115Z',
+    id: 0,
+    missionId: 0,
+    pushType: 'OWNERMISSION',
+    storeId: 0,
+    storeName: 'string',
+    subTitle: 'string',
+  },
+  {
+    checked: false,
+    date: '2022-07-19T06:44:56.115Z',
+    id: 0,
+    missionId: 0,
+    pushType: 'OWNERMISSION',
+    storeId: 0,
+    storeName: 'string',
+    subTitle: 'string',
+  },
+  {
+    checked: true,
+    date: '2022-07-19T06:44:56.115Z',
+    id: 0,
+    missionId: 0,
+    pushType: 'OWNERREVIEW',
+    storeId: 0,
+    storeName: 'string',
+    subTitle: 'string',
+  },
+  {
+    checked: false,
+    date: '2022-07-19T06:44:56.115Z',
+    id: 0,
+    missionId: 0,
+    pushType: 'MISSION',
+    storeId: 0,
+    storeName: 'string',
+    subTitle: 'string',
+  },
+];
 export const Notifications = ({navigation}: Props) => {
   const queryClient = useQueryClient();
 
@@ -28,18 +70,18 @@ export const Notifications = ({navigation}: Props) => {
       console.log('ERR', err);
     },
     onSuccess: (data) => {
-      console.log('DataNoti', data);
+      console.log('DataNoti겟', data);
     },
   });
   const missionSuccessRequestMutation = useMutation(
     (notiId: number) => patchNotificationsStatus(notiId),
     {
       onSuccess: (data) => {
-        console.log('알림확인 전환 성공: ', data);
+        console.log('알림확인 성공: ', data);
         queryClient.invalidateQueries('notifications');
       },
       onError: (err) => {
-        console.log('알림확인 전환 실패: ', err);
+        console.log('알림확인 실패: ', err);
       },
     },
   );
@@ -55,13 +97,15 @@ export const Notifications = ({navigation}: Props) => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex]}>
         <MyHeader goBack={goBack} title={'알림'} />
-        {DataNoti.data?.length !== 0 ? (
+        {/* {DataNoti.data?.length !== 0 ? ( */}
+        {1 === 1 ? (
           <FlatList
             style={{marginLeft: 16, marginRight: 16}}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 60, marginTop: 12}}
             scrollEventThrottle={10}
-            data={DataNoti.data}
+            // data={DataNoti.data}
+            data={dummy}
             renderItem={({item}) => (
               <NotificationCard
                 pushType={item.pushType}
@@ -77,12 +121,13 @@ export const Notifications = ({navigation}: Props) => {
             ItemSeparatorComponent={() => <View style={{marginTop: 8}} />}
           />
         ) : (
-          <View style={[DesignSystem.centerArrange, {marginTop: 100, marginBottom: 50}]}>
-            <Text style={[DesignSystem.title1SB, {color: '#111111', marginBottom: 38}]}>
-              아직 받은 알람이 없어요!
-            </Text>
-
-            <Image source={require('../assets/images/bobpool/cryingBobBowl.png')} />
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <View style={[DesignSystem.centerArrange, {marginBottom: 30}]}>
+              <Text style={[DesignSystem.title1SB, {color: '#111111', marginBottom: 38}]}>
+                아직 받은 알람이 없어요!
+              </Text>
+              <Image source={require('../assets/images/bobpool/cryingBobBowl.png')} />
+            </View>
           </View>
         )}
       </SafeAreaView>

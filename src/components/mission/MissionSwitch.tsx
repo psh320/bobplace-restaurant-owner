@@ -1,11 +1,11 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { DesignSystem } from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {DesignSystem} from '../../assets/DesignSystem';
+import {RCprogressNow} from '../../state';
 
 type switchProps = {
-  progressnow: boolean;
-  setProgressnow: any;
   missionWaiting: boolean;
 };
 function moveLeft(progressValue: Animated.Value) {
@@ -23,9 +23,17 @@ function moveRight(progressValue: Animated.Value) {
   }).start();
 }
 
-export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, missionWaiting}) => {
+export const MissionSwitch: FC<switchProps> = ({missionWaiting}) => {
   const progressValue = useState(new Animated.Value(2))[0]; //
+  const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
 
+  useEffect(() => {
+    if (progressNow) {
+      moveLeft(progressValue);
+    } else {
+      moveRight(progressValue);
+    }
+  }, [progressNow]);
   const currentMissionWaiting = () => {
     return (
       <View style={[styles.missionAlarmWrap]}>
@@ -40,11 +48,11 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
   };
   return (
     <View style={[styles.progressRow]}>
-      {missionWaiting && progressnow && currentMissionWaiting()}
+      {missionWaiting && progressNow && currentMissionWaiting()}
       <View style={[styles.progressToggle]}>
         <Animated.View
           style={
-            progressnow
+            progressNow
               ? [
                   styles.progressSwitch,
                   {width: 68, borderRadius: 21, transform: [{translateX: progressValue}]},
@@ -57,14 +65,14 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
         />
         <TouchableOpacity
           onPress={() => {
-            setProgressnow(true);
+            setProgressNow(true);
             moveLeft(progressValue);
           }}
         >
           <View style={[styles.progressTextWrap]}>
             <Text
               style={
-                progressnow
+                progressNow
                   ? [DesignSystem.title4Md, {color: 'white'}]
                   : [DesignSystem.body2Lt, {color: '#616161'}]
               }
@@ -75,14 +83,14 @@ export const MissionSwitch: FC<switchProps> = ({progressnow, setProgressnow, mis
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setProgressnow(false);
+            setProgressNow(false);
             moveRight(progressValue);
           }}
         >
           <View style={[styles.progressTextWrap]}>
             <Text
               style={
-                progressnow ? [{fontSize: 14, color: '#616161'}] : [{fontSize: 14, color: 'white'}]
+                progressNow ? [{fontSize: 14, color: '#616161'}] : [{fontSize: 14, color: 'white'}]
               }
             >
               성공요청

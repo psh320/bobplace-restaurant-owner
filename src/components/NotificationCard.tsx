@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {DesignSystem} from '../assets/DesignSystem';
-import ReviewModal from '../modal/ReviewModal';
 import {useNavigation} from '@react-navigation/native';
-import {getNotifications, patchNotificationsStatus} from '../api';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {INotiType} from '../data';
 import {queryKey} from '../api/queryKey';
+import {useRecoilState} from 'recoil';
+import {RCprogressNow} from '../state';
+import {patchNotificationsStatus} from '../api/my';
 
 export type NotificationCardProps = {
   pushType: string; //미션알림1인지 리뷰남기란 알림0인지
@@ -24,7 +25,7 @@ export type NotificationCardProps = {
 export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, storeName, storeId, missionId, mission, date, checked, checkedNoti}) => {
   const queryClient = useQueryClient();
   const navigation = useNavigation();
-  const [reviewModal, setReviewModal] = useState(false);
+  const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const missionSuccessRequestMutation = useMutation(
     (notiId: number) => patchNotificationsStatus(notiId),
     {
@@ -44,7 +45,8 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
-          navigation.navigate('HomeMissionDetails', {missionId: missionId});
+          navigation.navigate('Mission');
+          setProgressNow(false);
           missionSuccessRequestMutation.mutate(id);
         }
       }
@@ -52,8 +54,8 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
-            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>새로운 미션이 도착했습니다!</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>에서 {mission}의 식사를 하세요!</Text>
+            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>미션 성공요청이 도착했습니다!</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{mission}</Text></Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,15)}
             </Text>
@@ -61,10 +63,10 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         </View>
       </TouchableOpacity>
       :
+      pushType === 'OWNERREVIEW' ?
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
-          setReviewModal(true);
           missionSuccessRequestMutation.mutate(id);
         }
       }
@@ -72,7 +74,27 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
-            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>리뷰를 남겨주세요.</Text>
+            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>OWNERREVIEW.</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>의 음식이 맛있었다면 리뷰를 남겨주세요.</Text>
+            <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
+              {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+      :
+      //ANSWER(1:1문의 답변받으면)
+      <TouchableOpacity
+        style={[styles.notiCard, checked && {opacity: 0.5}]}
+        onPress={() => {
+          missionSuccessRequestMutation.mutate(id);
+        }
+      }
+      >
+        <View style={[styles.notiWrap]}>
+          <View style={!checked ? [styles.dot] : [styles.noDot]} />
+          <View style={[styles.notiView]}>
+            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>ANSWER.</Text>
             <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>의 음식이 맛있었다면 리뷰를 남겨주세요.</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
@@ -81,12 +103,6 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         </View>
       </TouchableOpacity>
     }
-    {/* <ReviewModal
-      visible={reviewModal}
-      closeReviewModal={()=>setReviewModal(false)}
-      storeId={storeId}
-      missionId={missionId}
-    /> */}
     </>
   );
 };
