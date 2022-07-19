@@ -87,8 +87,6 @@ export const storeData = atom<RegisterStoreInterface>({
     tableNum: 0,
     x: '0',
     y: '0',
-    storeImage: [],
-    menuImage: [],
   },
 });
 
