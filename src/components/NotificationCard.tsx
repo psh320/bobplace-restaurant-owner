@@ -58,7 +58,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
             <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>미션 성공요청이 도착했습니다!</Text>
             <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{mission}</Text></Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
-              {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,15)}
+              {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>
           </View>
         </View>
