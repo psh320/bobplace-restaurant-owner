@@ -10,12 +10,13 @@ import {RegisterTime} from '../../components/Register/RegisterTime';
 import {ImageInterface} from '../../data';
 import {AuthStackParamList} from '../../nav';
 import {useRecoilState} from 'recoil';
-import {storeData} from '../../state';
+import {registerMenuImage, registerStoreImage, storeData} from '../../state';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreTime'>;
 
 const RegisterStoreTime = ({navigation, route}: Props) => {
-  const [storeImages, setStoreImages] = useState<ImageInterface[]>([]);
+  const [storeImages, setStoreImages] = useRecoilState(registerStoreImage);
+  const [menuImages, setMenuImages] = useRecoilState(registerMenuImage);
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
 
   const postRegister = async () => {
@@ -38,7 +39,7 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
     },
   });
   const goBack = () => {
-    navigation.navigate('RegisterStoreInfo');
+    navigation.goBack();
   };
 
   const goNext = async () => {
@@ -59,8 +60,6 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
             render={({field: {onChange, value}}) => {
               return (
                 <RegisterStoreImages
-                  setStoreImages={setStoreImages}
-                  storeImages={storeImages}
                   onChange={onChange}
                   value={value}
                   error={errors.storeImage !== undefined}

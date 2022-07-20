@@ -1,40 +1,47 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
-import {Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {RegisterHeader, RegisterNextButton} from '../../components';
 import {AuthStackParamList} from '../../nav';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ImageLibraryOptions, launchImageLibrary} from 'react-native-image-picker';
+import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {ImageInterface} from '../../data';
 import {RenderUploadImage} from '../../components/common/RenderUploadImage';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {postStoreAuthImages} from '../../api/register';
 
-type imageData = {
-  uri: string;
-  type: string;
-  name: string;
-};
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
-  quality: 1,
+  quality: 0.5,
+  maxHeight: 1600,
+  maxWidth: 1000,
 };
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStore'>;
 
 const RegisterStore = ({navigation, route}: Props) => {
-  const [imageData, setImageData] = useState<ImageInterface[]>([]);
-  const [imageUri, setImageUri] = useState<imageData[]>([]);
+  const [imageUri, setImageUri] = useState<ImageInterface[]>([]);
   const goResult = () => {
     navigation.navigate('RegisterDone', {status: 0});
   };
 
   const goNext = async () => {
     //imageData를 formdata로 만들어서 서버에 이미지 등록하기
-    await postStoreAuthImages(imageUri);////////////////////////////////////////////////////
+    await postStoreAuthImages(imageUri); ////////////////////////////////////////////////////
     navigation.navigate('RegisterDone', {status: 1});
   };
   console.log(imageUri);
-  const showImageLibrary = async () => {
+
+  const openImagePicker = () => {
+    Alert.alert('사진', '어떻게 가져올까요?', [
+      {
+        text: '카메라 ',
+        onPress: () => selectImageFromCamera(),
+      },
+      {text: '갤러리 선택', onPress: () => selectImageFromGallery()},
+    ]);
+  };
+
+  const selectImageFromGallery = async () => {
     const result = await launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         console.log('취소');
@@ -43,7 +50,7 @@ const RegisterStore = ({navigation, route}: Props) => {
       }
     });
     if (result.assets) {
-      const data: imageData = {
+      const data: ImageInterface = {
         uri: result.assets[0].uri as string,
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
@@ -52,6 +59,26 @@ const RegisterStore = ({navigation, route}: Props) => {
     }
     console.log('showImageLibrary result', result);
   };
+
+  const selectImageFromCamera = async () => {
+    const result = await launchCamera(options, (response) => {
+      if (response.didCancel) {
+        console.log('취소');
+      } else if (response.errorCode) {
+        console.log(response.errorMessage);
+      }
+    });
+    if (result.assets) {
+      const data: ImageInterface = {
+        uri: result.assets[0].uri as string,
+        type: result.assets[0].type as string,
+        name: result.assets[0].fileName as string,
+      };
+      setImageUri([...imageUri, data]);
+    }
+    console.log(result);
+  };
+
   const removeImage = (imageName: string) => {
     setImageUri((current) =>
       current.filter((image) => {
@@ -87,15 +114,17 @@ const RegisterStore = ({navigation, route}: Props) => {
         <View style={[styles.flexRow]}>
           <TouchableOpacity
             style={
-              imageUri.length >= 3
+              imageUri.length >= 4
                 ? [styles.imageAddButton, {opacity: 0.2}]
                 : [styles.imageAddButton]
             }
-            onPress={showImageLibrary}
-            disabled={imageUri.length >= 3}
+            onPress={openImagePicker}
+            disabled={imageUri.length >= 4}
           >
             <Icon name="plus" size={24} />
           </TouchableOpacity>
+
+          {/* 배열에 있는 이미지 리스트 렌더링 (삭제 버튼 포함) */}
           {imageUri.map((data, index) => {
             return (
               <View style={{marginRight: 8}} key={index}>
@@ -113,9 +142,6 @@ const RegisterStore = ({navigation, route}: Props) => {
               </View>
             );
           })}
-        </View>
-        <View>
-          <RenderUploadImage imageData={imageData} setImageData={setImageData} imageSize={100} />
         </View>
       </View>
       <RegisterNextButton goNext={goNext} buttonState={1} />

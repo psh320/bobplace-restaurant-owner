@@ -185,13 +185,23 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
   },
 });
 
-export const storeImage = atom<ImageInterface[]>({
+export const storeImage = atom<{imageURL: string; storeImageId: string}[]>({
   key: 'storeImage',
   default: [],
 });
 
-export const menuImage = atom<ImageInterface[]>({
+export const menuImage = atom<{imageURL: string; menuImageId: string}[]>({
   key: 'menuImage',
+  default: [],
+});
+
+export const registerStoreImage = atom<ImageInterface[]>({
+  key: 'registerStoreImage',
+  default: [],
+});
+
+export const registerMenuImage = atom<ImageInterface[]>({
+  key: 'registerMenuImage',
   default: [],
 });
 

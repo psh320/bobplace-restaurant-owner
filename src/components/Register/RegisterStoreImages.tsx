@@ -1,31 +1,26 @@
 import React from 'react';
 import type {FC} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ImageInterface} from '../../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {RenderUploadImage} from '../common/RenderUploadImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {registerStoreImage} from '../../state';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
 };
 
 type RegisterStoreImagesProps = {
-  setStoreImages: React.Dispatch<React.SetStateAction<ImageInterface[]>>;
-  storeImages: ImageInterface[];
   onChange: (...event: any[]) => void;
   value: ImageInterface[];
   error: boolean;
 };
 
-export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({
-  setStoreImages,
-  storeImages,
-  onChange,
-  value,
-  error,
-}) => {
+export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({onChange, value, error}) => {
+  const [storeImages, setStoreImages] = useRecoilState(registerStoreImage);
   //이미지 등록 시작!
   const openImagePicker = () => {
     Alert.alert('사진', '어떻게 가져올까요?', [
@@ -51,6 +46,7 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
+
       setStoreImages([...storeImages, data]);
       onChange([...value, data]);
     }
@@ -71,12 +67,21 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
+
       setStoreImages([...storeImages, data]);
       onChange([...value, data]);
     }
     console.log(result);
   };
   //여기까지 이미지 등록!
+
+  const removeImage = (imageName: string) => {
+    setStoreImages((current) =>
+      current.filter((image) => {
+        return image.name !== imageName;
+      }),
+    );
+  };
 
   return (
     <View style={[styles.ImageSelectContainer]}>
@@ -96,10 +101,36 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({
       </Text>
 
       <View style={[styles.flexRow, {alignItems: 'center'}]}>
-        <TouchableOpacity style={[styles.imageAddButton]} onPress={openImagePicker}>
+        <TouchableOpacity
+          style={
+            storeImages.length > 10
+              ? [styles.imageAddButton, {opacity: 0.2}]
+              : [styles.imageAddButton]
+          }
+          onPress={openImagePicker}
+          disabled={storeImages.length > 10}
+        >
           <Icon name="plus" size={24} />
         </TouchableOpacity>
-        <RenderUploadImage imageData={storeImages} setImageData={setStoreImages} imageSize={80} />
+        <ScrollView horizontal>
+          {storeImages.map((data, index) => {
+            return (
+              <View style={{marginRight: 8}} key={index}>
+                <TouchableOpacity
+                  onPress={() => {
+                    removeImage(data.name);
+                  }}
+                  style={{position: 'absolute', top: 5, right: 5, zIndex: 1}}
+                >
+                  <View style={[styles.removeImageX]}>
+                    <Icon name="close" size={14} color="#DFDFDF" />
+                  </View>
+                </TouchableOpacity>
+                <Image source={{uri: data.uri}} style={{width: 80, height: 80}} />
+              </View>
+            );
+          })}
+        </ScrollView>
       </View>
     </View>
   );
@@ -130,5 +161,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     color: '#777777',
+  },
+  removeImageX: {
+    backgroundColor: '#2A2A2A',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
