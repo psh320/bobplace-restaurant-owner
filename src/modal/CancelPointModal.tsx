@@ -5,6 +5,7 @@ import {OperationTime, RegisterStoreInterface} from '../data';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
 import {TimeList} from '../data/TimeList';
+import { DesignSystem } from '../assets/DesignSystem';
 
 type OperationTimeModalProps = {
   visible: boolean;
@@ -33,13 +34,15 @@ export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCan
             {selectYes ? (
               <View style={styles.modalContainer}>
                 <View style={styles.warningContainer}>
-                  <Text style={styles.headText}>결제 취소가 요청 되었습니다.</Text>
-                  <Text style={styles.fieldText}>해당 요청의 사실 확인을 위해</Text>
-                  <Text style={styles.fieldText}>연락이 갈 수 있습니다.</Text>
+                  <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 14}]}>
+                    결제 취소가 요청 되었습니다.
+                  </Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>해당 요청의 사실 확인을 위해</Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>연락이 갈 수 있습니다.</Text>
                 </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity onPress={closeCancelPointModal} style={styles.buttonOk}>
-                    <Text style={styles.yesText}>확인</Text>
+                    <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>확인</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -50,17 +53,17 @@ export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCan
                     source={require('../assets/images/warning.png')}
                     style={{width: 50, height: 50}}
                   />
-                  <Text style={styles.headText}>포인트 적립을 정말 취소하시겠습니까?</Text>
+                  <Text style={[DesignSystem.title3SB, DesignSystem.grey17]}>포인트 적립을 정말 취소하시겠습니까?</Text>
                 </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity onPress={closeCancelPointModal}>
                     <View style={styles.buttonNo}>
-                      <Text style={styles.noText}>아니요</Text>
+                      <Text style={[DesignSystem.title2Regular, DesignSystem.grey17]}>아니요</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={handleSubmit}>
                     <View style={styles.buttonYes}>
-                      <Text style={styles.yesText}>네</Text>
+                      <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>네</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -114,7 +117,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 18,
   },
-  noText: {color: '#111111', fontFamily: 'Pretendard-Regular', fontSize: 18, lineHeight: 24},
   buttonYes: {
     width: 163,
     height: 56,
@@ -123,7 +125,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  yesText: {color: '#FFFFFF', fontFamily: 'Pretendard-Regular', fontSize: 18, lineHeight: 24},
   buttonOk: {
     width: '100%',
     height: 56,

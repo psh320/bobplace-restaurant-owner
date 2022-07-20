@@ -112,7 +112,7 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
                 borderRadius: 10,
               }}
             >
-              <Text style={styles.submitText}>적립 취소 신청</Text>
+              <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>적립 취소 신청</Text>
             </View>
           </TouchableOpacity>
         </KeyboardAvoidingView>
@@ -211,11 +211,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 14,
     textAlignVertical: 'top',
-  },
-  submitText: {
-    fontFamily: 'Pretendard-Medium',
-    color: '#FFFFFF',
-    fontSize: 18,
-    lineHeight: 26,
   },
 });
