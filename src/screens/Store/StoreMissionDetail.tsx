@@ -1,57 +1,57 @@
 import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MissionDetailCard} from '../../components/mission/MissionDetailCard';
+import {StoreMissionDetailCard} from '../../components/Store/StoreMissionDetailCard';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionDetail'>;
 
 const dummyMission = [
   {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
+    missionId: 1,
+    name: '박승민',
+    phone: '1',
     point: 500,
-    purchaseId: 1234,
+    successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
+    missionId: 1,
+    name: '박승민',
+    phone: '2',
     point: 500,
-    purchaseId: 1234,
+    successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
+    missionId: 1,
+    name: '박승민',
+    phone: '12331231',
     point: 500,
-    purchaseId: 1234,
+    successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
+    missionId: 1,
+    name: '박승민',
+    phone: '4',
     point: 500,
-    purchaseId: 1234,
+    successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
+    missionId: 1,
+    name: '박승민',
+    phone: '5',
     point: 500,
-    purchaseId: 1234,
+    successDate: '2022-07-20T07:00:53.085Z',
   },
 ];
 
 const StoreMissionDetail = ({navigation, route}: Props) => {
-  const insets = useSafeAreaInsets();
   const missionList = route.params.missionId; //이 미션 아이디로 get 하기.
+
   return (
     <>
-      <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
+      <View style={{flex: 0, backgroundColor: 'white'}} />
       <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <TouchableOpacity
@@ -61,7 +61,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
           >
             <Icon name="arrow-left" size={24} color="black" />
           </TouchableOpacity>
-          <Text style={[styles.screenHeaderTitle]}>상세정보</Text>
+          <Text style={[DesignSystem.title4Md, {color: 'black'}]}>상세정보</Text>
           <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
         </View>
 
@@ -70,11 +70,12 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
           scrollEventThrottle={10}
           data={dummyMission}
           renderItem={({item}) => (
-            <MissionDetailCard
-              userName={item.userName}
+            <StoreMissionDetailCard
+              missionId={item.missionId}
+              name={item.name}
+              successDate={item.successDate}
               point={item.point}
-              purchaseDate={item.purchaseDate}
-              purchaseId={item.purchaseId}
+              phone={item.phone}
               navigation={navigation}
             />
           )}
@@ -99,8 +100,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
@@ -117,12 +116,6 @@ const styles = StyleSheet.create({
   },
   missionSeperate: {
     marginTop: 8,
-  },
-  screenHeaderTitle: {
-    fontSize: 16,
-    fontFamily: 'Pretendard-Regular',
-    fontWeight: '600',
-    lineHeight: 24,
   },
   missionStopText: {
     fontSize: 14,

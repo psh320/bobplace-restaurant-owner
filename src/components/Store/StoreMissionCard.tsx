@@ -48,7 +48,7 @@ export const StoreMissionCard: FC<StoreMissionCardProps> = ({category, mission, 
           </View>
           <TouchableOpacity
             style={[styles.openBtnWrap]}
-            onPress={missionGroupStatus === 'ACTIVE' ? () => closeMission(missionGroupId) : () => reopenMission(missionGroupId)}
+            onPress={missionGroupStatus === 'ACTIVE' ? closeMission :  reopenMission}
           >
             <Text style={[DesignSystem.h3SB, DesignSystem.grey8]}>{missionGroupStatus === 'ACTIVE' ? '배포 중지 요청' : '재배포 요청' }</Text>
           </TouchableOpacity>
@@ -62,14 +62,12 @@ const styles = StyleSheet.create({
   missionCardWrap: {
     marginLeft: 16,
     marginRight: 16,
-    borderColor: '#E8E8E8',
-    borderWidth: 1,
   },
   missionCard: {
     backgroundColor: 'white',
     borderRadius: 10,
     alignItems: 'center',
-    borderColor: '#EFEFEF',
+    borderColor: '#E8E8E8',
     borderWidth: 1,
     paddingHorizontal: 16,
     paddingVertical: 12,
