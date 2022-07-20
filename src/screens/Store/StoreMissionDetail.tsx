@@ -1,53 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StoreMissionDetailCard} from '../../components/Store/StoreMissionDetailCard';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {queryKey} from '../../api/queryKey';
+import {useQuery} from 'react-query';
+import {getMissionManageDetail} from '../../api/store';
+import { NoBobpool } from '../../components/common/NoBobpool';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionDetail'>;
 
-const dummyMission = [
-  {
-    missionId: 111,
-    name: '박승민',
-    phone: '1',
-    point: 500,
-    successDate: '2022-07-20T07:00:53.085Z',
-  },
-  {
-    missionId: 112,
-    name: '박승민',
-    phone: '2',
-    point: 500,
-    successDate: '2022-07-20T07:00:53.085Z',
-  },
-  {
-    missionId: 113,
-    name: '박승민',
-    phone: '12331231',
-    point: 500,
-    successDate: '2022-07-20T07:00:53.085Z',
-  },
-  {
-    missionId: 114,
-    name: '박승민',
-    phone: '4',
-    point: 500,
-    successDate: '2022-07-20T07:00:53.085Z',
-  },
-  {
-    missionId: 115,
-    name: '박승민',
-    phone: '5',
-    point: 500,
-    successDate: '2022-07-20T07:00:53.085Z',
-  },
-];
-
 const StoreMissionDetail = ({navigation, route}: Props) => {
-  const missionList = route.params.missionId; //이 미션 아이디로 get 하기.
+  const DataMissionManageDetail = useQuery(queryKey.MISSIONMANAGEDETAIL, () =>
+    getMissionManageDetail(route.params.missionId),
+  );
 
   return (
     <>
@@ -64,25 +32,28 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
           <Text style={[DesignSystem.title4Md, {color: 'black'}]}>상세정보</Text>
           <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
         </View>
-
-        <FlatList
-          contentContainerStyle={{backgroundColor: '#F8F8F8'}}
-          scrollEventThrottle={10}
-          data={dummyMission}
-          renderItem={({item}) => (
-            <StoreMissionDetailCard
-              missionId={item.missionId}
-              name={item.name}
-              successDate={item.successDate}
-              point={item.point}
-              phone={item.phone}
-              navigation={navigation}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
-          ListFooterComponent={() => <View />}
-          ListFooterComponentStyle={{margin: 20}}
-        />
+        {DataMissionManageDetail.data?.length !== 0 ? (
+          <FlatList
+            contentContainerStyle={{backgroundColor: '#F8F8F8'}}
+            scrollEventThrottle={10}
+            data={DataMissionManageDetail.data}
+            renderItem={({item}) => (
+              <StoreMissionDetailCard
+                missionId={item.missionId}
+                name={item.name}
+                successDate={item.successDate}
+                point={item.point}
+                phone={item.phone}
+                navigation={navigation}
+              />
+            )}
+            ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
+            ListFooterComponent={() => <View />}
+            ListFooterComponentStyle={{margin: 20}}
+          />
+        ) : (
+          <NoBobpool category={'미션상세'} />
+        )}
       </View>
     </>
   );

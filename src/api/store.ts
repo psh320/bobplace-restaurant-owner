@@ -50,6 +50,14 @@ export const getMissionManage = async () => {
   const response = await customAxios().get('/api/v1/missions/owners/mission-manage');
   return response.data.result;
 };
+//미션그룹 상세정보
+export const getMissionManageDetail = async (missionGroupId: number) => {
+  const response = await customAxios().get(
+    `/api/v1/missions/owners/mission-manage/${missionGroupId}`,
+  );
+  return response.data.result;
+};
+
 // 미션 배포 중지
 export const patchMissionStop = async (missionGroupId: number) => {
   // console.log(missionGroupId, '번번');
