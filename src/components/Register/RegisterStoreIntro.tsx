@@ -1,25 +1,21 @@
 import React, {useState} from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {RegisterStoreInterface} from '../../data';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {storeData, storeGetData} from '../../state';
 
 type RegisterStoreIntroProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
   value: string;
   error: boolean;
 };
 
-export const RegisterStoreIntro: FC<RegisterStoreIntroProps> = ({
-  setRegisterData,
-  registerData,
-  onChange,
-  value,
-  error,
-}) => {
+export const RegisterStoreIntro: FC<RegisterStoreIntroProps> = ({onChange, value, error}) => {
   const [focusedIntro, setFocusedIntro] = useState(false);
+  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
+  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
+
   return (
     <View style={[styles.addressWrap]}>
       <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
@@ -38,7 +34,8 @@ export const RegisterStoreIntro: FC<RegisterStoreIntroProps> = ({
         ]}
         onChangeText={(text) => {
           onChange(text);
-          setRegisterData({...registerData, intro: text});
+          setRCstoreData({...RCstoreData, intro: text});
+          setRCstoreGetData({...RCstoreGetData, intro: text});
         }}
         value={value}
         placeholder="가게 소개 입력"

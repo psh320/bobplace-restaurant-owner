@@ -18,11 +18,13 @@ import {RegisterStoreTable} from '../../components/Register/RegisterStoreTable';
 import {RegisterStoreIntro} from '../../components/Register/RegisterStoreIntro';
 import {RegisterStoreAddressDetail} from '../../components/Register/RegisterStoreAddressDetail';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {storeData} from '../../state';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreInfo'>;
 
 const RegisterStoreInfo = ({navigation, route}: Props) => {
-  const [registerStoreData, setRegisterStoreData] = useState(route.params.storeData);
+  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
 
   const {
     control,
@@ -44,9 +46,7 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
   };
 
   const onSubmit = () => {
-    navigation.navigate('RegisterStoreTime', {
-      storeData: registerStoreData,
-    });
+    navigation.navigate('RegisterStoreTime');
   };
   return (
     <SafeAreaView style={[styles.flex]}>
@@ -73,8 +73,6 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
             render={({field: {onChange, value}}) => {
               return (
                 <RegisterStoreName
-                  setRegisterData={setRegisterStoreData}
-                  registerData={registerStoreData}
                   onChange={onChange}
                   value={value}
                   error={errors.storeName !== undefined}
@@ -95,15 +93,7 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
               required: false,
             }}
             render={({field: {onChange, value}}) => {
-              return (
-                <RegisterStoreIntro
-                  setRegisterData={setRegisterStoreData}
-                  registerData={registerStoreData}
-                  onChange={onChange}
-                  value={value}
-                  error={false}
-                />
-              );
+              return <RegisterStoreIntro onChange={onChange} value={value} error={false} />;
             }}
             name="storeIntro"
           />
@@ -119,8 +109,6 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
               return (
                 <>
                   <RegisterAddress
-                    setRegisterData={setRegisterStoreData}
-                    registerData={registerStoreData}
                     onChange={onChange}
                     value={value}
                     error={errors.address !== undefined}
@@ -143,8 +131,6 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
               return (
                 <>
                   <RegisterStoreAddressDetail
-                    setRegisterData={setRegisterStoreData}
-                    registerData={registerStoreData}
                     onChange={onChange}
                     value={value}
                     error={errors.addressDetail !== undefined}
@@ -169,8 +155,6 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
             render={({field: {onChange, value}}) => {
               return (
                 <RegisterStoreType
-                  setRegisterData={setRegisterStoreData}
-                  registerData={registerStoreData}
                   onChange={onChange}
                   value={value}
                   error={errors.storeTypeId !== undefined}
@@ -193,8 +177,6 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
             render={({field: {onChange, value}}) => {
               return (
                 <RegisterStoreTable
-                  setRegisterData={setRegisterStoreData}
-                  registerData={registerStoreData}
                   onChange={onChange}
                   value={value}
                   error={errors.tableNum !== undefined}

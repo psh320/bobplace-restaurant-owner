@@ -9,15 +9,18 @@ import {RegisterStoreImages} from '../../components/Register/RegisterStoreImages
 import {RegisterTime} from '../../components/Register/RegisterTime';
 import {ImageInterface} from '../../data';
 import {AuthStackParamList} from '../../nav';
+import {useRecoilState} from 'recoil';
+import {storeData} from '../../state';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreTime'>;
 
 const RegisterStoreTime = ({navigation, route}: Props) => {
-  const [registerStoreData, setRegisterStoreData] = useState(route.params.storeData);
   const [storeImages, setStoreImages] = useState<ImageInterface[]>([]);
+  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
+
   const postRegister = async () => {
     try {
-      const response = await customAxios().post('/api/v1/stores', registerStoreData);
+      const response = await customAxios().post('/api/v1/stores', RCstoreData);
       console.log('post stores register:', response.data);
     } catch (error) {
       console.log('post stores register:', error);
@@ -35,9 +38,7 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
     },
   });
   const goBack = () => {
-    navigation.navigate('RegisterStoreInfo', {
-      storeData: registerStoreData,
-    });
+    navigation.navigate('RegisterStoreInfo');
   };
 
   const goNext = async () => {
@@ -80,8 +81,6 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
             render={({field: {onChange, value}}) => {
               return (
                 <RegisterMenuName
-                  setRegisterData={setRegisterStoreData}
-                  registerData={registerStoreData}
                   onChange={onChange}
                   value={value}
                   error={errors.menuName !== undefined}
@@ -94,7 +93,7 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           )}
 
-          <RegisterTime setRegisterData={setRegisterStoreData} registerData={registerStoreData} />
+          <RegisterTime />
         </ScrollView>
         <RegisterNextButton goNext={handleSubmit(goNext)} buttonState={3} />
       </SafeAreaView>

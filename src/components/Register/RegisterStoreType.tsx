@@ -2,26 +2,22 @@ import React, {useEffect, useState} from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RegisterStoreInterface} from '../../data';
 import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {storeData, storeGetData} from '../../state';
 
 type RegisterAddressProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
   value: number;
   error: boolean;
 };
 
-export const RegisterStoreType: FC<RegisterAddressProps> = ({
-  setRegisterData,
-  registerData,
-  onChange,
-  value,
-  error,
-}) => {
+export const RegisterStoreType: FC<RegisterAddressProps> = ({onChange, value, error}) => {
+  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
+  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
+
   return (
     <View style={[styles.addressWrap]}>
       <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
@@ -34,7 +30,8 @@ export const RegisterStoreType: FC<RegisterAddressProps> = ({
         style={error ? pickerSelectErrorStyles : pickerSelectStyles}
         onValueChange={(itemValue: number) => {
           onChange(itemValue);
-          setRegisterData({...registerData, storeTypeId: value});
+          setRCstoreData({...RCstoreData, storeTypeId: value});
+          setRCstoreGetData({...RCstoreGetData, storeTypeId: value});
         }}
         useNativeAndroidPickerStyle={false}
         placeholder={{label: '가게유형 선택', value: -1}}

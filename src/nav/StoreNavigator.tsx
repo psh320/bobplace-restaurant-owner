@@ -16,7 +16,13 @@ export type StoreStackParamList = {
   StoreMission: undefined;
   StoreReview: undefined;
   StoreMissionDetail: {missionId: number};
-  StoreMissionPayment: {purchaseId: number};
+  StoreMissionPayment: {
+    missionId: number;
+    name: string;
+    successDate: string;
+    point: number;
+    phone: string;
+  };
 };
 
 const Stack = createStackNavigator<StoreStackParamList>();
@@ -24,7 +30,7 @@ const Stack = createStackNavigator<StoreStackParamList>();
 export const StoreNavigator = ({navigation, route}) => {
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName === 'StoreMissionDetail') {
+    if (routeName === 'StoreMissionDetail' || routeName === 'StoreMissionPayment') {
       navigation.setOptions({tabBarStyle: {display: 'none'}});
     } else {
       navigation.setOptions({tabBarStyle: {display: undefined}});

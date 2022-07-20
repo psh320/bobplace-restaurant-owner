@@ -5,37 +5,16 @@ import AddressSearchModal from '../../modal/AddressSearchModal';
 import {useRecoilValue} from 'recoil';
 import {address} from '../../state';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RegisterStoreInterface} from '../../data';
 import {DesignSystem} from '../../assets/DesignSystem';
+
 type RegisterAddressProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
   value: string;
   error: boolean;
 };
 
-export const RegisterAddress: FC<RegisterAddressProps> = ({
-  setRegisterData,
-  registerData,
-  onChange,
-  value,
-  error,
-}) => {
+export const RegisterAddress: FC<RegisterAddressProps> = ({onChange, value, error}) => {
   const [addressModal, setAddressModal] = useState(false);
-  const userAddress = useRecoilValue(address);
-
-  //지도 모달에서 주소 바뀔때마다 회원가입 데이타 갱신
-  useEffect(() => {
-    setRegisterData({
-      ...registerData,
-      addressStreet: userAddress.address,
-      addressDong: userAddress.bname,
-      x: userAddress.x,
-      y: userAddress.y,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userAddress]);
 
   return (
     <View style={[styles.addressWrap]}>

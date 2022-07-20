@@ -5,14 +5,14 @@ import {OperationTime, RegisterStoreInterface} from '../data';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
 import {TimeList} from '../data/TimeList';
+import {useRecoilState} from 'recoil';
+import {storeData, storeGetData} from '../state';
 
 type OperationTimeModalProps = {
   visible: boolean;
   closeOperationTimeModal: () => void;
   index: number;
   item: OperationTime;
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
 };
 
 export const OperationTimeModal: FC<OperationTimeModalProps> = ({
@@ -20,11 +20,13 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
   closeOperationTimeModal,
   index,
   item,
-  setRegisterData,
-  registerData,
 }) => {
+  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
+  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
+
   const submitChangedDate = () => {
-    const tempData = {...registerData};
+    const tempData = {...RCstoreData};
+    const tempData2 = {...RCstoreGetData};
     //첫 데이터 입력할때만 모든 다른 날에 일관적용
     if (
       item.startTime === '00:00:00' &&
@@ -38,18 +40,30 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
         tempData.operationTimeVO[key].endTime = operationData.endTime;
         tempData.operationTimeVO[key].startTime = operationData.startTime;
       });
+      tempData2.operationTimeRes.map((data, key) => {
+        tempData2.operationTimeRes[key].breakEndTime = operationData2.breakEndTime;
+        tempData2.operationTimeRes[key].breakStartTime = operationData2.breakStartTime;
+        tempData2.operationTimeRes[key].endTime = operationData2.endTime;
+        tempData2.operationTimeRes[key].startTime = operationData2.startTime;
+      });
     }
 
     tempData.operationTimeVO[index] = operationData;
-    setRegisterData(tempData);
+    tempData2.operationTimeRes[index] = operationData2;
+    setRCstoreData(tempData);
+    setRCstoreGetData(tempData2);
     closeOperationTimeModal();
   };
   const [operationData, setOperationData] = useState<OperationTime>(
-    registerData.operationTimeVO[index],
+    RCstoreData.operationTimeVO[index],
+  );
+  const [operationData2, setOperationData2] = useState<OperationTime>(
+    RCstoreGetData.operationTimeRes[index],
   );
   useEffect(() => {
-    setOperationData(registerData.operationTimeVO[index]);
-  }, [index, registerData.operationTimeVO]);
+    setOperationData(RCstoreData.operationTimeVO[index]);
+    setOperationData2(RCstoreGetData.operationTimeRes[index]);
+  }, [index, RCstoreData.operationTimeVO, RCstoreGetData.operationTimeRes]);
   console.log('OPERATION TIME', operationData);
   return (
     <Modal

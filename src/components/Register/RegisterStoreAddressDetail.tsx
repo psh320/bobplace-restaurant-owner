@@ -1,25 +1,25 @@
 import React, {useState} from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {RegisterStoreInterface} from '../../data';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {storeData, storeGetData} from '../../state';
 
 type RegisterStoreAddressDetailProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
   value: string;
   error: boolean;
 };
 
 export const RegisterStoreAddressDetail: FC<RegisterStoreAddressDetailProps> = ({
-  setRegisterData,
-  registerData,
   onChange,
   value,
   error,
 }) => {
   const [focusedDetail, setFocusedDetail] = useState(false);
+  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
+  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
+
   return (
     <View>
       <TextInput
@@ -35,7 +35,8 @@ export const RegisterStoreAddressDetail: FC<RegisterStoreAddressDetailProps> = (
         ]}
         onChangeText={(text) => {
           onChange(text);
-          setRegisterData({...registerData, addressDetail: text});
+          setRCstoreData({...RCstoreData, addressDetail: text});
+          setRCstoreGetData({...RCstoreGetData, addressDetail: text});
         }}
         value={value}
         placeholder="상세주소 입력"

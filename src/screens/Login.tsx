@@ -42,12 +42,8 @@ const Login = ({navigation}: Props) => {
         navigation.navigate('RegisterDone', {status: 1});
       }
       if (response.data.result.registerStatus === 'APPROVED') {
-        const tempRegisterStore = createStore();
-        navigation.navigate('RegisterStoreInfo', {
-          storeData: tempRegisterStore,
-          menuImageData: [],
-          storeImageData: [],
-        });
+        // const tempRegisterStore = createStore(); //초기 빈값으로 틀 만들기 - 리코일하며 없어도될듯
+        navigation.navigate('RegisterStoreInfo');
       }
       if (response.data.result.registerStatus === 'DONE') {
         navigation.navigate('MainNavigator');

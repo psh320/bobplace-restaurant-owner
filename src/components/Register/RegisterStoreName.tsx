@@ -1,25 +1,22 @@
 import React, {useState} from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {RegisterStoreInterface} from '../../data';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {storeData, storeGetData} from '../../state';
 
 type RegisterStoreNameProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
   value: string;
   error: boolean;
 };
 
-export const RegisterStoreName: FC<RegisterStoreNameProps> = ({
-  setRegisterData,
-  registerData,
-  onChange,
-  value,
-  error,
-}) => {
+export const RegisterStoreName: FC<RegisterStoreNameProps> = ({onChange, value, error}) => {
   const [focusedName, setFocusedName] = useState(false);
+
+  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
+  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
+
   return (
     <View style={[styles.addressWrap]}>
       <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
@@ -41,7 +38,8 @@ export const RegisterStoreName: FC<RegisterStoreNameProps> = ({
         ]}
         onChangeText={(text) => {
           onChange(text);
-          setRegisterData({...registerData, storeName: text});
+          setRCstoreData({...RCstoreData, storeName: text});
+          setRCstoreGetData({...RCstoreGetData, storeName: text});
         }}
         value={value}
         placeholder="상호명 입력"

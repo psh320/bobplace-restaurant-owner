@@ -1,42 +1,22 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {CancelPointModal} from '../../modal/CancelPointModal';
+import {DesignSystem} from '../../assets/DesignSystem';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionPayment'>;
-
-const dummyPurchase = {
-  userName: '박승민',
-  purchaseDate: '2022.02.02 월요일 12:07:13',
-  point: 500,
-  purchaseId: 1223,
-};
 
 const StoreMissionPayment = ({navigation, route}: Props) => {
   const [cancelPointModal, setCancelPointModal] = useState(false);
   const [cancelContent, setCancelContent] = useState('');
-  const insets = useSafeAreaInsets();
-  const missionList = route.params.purchaseId; //이 미션 아이디로 get 하기.
+
   return (
     <>
-      {cancelPointModal ? (
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0,0,0,0.4)',
-            zIndex: 10,
-          }}
-        />
-      ) : (
-        <View />
-      )}
-      <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
-      <View style={[styles.flex]}>
+      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
+      <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <TouchableOpacity
             onPress={() => {
@@ -45,72 +25,76 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
           >
             <Icon name="arrow-left" size={24} color="black" />
           </TouchableOpacity>
-          <Text style={[styles.screenHeaderTitle]}>결제 취소 요청</Text>
+          <Text style={[DesignSystem.title4Md, {color: 'black'}]}>적립 취소 요청</Text>
           <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
         </View>
-
-        <View style={[styles.missionCard]}>
-          <View style={[styles.cancelWrap]}>
-            <Text style={[styles.headText]}>상세정보</Text>
-          </View>
-
-          <View style={[styles.seperateLine]} />
-
-          <View style={[styles.infoRow]}>
-            <Text style={[styles.fieldText]}>고객명</Text>
-            <Text style={[styles.normalText]}>{dummyPurchase.userName}</Text>
-          </View>
-          <View style={[styles.infoRow]}>
-            <Text style={[styles.fieldText]}>결제일</Text>
-            <Text style={[styles.normalText]}>{dummyPurchase.purchaseDate}</Text>
-          </View>
-          <View style={[styles.infoRow]}>
-            <Text style={[styles.fieldText]}>포인트</Text>
-            <Text style={[styles.normalText]}>{dummyPurchase.point}P</Text>
-          </View>
-          <View style={[styles.infoRow]}>
-            <Text style={[styles.fieldText]}>구분번호</Text>
-            <Text style={[styles.normalText]}>{dummyPurchase.purchaseId}</Text>
-          </View>
-        </View>
-        <View style={[styles.cancelBox]}>
-          <Text style={[styles.headText]}>취소사유</Text>
-          <TextInput
-            style={[styles.cancelContent]}
-            multiline={true}
-            placeholder={'취소 사유 작성'}
-            selectionColor={'#6C69FF'}
-            onChangeText={(text) => {
-              setCancelContent(text);
-            }}
-            value={cancelContent}
-          />
-        </View>
-        <View style={{flex: 1}} />
+        <KeyboardAvoidingView
+          style={{flex: 1}}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <ScrollView scrollEnabled={false} style={{flex: 1}}>
+            <View style={[styles.missionCard]}>
+              <View style={[styles.cancelWrap]}>
+                <View style={[styles.cancelTextWrap]}>
+                  <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>상세정보</Text>
+                </View>
+              </View>
+              <View style={[styles.seperateLine]} />
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>고객명</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.name}</Text>
+              </View>
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>결제일</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>
+                  {route.params.successDate}
+                </Text>
+              </View>
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>포인트</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.point}P</Text>
+              </View>
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>구분번호</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.phone}</Text>
+              </View>
+            </View>
+            <View style={[styles.cancelBox]}>
+              <Text style={[DesignSystem.title4Md, DesignSystem.grey17, {marginBottom: 8}]}>
+                취소 사유
+              </Text>
+              <TextInput
+                style={[styles.cancelContent]}
+                multiline={true}
+                placeholder={'취소 사유를 작성해주세요.'}
+                selectionColor={'#6C69FF'}
+                onChangeText={(text) => {
+                  setCancelContent(text);
+                }}
+                value={cancelContent}
+              />
+            </View>
+            <View style={{flex: 1}} />
+          </ScrollView>
+        </KeyboardAvoidingView>
         <TouchableOpacity
+          disabled={cancelContent === ''}
           onPress={() => {
             setCancelPointModal(true);
           }}
           style={{margin: 16}}
         >
-          <View
-            style={{
-              width: '100%',
-              height: 56,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#6C69FF',
-              borderRadius: 10,
-            }}
-          >
-            <Text style={styles.submitText}>결제 취소 신청</Text>
+          <View style={[styles.cancelPointBtn]}>
+            <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>적립 취소 신청</Text>
           </View>
         </TouchableOpacity>
         <CancelPointModal
           visible={cancelPointModal}
           closeCancelPointModal={() => setCancelPointModal(false)}
+          missionId={route.params.missionId}
+          reason={cancelContent}
         />
-      </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -127,8 +111,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
@@ -146,12 +128,6 @@ const styles = StyleSheet.create({
   missionSeperate: {
     marginTop: 8,
   },
-  screenHeaderTitle: {
-    fontSize: 16,
-    fontFamily: 'Pretendard-Regular',
-    fontWeight: '600',
-    lineHeight: 24,
-  },
   missionStopText: {
     fontSize: 14,
     lineHeight: 22,
@@ -163,9 +139,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderColor: '#EFEFEF',
     borderWidth: 1,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 14,
   },
   cancelWrap: {justifyContent: 'center', alignItems: 'flex-start'},
+  cancelTextWrap: {
+    justifyContent: 'center',
+    marginBottom: 8,
+    width: '100%',
+  },
   missionMain: {
     flex: 1,
     width: '100%',
@@ -173,29 +156,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   seperateLine: {
-    borderWidth: 0.5,
+    height: 0.5,
     width: '100%',
-    borderColor: '#DFDFDF',
-    marginBottom: 12,
-  },
-  nameText: {
-    fontFamily: 'Pretendard-Medium',
-    color: '#111111',
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  fieldText: {
-    fontFamily: 'Pretendard-Light',
-    color: '#616161',
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  headText: {
-    fontFamily: 'Pretendard-Medium',
-    color: '#111111',
-    fontSize: 18,
-    lineHeight: 26,
-    marginBottom: 8,
+    backgroundColor: '#DFDFDF',
+    marginBottom: 10,
   },
   infoRow: {
     flexDirection: 'row',
@@ -203,31 +167,31 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     alignItems: 'center',
   },
-
-  normalText: {fontFamily: 'Pretendard-Medium', color: '#111111', fontSize: 16, lineHeight: 24},
   cancelBox: {
     width: '100%',
     backgroundColor: '#FFFFFF',
-    marginTop: 16,
-    paddingTop: 16,
+    marginTop: 8,
+    paddingTop: 10,
     paddingLeft: 16,
     paddingRight: 16,
   },
   cancelContent: {
     width: '100%',
-    height: 164,
+    height: 153,
     flexWrap: 'wrap',
     backgroundColor: '#F5F5F5',
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 16,
+    paddingHorizontal: 11,
+    paddingTop: 9,
     borderRadius: 10,
-    marginBottom: 16,
+    marginBottom: 14,
+    textAlignVertical: 'top',
   },
-  submitText: {
-    fontFamily: 'Pretendard-Medium',
-    color: '#FFFFFF',
-    fontSize: 18,
-    lineHeight: 26,
+  cancelPointBtn: {
+    width: '100%',
+    height: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#6C69FF',
+    borderRadius: 10,
   },
 });

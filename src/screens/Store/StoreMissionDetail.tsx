@@ -1,59 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MissionDetailCard} from '../../components/mission/MissionDetailCard';
+import {StoreMissionDetailCard} from '../../components/Store/StoreMissionDetailCard';
+import {DesignSystem} from '../../assets/DesignSystem';
+import {queryKey} from '../../api/queryKey';
+import {useQuery} from 'react-query';
+import {getMissionManageDetail} from '../../api/store';
+import { NoBobpool } from '../../components/common/NoBobpool';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionDetail'>;
 
-const dummyMission = [
-  {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
-    point: 500,
-    purchaseId: 1234,
-  },
-  {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
-    point: 500,
-    purchaseId: 1234,
-  },
-  {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
-    point: 500,
-    purchaseId: 1234,
-  },
-  {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
-    point: 500,
-    purchaseId: 1234,
-  },
-  {
-    userName: '박승민',
-    purchaseTime: '12:07 AM',
-    purchaseDate: '12/03/22',
-    point: 500,
-    purchaseId: 1234,
-  },
-];
-
 const StoreMissionDetail = ({navigation, route}: Props) => {
-  const insets = useSafeAreaInsets();
-  const missionList = route.params.missionId; //이 미션 아이디로 get 하기.
+  const DataMissionManageDetail = useQuery(queryKey.MISSIONMANAGEDETAIL, () =>
+    getMissionManageDetail(route.params.missionId),
+  );
+
   return (
     <>
-      <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
+      <View style={{flex: 0, backgroundColor: 'white'}} />
       <View style={[styles.flex]}>
-        <View style={[styles.screenHeaderWrap]}>
+        <View style={[styles.screenHeaderWrap, {marginBottom: 8}]}>
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
@@ -61,27 +29,31 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
           >
             <Icon name="arrow-left" size={24} color="black" />
           </TouchableOpacity>
-          <Text style={[styles.screenHeaderTitle]}>상세정보</Text>
+          <Text style={[DesignSystem.title4Md, {color: 'black'}]}>상세정보</Text>
           <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
         </View>
-
-        <FlatList
-          contentContainerStyle={{backgroundColor: '#F8F8F8', marginTop: 8}}
-          scrollEventThrottle={10}
-          data={dummyMission}
-          renderItem={({item}) => (
-            <MissionDetailCard
-              userName={item.userName}
-              point={item.point}
-              purchaseDate={item.purchaseDate}
-              purchaseId={item.purchaseId}
-              navigation={navigation}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
-          ListFooterComponent={() => <View />}
-          ListFooterComponentStyle={{margin: 20}}
-        />
+        {DataMissionManageDetail.data?.length !== 0 ? (
+          <FlatList
+            contentContainerStyle={{backgroundColor: '#F8F8F8'}}
+            scrollEventThrottle={10}
+            data={DataMissionManageDetail.data}
+            renderItem={({item}) => (
+              <StoreMissionDetailCard
+                missionId={item.missionId}
+                name={item.name}
+                successDate={item.successDate}
+                point={item.point}
+                phone={item.phone}
+                navigation={navigation}
+              />
+            )}
+            ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
+            ListFooterComponent={() => <View />}
+            ListFooterComponentStyle={{margin: 20}}
+          />
+        ) : (
+          <NoBobpool category={'미션상세'} />
+        )}
       </View>
     </>
   );
@@ -99,8 +71,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
@@ -117,12 +87,6 @@ const styles = StyleSheet.create({
   },
   missionSeperate: {
     marginTop: 8,
-  },
-  screenHeaderTitle: {
-    fontSize: 16,
-    fontFamily: 'Pretendard-Regular',
-    fontWeight: '600',
-    lineHeight: 24,
   },
   missionStopText: {
     fontSize: 14,

@@ -7,6 +7,7 @@ import {StoreNavigator} from './StoreNavigator';
 import {MyNavigator} from './MyNavigator';
 import {getMissionsProgress} from '../api/mission';
 import {MissionNavigator} from './MissionNavigator';
+import {Image} from 'react-native';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
@@ -20,14 +21,6 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
   return {
     headerShown: false,
     tabBarShowLabel: true,
-    tabBarIcon: ({focused, color, size}: TabBarIconProps) => {
-      const {name} = route;
-      const focusedSize = focused ? size + 6 : size;
-      const focusedColor = focused ? 'black' : color;
-      const [icon, iconOutline] = icons[name];
-      const iconName = focused ? icon : iconOutline;
-      return <Icon name={iconName} size={focusedSize} color={focusedColor} />;
-    },
     tabBarActiveTintColor: 'black',
     tabBarInactiveTintColor: 'gray',
   };
@@ -36,24 +29,83 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
 const Tab = createBottomTabNavigator();
 
 export const MainNavigator = () => {
-
   getMissionsProgress();
   return (
     <Tab.Navigator screenOptions={screenOptions} initialRouteName="MissionNavigator">
       <Tab.Screen
         name="MissionNavigator"
         component={MissionNavigator}
-        options={{tabBarLabel: '미션'}}
+        options={{
+          tabBarLabel: '미션',
+          tabBarIcon: ({focused}) => {
+            if (focused) {
+              return (
+                <Image
+                  source={require('../assets/tab_bar_icon/homeFocus.png')}
+                  style={{width: 24, height: 24}}
+                  resizeMode="contain"
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../assets/tab_bar_icon/home.png')}
+                  style={{width: 24, height: 24}}
+                />
+              );
+            }
+          },
+        }}
       />
       <Tab.Screen
         name="StoreNavigator"
         component={StoreNavigator}
-        options={{tabBarLabel: '점포관리'}}
+        options={{
+          tabBarLabel: '가게관리',
+          tabBarIcon: ({focused}) => {
+            if (focused) {
+              return (
+                <Image
+                  source={require('../assets/tab_bar_icon/noodleFocus.png')}
+                  style={{width: 24, height: 24}}
+                  resizeMode="contain"
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../assets/tab_bar_icon/noodle.png')}
+                  style={{width: 24, height: 24}}
+                />
+              );
+            }
+          },
+        }}
       />
       <Tab.Screen
         name="MyNavigator"
         component={MyNavigator}
-        options={{tabBarLabel: '마이페이지'}}
+        options={{
+          tabBarLabel: '마이페이지',
+          tabBarIcon: ({focused}) => {
+            if (focused) {
+              return (
+                <Image
+                  source={require('../assets/tab_bar_icon/userFocus.png')}
+                  style={{width: 24, height: 24}}
+                  resizeMode="contain"
+                />
+              );
+            } else {
+              return (
+                <Image
+                  source={require('../assets/tab_bar_icon/user.png')}
+                  style={{width: 24, height: 24}}
+                />
+              );
+            }
+          },
+        }}
       />
     </Tab.Navigator>
   );
