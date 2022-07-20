@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
 import {customAxios} from '../../api';
@@ -7,17 +7,17 @@ import {RegisterHeader, RegisterNextButton} from '../../components';
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
 import {RegisterStoreImages} from '../../components/Register/RegisterStoreImages';
 import {RegisterTime} from '../../components/Register/RegisterTime';
-import {ImageInterface} from '../../data';
 import {AuthStackParamList} from '../../nav';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {registerMenuImage, registerStoreImage, storeData} from '../../state';
+import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreTime'>;
 
 const RegisterStoreTime = ({navigation, route}: Props) => {
   const [storeImages, setStoreImages] = useRecoilState(registerStoreImage);
   const [menuImages, setMenuImages] = useRecoilState(registerMenuImage);
-  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
+  const RCstoreData = useRecoilValue(storeData);
 
   const postRegister = async () => {
     try {
@@ -35,6 +35,7 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
     mode: 'onChange',
     defaultValues: {
       storeImage: [],
+      menuImage: [],
       menuName: '',
     },
   });
@@ -89,6 +90,26 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
             name="menuName"
           />
           {errors.menuName?.type === 'required' && (
+            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+          )}
+
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, value}}) => {
+              return (
+                <RegisterMenuImages
+                  onChange={onChange}
+                  value={value}
+                  error={errors.menuImage !== undefined}
+                />
+              );
+            }}
+            name="storeImage"
+          />
+          {errors.menuImage?.type === 'required' && (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           )}
 

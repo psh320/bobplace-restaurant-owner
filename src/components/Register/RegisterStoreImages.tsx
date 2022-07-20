@@ -46,7 +46,6 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({onChange, val
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
-
       setStoreImages([...storeImages, data]);
       onChange([...value, data]);
     }
@@ -67,7 +66,6 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({onChange, val
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
-
       setStoreImages([...storeImages, data]);
       onChange([...value, data]);
     }
@@ -89,7 +87,7 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({onChange, val
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>가게사진</Text>
           <Text style={{color: '#6C69FF'}}> * </Text>
-          <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> 1/3</Text>
+          <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> _/10</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text style={{color: '#6C69FF'}}>* </Text>

@@ -1,35 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import type {FC} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {ImageInterface, RegisterStoreInterface} from '../../data';
+import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ImageInterface} from '../../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {RenderUploadImage} from '../common/RenderUploadImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {DesignSystem} from '../../assets/DesignSystem';
+import {useRecoilState} from 'recoil';
+import {registerMenuImage} from '../../state';
 
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
 };
 
 type RegisterMenuImagesProps = {
-  setRegisterData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
-  registerData: RegisterStoreInterface;
   onChange: (...event: any[]) => void;
-  value: number;
+  value: ImageInterface[];
+  error: boolean;
 };
 
-export const RegisterMenuImages: FC<RegisterMenuImagesProps> = ({
-  setRegisterData,
-  registerData,
-  onChange,
-  value,
-}) => {
-  const [menuImages, setMenuImages] = useState(registerData.menuImage);
-  console.log(value);
-  useEffect(() => {
-    setRegisterData({...registerData, menuImage: menuImages});
-    onChange(menuImages.length);
-  }, [menuImages]);
-
+export const RegisterMenuImages: FC<RegisterMenuImagesProps> = ({onChange, value, error}) => {
+  const [menuImages, setMenuImages] = useRecoilState(registerMenuImage);
   //이미지 등록 시작!
   const openImagePicker = () => {
     Alert.alert('사진', '어떻게 가져올까요?', [
@@ -56,7 +46,7 @@ export const RegisterMenuImages: FC<RegisterMenuImagesProps> = ({
         name: result.assets[0].fileName as string,
       };
       setMenuImages([...menuImages, data]);
-      onChange(menuImages.length);
+      onChange([...value, data]);
     }
     console.log(result);
   };
@@ -76,27 +66,56 @@ export const RegisterMenuImages: FC<RegisterMenuImagesProps> = ({
         name: result.assets[0].fileName as string,
       };
       setMenuImages([...menuImages, data]);
-      onChange(menuImages.length);
+      onChange([...value, data]);
     }
     console.log(result);
   };
   //여기까지 이미지 등록!
+  const removeImage = (imageName: string) => {
+    setMenuImages((current) =>
+      current.filter((image) => {
+        return image.name !== imageName;
+      }),
+    );
+  };
 
   return (
     <View style={[styles.ImageSelectContainer]}>
       <View style={[styles.flexRow, {alignItems: 'baseline'}]}>
-        <Text style={[styles.formHeadText]}>대표메뉴 사진</Text>
-        <Text style={[styles.formSubText]}> 1/8</Text>
+        <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>대표메뉴 사진 등록</Text>
+        <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> _/3</Text>
       </View>
-      <Text style={[styles.formSubText, {marginBottom: 12}]}>
-        가게를 대표하는 사진을 첨부해주세요!
-      </Text>
-
       <View style={[styles.flexRow, {alignItems: 'center'}]}>
-        <TouchableOpacity style={[styles.imageAddButton]} onPress={openImagePicker}>
+        <TouchableOpacity
+          style={
+            menuImages.length > 3
+              ? [styles.imageAddButton, {opacity: 0.2}]
+              : [styles.imageAddButton]
+          }
+          onPress={openImagePicker}
+          disabled={menuImages.length > 3}
+        >
           <Icon name="plus" size={24} />
         </TouchableOpacity>
-        <RenderUploadImage imageData={menuImages} setImageData={setMenuImages} imageSize={80} />
+        <View>
+          {menuImages.map((data, index) => {
+            return (
+              <View style={{marginRight: 8}} key={index}>
+                <TouchableOpacity
+                  onPress={() => {
+                    removeImage(data.name);
+                  }}
+                  style={{position: 'absolute', top: 5, right: 5, zIndex: 1}}
+                >
+                  <View style={[styles.removeImageX]}>
+                    <Icon name="close" size={14} color="#DFDFDF" />
+                  </View>
+                </TouchableOpacity>
+                <Image source={{uri: data.uri}} style={{width: 80, height: 80}} />
+              </View>
+            );
+          })}
+        </View>
       </View>
     </View>
   );
@@ -118,14 +137,12 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 24,
   },
-  formHeadText: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  formSubText: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#777777',
+  removeImageX: {
+    backgroundColor: '#2A2A2A',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

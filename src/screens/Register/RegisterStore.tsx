@@ -6,7 +6,6 @@ import {AuthStackParamList} from '../../nav';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {ImageInterface} from '../../data';
-import {RenderUploadImage} from '../../components/common/RenderUploadImage';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {postStoreAuthImages} from '../../api/register';
 
