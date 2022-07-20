@@ -21,7 +21,7 @@ export const postStoreAuthImages = async (imageList: imageData[]) => {
           type: 'image/jpeg',
           name: 'image',
         });
-    formdata.append('authImage', photo);
+    formdata.append('storeAuthenticationImages', photo);
     console.log('formdata', formdata, photo);
   });
 
