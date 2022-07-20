@@ -1,24 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import type {FC} from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View, Text, Image, TouchableWithoutFeedback} from 'react-native';
-import {OperationTime, RegisterStoreInterface} from '../data';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import RNPickerSelect from 'react-native-picker-select';
-import {TimeList} from '../data/TimeList';
-import { DesignSystem } from '../assets/DesignSystem';
+import {DesignSystem} from '../assets/DesignSystem';
+import {postCancelPoint} from '../api/mission';
 
 type OperationTimeModalProps = {
   visible: boolean;
   closeCancelPointModal: () => void;
+  missionId: number;
+  reason: string;
 };
 
-export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCancelPointModal}) => {
+export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCancelPointModal, missionId, reason}) => {
   const [selectYes, setSelectYes] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     //post로 서버에 내용 보내기
-
-    setSelectYes(true);
+    // postCancelPoint(missionId, reason); //이거 지금 이슈------------
+    closeCancelPointModal();
   };
   return (
     <Modal
@@ -41,7 +40,7 @@ export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCan
                   <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>연락이 갈 수 있습니다.</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity onPress={closeCancelPointModal} style={styles.buttonOk}>
+                  <TouchableOpacity onPress={handleSubmit} style={styles.buttonOk}>
                     <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>확인</Text>
                   </TouchableOpacity>
                 </View>
@@ -61,7 +60,7 @@ export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCan
                       <Text style={[DesignSystem.title2Regular, DesignSystem.grey17]}>아니요</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={handleSubmit}>
+                  <TouchableOpacity onPress={() => setSelectYes(true)}>
                     <View style={styles.buttonYes}>
                       <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>네</Text>
                     </View>

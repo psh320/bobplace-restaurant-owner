@@ -1,126 +1,100 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {CancelPointModal} from '../../modal/CancelPointModal';
 import {DesignSystem} from '../../assets/DesignSystem';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionPayment'>;
-
-const dummyPurchase = {
-  userName: '박승민',
-  purchaseDate: '2022.02.02 월요일 12:07:13',
-  point: 500,
-  purchaseId: 1223,
-};
 
 const StoreMissionPayment = ({navigation, route}: Props) => {
   const [cancelPointModal, setCancelPointModal] = useState(false);
   const [cancelContent, setCancelContent] = useState('');
-  const insets = useSafeAreaInsets();
 
   return (
     <>
-      {cancelPointModal ? (
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0,0,0,0.4)',
-            zIndex: 10,
-          }}
-        />
-      ) : (
-        <View />
-      )}
-      <View style={{backgroundColor: '#FFFFFF', flex: 0}} />
-      <View style={[styles.flex]}>
-        <KeyboardAvoidingView
-          style={[{flex: 1}]}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <View style={[styles.screenHeaderWrap]}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Icon name="arrow-left" size={24} color="black" />
-            </TouchableOpacity>
-            <Text style={[DesignSystem.title4Md, {color: 'black'}]}>적립 취소 요청</Text>
-            <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
-          </View>
-
-          <View style={[styles.missionCard]}>
-            <View style={[styles.cancelWrap]}>
-              <View style={[styles.cancelTextWrap]}>
-                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>상세정보</Text>
-              </View>
-            </View>
-            <View style={[styles.seperateLine]} />
-            <View style={[styles.infoRow]}>
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>고객명</Text>
-              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.name}</Text>
-            </View>
-            <View style={[styles.infoRow]}>
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>결제일</Text>
-              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>
-                {route.params.successDate}
-              </Text>
-            </View>
-            <View style={[styles.infoRow]}>
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>포인트</Text>
-              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.point}P</Text>
-            </View>
-            <View style={[styles.infoRow]}>
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>구분번호</Text>
-              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.phone}</Text>
-            </View>
-          </View>
-          <View style={[styles.cancelBox]}>
-            <Text style={[DesignSystem.title4Md, DesignSystem.grey17, {marginBottom: 8}]}>
-              취소 사유
-            </Text>
-            <TextInput
-              style={[styles.cancelContent]}
-              multiline={true}
-              placeholder={'취소 사유를 작성해주세요.'}
-              selectionColor={'#6C69FF'}
-              onChangeText={(text) => {
-                setCancelContent(text);
-              }}
-              value={cancelContent}
-            />
-          </View>
-          <View style={{flex: 1}} />
+      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
+      <SafeAreaView style={[styles.flex]}>
+        <View style={[styles.screenHeaderWrap]}>
           <TouchableOpacity
             onPress={() => {
-              setCancelPointModal(true);
+              navigation.goBack();
             }}
-            style={{margin: 16}}
           >
-            <View
-              style={{
-                width: '100%',
-                height: 56,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#6C69FF',
-                borderRadius: 10,
-              }}
-            >
-              <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>적립 취소 신청</Text>
-            </View>
+            <Icon name="arrow-left" size={24} color="black" />
           </TouchableOpacity>
+          <Text style={[DesignSystem.title4Md, {color: 'black'}]}>적립 취소 요청</Text>
+          <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
+        </View>
+        <KeyboardAvoidingView
+          style={{flex: 1}}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <ScrollView scrollEnabled={false} style={{flex: 1}}>
+            <View style={[styles.missionCard]}>
+              <View style={[styles.cancelWrap]}>
+                <View style={[styles.cancelTextWrap]}>
+                  <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>상세정보</Text>
+                </View>
+              </View>
+              <View style={[styles.seperateLine]} />
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>고객명</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.name}</Text>
+              </View>
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>결제일</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>
+                  {route.params.successDate}
+                </Text>
+              </View>
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>포인트</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.point}P</Text>
+              </View>
+              <View style={[styles.infoRow]}>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>구분번호</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.phone}</Text>
+              </View>
+            </View>
+            <View style={[styles.cancelBox]}>
+              <Text style={[DesignSystem.title4Md, DesignSystem.grey17, {marginBottom: 8}]}>
+                취소 사유
+              </Text>
+              <TextInput
+                style={[styles.cancelContent]}
+                multiline={true}
+                placeholder={'취소 사유를 작성해주세요.'}
+                selectionColor={'#6C69FF'}
+                onChangeText={(text) => {
+                  setCancelContent(text);
+                }}
+                value={cancelContent}
+              />
+            </View>
+            <View style={{flex: 1}} />
+          </ScrollView>
         </KeyboardAvoidingView>
+        <TouchableOpacity
+          disabled={cancelContent === ''}
+          onPress={() => {
+            setCancelPointModal(true);
+          }}
+          style={{margin: 16}}
+        >
+          <View style={[styles.cancelPointBtn]}>
+            <Text style={[DesignSystem.title2Regular, {color: 'white'}]}>적립 취소 신청</Text>
+          </View>
+        </TouchableOpacity>
         <CancelPointModal
           visible={cancelPointModal}
           closeCancelPointModal={() => setCancelPointModal(false)}
+          missionId={route.params.missionId}
+          reason={cancelContent}
         />
-      </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -211,5 +185,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 14,
     textAlignVertical: 'top',
+  },
+  cancelPointBtn: {
+    width: '100%',
+    height: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#6C69FF',
+    borderRadius: 10,
   },
 });
