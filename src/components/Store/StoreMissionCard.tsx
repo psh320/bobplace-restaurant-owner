@@ -4,32 +4,37 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {StoreStackParamList} from '../../nav';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {patchMissionActive, patchMissionStop} from '../../api/store';
 
-type MissionCardProps = {
-  storeName: string;
-  storeId: string;
+type StoreMissionCardProps = {
   category: string;
   mission: string;
+  missionGroupId: number;
+  missionGroupStatus: string;
+  name: string;
   point: number;
-  isPresent: boolean;
   navigation: StackNavigationProp<StoreStackParamList, 'StoreMission', undefined>;
 };
-const closeMission = () => {
+const closeMission = (missionGroupId: number) => {
   console.log('배포 중지!');
+  patchMissionStop(missionGroupId);
 };
-const reopenMission = () => {
+const reopenMission = (missionGroupId: number) => {
   console.log('재배포 요청 !!');
+  patchMissionActive(missionGroupId);
 };
 
 //prettier-ignore
-export const MissionCard: FC<MissionCardProps> = ({storeName, storeId, category, mission, point, isPresent, navigation}) => {
+export const StoreMissionCard: FC<StoreMissionCardProps> = ({category, mission, missionGroupId, missionGroupStatus, name, point, navigation}) => {
     return (
       <View style={[styles.missionCardWrap]}>
-        <TouchableOpacity onPress={() => {navigation.navigate('StoreMissionDetail', {missionId: storeId})}} >
+        <TouchableOpacity onPress={() => {navigation.navigate('StoreMissionDetail', {missionId: missionGroupId})}} >
           <View style={[styles.missionCard]}>
             <View style={[styles.nameBox]}>
-              <Text style={[DesignSystem.caption1Lt, {color: isPresent ? '#6C69FF' : '#E24C44'}]}>{isPresent ? '배포중' : '배포중지' }</Text>
-              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{storeName}</Text>
+              <Text style={[DesignSystem.caption1Lt, {color: missionGroupStatus === 'ACTIVE' ? '#6C69FF' : '#E24C44'}]}>
+                {missionGroupStatus === 'ACTIVE' ? '배포중' : '배포중지' }
+              </Text>
+              <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{name}</Text>
               <Text style={[DesignSystem.body2Lt, DesignSystem.grey10]}>{category}</Text>
             </View>
             <View style={[styles.seperateLine]} />
@@ -40,8 +45,11 @@ export const MissionCard: FC<MissionCardProps> = ({storeName, storeId, category,
                 <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
               </Text>
             </View>
-            <TouchableOpacity style={[styles.openBtnWrap]} onPress={isPresent? closeMission : reopenMission}>
-              <Text style={[DesignSystem.h3SB, DesignSystem.grey8]}>{isPresent ? '배포 중지 요청' : '재배포 요청' }</Text>
+            <TouchableOpacity
+              style={[styles.openBtnWrap]}
+              onPress={missionGroupStatus === 'ACTIVE' ? () => closeMission(missionGroupId) : () => reopenMission(missionGroupId)}
+            >
+              <Text style={[DesignSystem.h3SB, DesignSystem.grey8]}>{missionGroupStatus === 'ACTIVE' ? '배포 중지 요청' : '재배포 요청' }</Text>
             </TouchableOpacity>
           </View>
       </TouchableOpacity>

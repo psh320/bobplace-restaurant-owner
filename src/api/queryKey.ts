@@ -17,4 +17,5 @@ export const queryKey = {
   QUESTIONDETAIL: 'questionDetail',
   MISSIONSPROGRESS: 'missionsProgress',
   MISSIONSSUCCESS: 'missionsSuccess',
+  MISSIONMANAGE: 'missionManage',
 };

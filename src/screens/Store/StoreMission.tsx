@@ -9,55 +9,26 @@ import {useNavigation} from '@react-navigation/native';
 
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MissionCard} from '../../components/mission/MissionCard';
+import {StoreMissionCard} from '../../components/Store/StoreMissionCard';
 import {MissionStopModal} from '../../modal/MissionStopModal';
 import {DesignSystem} from '../../assets/DesignSystem';
-import {getMissionManageCount} from '../../api/mission';
+import {getMissionManage, getMissionManageCount} from '../../api/store';
+import {queryKey} from '../../api/queryKey';
+import {useQuery} from 'react-query';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
-const dummyMission = [
-  {
-    storeName: '마라탕집',
-    storeId: '0',
-    category: '중식당',
-    mission: '10000원 이상',
-    point: 500,
-    isPresent: true,
-  },
-  {
-    storeName: '중화반점은 홍콩반점',
-    storeId: '1',
-    category: '중식당',
-    mission: '대표메뉴 짜장면',
-    point: 500,
-    isPresent: true,
-  },
-  {
-    storeName: '한강 왜 가냐 라면 먹지',
-    storeId: '2',
-    category: '중식당',
-    mission: '대표메뉴 라면',
-    point: 500,
-    isPresent: false,
-  },
-  {
-    storeName: '한강 왜 가냐 라면 먹지',
-    storeId: '2',
-    category: '중식당',
-    mission: '대표메뉴 라면',
-    point: 500,
-    isPresent: false,
-  },
-];
-
 const StoreMission = ({navigation}: Props) => {
   const [missionStopModal, setMissionStopModal] = useState(false);
+  const [pressedMissionGId, setPressedMissionGId] = useState(0);
   const insets = useSafeAreaInsets();
   const [eyeballs, setEyeballs] = useState(1);
   getMissionManageCount().then((res) => {
     setEyeballs(res);
   });
+  const DataMissionManage = useQuery(queryKey.MISSIONMANAGE, getMissionManage);
+  console.log('DataMissionManage', DataMissionManage);
+
   return (
     <>
       <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
@@ -77,36 +48,41 @@ const StoreMission = ({navigation}: Props) => {
           <Text style={[styles.missionStatPointText]}>{eyeballs}명</Text>
           <Text style={[styles.missionStatText]}> 에게 노출되었어요</Text>
         </View>
-
-        <FlatList
-          contentContainerStyle={{backgroundColor: '#F8F8F8'}}
-          scrollEventThrottle={10}
-          data={dummyMission}
-          renderItem={({item}) => (
-            <MissionCard
-              storeId={item.storeId}
-              storeName={item.storeName}
-              category={item.category}
-              mission={item.mission}
-              point={item.point}
-              isPresent={item.isPresent}
-              navigation={navigation}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
-          ListFooterComponent={() => (
-            <TouchableOpacity
-              onPress={() => {
-                setMissionStopModal(true);
-              }}
-              style={[styles.missionStopButtonWrap]}
-            >
-              <View>
-                <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>전체 배포 중지 요청</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        {DataMissionManage.data?.length !== 0 ? (
+          <FlatList
+            contentContainerStyle={{backgroundColor: '#F8F8F8'}}
+            scrollEventThrottle={10}
+            data={DataMissionManage.data}
+            renderItem={({item}) => (
+              <StoreMissionCard
+                category={item.category}
+                mission={item.mission}
+                missionGroupId={item.missionGroupId}
+                missionGroupStatus={item.missionGroupStatus}
+                name={item.name}
+                point={item.point}
+                navigation={navigation}
+              />
+            )}
+            ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
+            ListFooterComponent={() => (
+              <TouchableOpacity
+                onPress={() => {
+                  setMissionStopModal(true);
+                }}
+                style={[styles.missionStopButtonWrap]}
+              >
+                <View>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>
+                    전체 배포 중지 요청
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <Text>설정한 미션이 없는경우. 그럴수가 있나 ? ㅇㅁㅇ~</Text>
+        )}
         <MissionStopModal
           visible={missionStopModal}
           closeMissionStopModal={() => {

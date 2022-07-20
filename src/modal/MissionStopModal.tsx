@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import type {FC} from 'react';
-import {Modal, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import {OperationTime, RegisterStoreInterface} from '../data';
+import {Modal, StyleSheet, TouchableOpacity, View, Text, Dimensions} from 'react-native';
+import {DesignSystem} from '../assets/DesignSystem';
 
 type MissionStopModalProps = {
   visible: boolean;
   closeMissionStopModal: () => void;
 };
+const BUTTONWIDTH = (Dimensions.get('screen').width - 72 - 17) / 2;
 
 export const MissionStopModal: FC<MissionStopModalProps> = ({visible, closeMissionStopModal}) => {
   const handleSubmit = () => {
-    //서버에 미션중지 요청 post
+    //서버에 미션중지 요청 post //아직 api가 없  ? ?
     closeMissionStopModal();
   };
   return (
@@ -23,8 +24,10 @@ export const MissionStopModal: FC<MissionStopModalProps> = ({visible, closeMissi
       <View style={styles.modalWrap}>
         <View style={styles.modalContainer}>
           <View style={styles.warningContainer}>
-            <Text style={styles.headText}>미션 중지 요청 주의사항</Text>
-            <Text style={styles.fieldText}>
+            <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 10}]}>
+              미션 중지 요청시 주의사항
+            </Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
               현재까지 배포된 미션은 소멸되지 않으며, 모든 미션이 없어지기까지 최대 7일까지 소요될
               수 있습니다.
             </Text>
@@ -32,12 +35,12 @@ export const MissionStopModal: FC<MissionStopModalProps> = ({visible, closeMissi
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={closeMissionStopModal}>
               <View style={styles.buttonNo}>
-                <Text style={styles.noText}>취소</Text>
+                <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>취소</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSubmit}>
               <View style={styles.buttonYes}>
-                <Text style={styles.yesText}>중지 요청</Text>
+                <Text style={[DesignSystem.title4Md, {color: 'white'}]}>중지 요청</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -53,52 +56,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   warningContainer: {
-    justifyContent: 'center',
+    marginBottom: 10,
   },
   modalContainer: {
-    width: 330,
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    padding: 16,
-  },
-  headText: {
-    fontFamily: 'Pretendard-Medium',
-    color: '#111111',
-    fontSize: 18,
-    lineHeight: 28,
-    marginBottom: 12,
-  },
-  fieldText: {
-    flexWrap: 'wrap',
-    fontFamily: 'Pretendard-Light',
-    color: '#616161',
-    fontSize: 16,
-    lineHeight: 24,
+    borderRadius: 15,
+    padding: 20,
+    justifyContent: 'center',
   },
   buttonNo: {
-    width: 139,
-    height: 48,
+    width: BUTTONWIDTH,
+    paddingVertical: 12,
     borderColor: '#949494',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 18,
   },
-  noText: {color: '#616161', fontFamily: 'Pretendard-Regular', fontSize: 16, lineHeight: 24},
   buttonYes: {
-    width: 139,
-    height: 48,
-    borderRadius: 10,
+    width: BUTTONWIDTH,
+    paddingVertical: 12,
+    borderRadius: 8,
     backgroundColor: '#6C69FF',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  yesText: {color: '#FFFFFF', fontFamily: 'Pretendard-Regular', fontSize: 16, lineHeight: 24},
   buttonContainer: {
-    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
