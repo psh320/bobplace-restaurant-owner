@@ -30,7 +30,13 @@ export const StoreMissionDetailCard: FC<StoreMissionDetailCardProps> = ({
       <View style={[styles.cancelWrap]}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('StoreMissionPayment', {purchaseId: missionId});
+            navigation.navigate('StoreMissionPayment', {
+              missionId: missionId,
+              name: name,
+              successDate: successDate,
+              point: point,
+              phone: phone,
+            });
           }}
         >
           <View style={[styles.cancelTextWrap]}>
@@ -41,19 +47,19 @@ export const StoreMissionDetailCard: FC<StoreMissionDetailCardProps> = ({
       <View style={[styles.seperateLine]} />
 
       <View style={[styles.infoRow]}>
-        <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>고객명</Text>
+        <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>고객명</Text>
         <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{name}</Text>
       </View>
       <View style={[styles.infoRow]}>
-        <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>결제일</Text>
+        <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>결제일</Text>
         <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{successDate}</Text>
       </View>
       <View style={[styles.infoRow]}>
-        <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>포인트</Text>
+        <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>포인트</Text>
         <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{point}P</Text>
       </View>
       <View style={[styles.infoRow]}>
-        <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>구분번호</Text>
+        <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>구분번호</Text>
         <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{phone}</Text>
       </View>
     </View>
@@ -62,7 +68,7 @@ export const StoreMissionDetailCard: FC<StoreMissionDetailCardProps> = ({
 
 const styles = StyleSheet.create({
   missionCard: {
-    backgroundColor: Colors.white,
+    backgroundColor: 'white',
     borderColor: '#EFEFEF',
     borderWidth: 1,
     paddingHorizontal: 16,

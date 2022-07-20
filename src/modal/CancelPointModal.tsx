@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import type {FC} from 'react';
-import {Modal, StyleSheet, TouchableOpacity, View, Text, Image} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity, View, Text, Image, TouchableWithoutFeedback} from 'react-native';
 import {OperationTime, RegisterStoreInterface} from '../data';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
@@ -22,54 +22,70 @@ export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCan
   return (
     <Modal
       visible={visible}
-      animationType="slide"
+      animationType="fade"
       presentationStyle="overFullScreen"
       transparent={true}
+      statusBarTranslucent
     >
-      <View style={styles.modalWrap}>
-        {selectYes ? (
-          <View style={styles.modalContainer}>
-            <View style={styles.warningContainer}>
-              <Text style={styles.headText}>결제 취소가 요청 되었습니다.</Text>
-              <Text style={styles.fieldText}>해당 요청의 사실 확인을 위해</Text>
-              <Text style={styles.fieldText}>연락이 갈 수 있습니다.</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={closeCancelPointModal} style={styles.buttonOk}>
-                <Text style={styles.yesText}>확인</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <View style={styles.modalContainer}>
-            <View style={styles.warningContainer}>
-              <Image
-                source={require('../assets/images/warning.png')}
-                style={{width: 50, height: 50}}
-              />
-              <Text style={styles.headText}>포인트 적립을 정말 취소하시겠습니까?</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={closeCancelPointModal}>
-                <View style={styles.buttonNo}>
-                  <Text style={styles.noText}>아니요</Text>
+      <TouchableOpacity style={[styles.overlay]} activeOpacity={1} onPress={closeCancelPointModal}>
+        <TouchableWithoutFeedback>
+          <View style={styles.modalWrap}>
+            {selectYes ? (
+              <View style={styles.modalContainer}>
+                <View style={styles.warningContainer}>
+                  <Text style={styles.headText}>결제 취소가 요청 되었습니다.</Text>
+                  <Text style={styles.fieldText}>해당 요청의 사실 확인을 위해</Text>
+                  <Text style={styles.fieldText}>연락이 갈 수 있습니다.</Text>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSubmit}>
-                <View style={styles.buttonYes}>
-                  <Text style={styles.yesText}>네</Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity onPress={closeCancelPointModal} style={styles.buttonOk}>
+                    <Text style={styles.yesText}>확인</Text>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
+              </View>
+            ) : (
+              <View style={styles.modalContainer}>
+                <View style={styles.warningContainer}>
+                  <Image
+                    source={require('../assets/images/warning.png')}
+                    style={{width: 50, height: 50}}
+                  />
+                  <Text style={styles.headText}>포인트 적립을 정말 취소하시겠습니까?</Text>
+                </View>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity onPress={closeCancelPointModal}>
+                    <View style={styles.buttonNo}>
+                      <Text style={styles.noText}>아니요</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleSubmit}>
+                    <View style={styles.buttonYes}>
+                      <Text style={styles.yesText}>네</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
           </View>
-        )}
-      </View>
+        </TouchableWithoutFeedback>
+      </TouchableOpacity>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  modalWrap: {justifyContent: 'flex-end', alignItems: 'center', flex: 1, backgroundColor: 'none'},
+  // modalWrap: {justifyContent: 'flex-end', alignItems: 'center', flex: 1, backgroundColor: 'none'},
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  modalWrap: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flex: 1,
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   modalContainer: {
     width: '100%',
     height: 240,

@@ -10,35 +10,35 @@ type Props = StackScreenProps<StoreStackParamList, 'StoreMissionDetail'>;
 
 const dummyMission = [
   {
-    missionId: 1,
+    missionId: 111,
     name: '박승민',
     phone: '1',
     point: 500,
     successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    missionId: 1,
+    missionId: 112,
     name: '박승민',
     phone: '2',
     point: 500,
     successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    missionId: 1,
+    missionId: 113,
     name: '박승민',
     phone: '12331231',
     point: 500,
     successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    missionId: 1,
+    missionId: 114,
     name: '박승민',
     phone: '4',
     point: 500,
     successDate: '2022-07-20T07:00:53.085Z',
   },
   {
-    missionId: 1,
+    missionId: 115,
     name: '박승민',
     phone: '5',
     point: 500,
@@ -53,7 +53,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
     <>
       <View style={{flex: 0, backgroundColor: 'white'}} />
       <View style={[styles.flex]}>
-        <View style={[styles.screenHeaderWrap]}>
+        <View style={[styles.screenHeaderWrap, {marginBottom: 8}]}>
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
@@ -66,7 +66,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
         </View>
 
         <FlatList
-          contentContainerStyle={{backgroundColor: '#F8F8F8', marginTop: 8}}
+          contentContainerStyle={{backgroundColor: '#F8F8F8'}}
           scrollEventThrottle={10}
           data={dummyMission}
           renderItem={({item}) => (

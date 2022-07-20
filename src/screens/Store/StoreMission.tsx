@@ -29,8 +29,8 @@ const StoreMission = ({navigation}: Props) => {
   // console.log('mmmm', missionManageModal);
   return (
     <>
-      <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
-      <View style={[styles.flex]}>
+      <View style={{backgroundColor: '#FFFFFF', flex: 0}} />
+      <View>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
         </View>
@@ -48,7 +48,6 @@ const StoreMission = ({navigation}: Props) => {
         </View>
         {DataMissionManage.data?.length !== 0 ? (
           <FlatList
-            contentContainerStyle={{backgroundColor: '#F8F8F8'}}
             scrollEventThrottle={10}
             data={DataMissionManage.data}
             renderItem={({item}) => (

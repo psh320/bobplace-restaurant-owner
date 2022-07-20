@@ -1,6 +1,6 @@
 import React from 'react';
 import type {FC} from 'react';
-import {Modal, StyleSheet, TouchableOpacity, View, Text, Dimensions} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity, View, Text, Dimensions, TouchableWithoutFeedback} from 'react-native';
 import {DesignSystem} from '../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
 import {RCpressedMissionGroupId} from '../state';
@@ -38,32 +38,40 @@ export const MissionManageModal: FC<MissionManageModalProps> = ({
         animationType="fade"
         presentationStyle="overFullScreen"
         transparent={true}
+        statusBarTranslucent
       >
-        <View style={styles.modalWrap}>
-          <View style={styles.modalContainer}>
-            <View style={styles.warningContainer}>
-              <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 10}]}>
-                미션 전체 중지 요청시 주의사항
-              </Text>
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
-                현재까지 배포된 미션은 소멸되지 않으며, 모든 미션이 없어지기까지 최대 7일까지 소요될
-                수 있습니다.
-              </Text>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={closeMissionManageModal}>
-                <View style={styles.buttonNo}>
-                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>취소</Text>
+        <TouchableOpacity
+          style={[styles.overlay]}
+          activeOpacity={1}
+          onPress={closeMissionManageModal}
+        >
+          <TouchableWithoutFeedback>
+            <View style={styles.modalWrap}>
+              <View style={styles.modalContainer}>
+                <View style={styles.warningContainer}>
+                  <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 10}]}>
+                    미션 전체 중지 요청시 주의사항
+                  </Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
+                    현재까지 배포된 미션은 소멸되지 않으며, 모든 미션이 없어지기까지 최대 7일이 소요될 수 있습니다.
+                  </Text>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSubmitStopAll}>
-                <View style={styles.buttonYes}>
-                  <Text style={[DesignSystem.title4Md, {color: 'white'}]}>중지 요청</Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity onPress={closeMissionManageModal}>
+                    <View style={styles.buttonNo}>
+                      <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>취소</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleSubmitStopAll}>
+                    <View style={styles.buttonYes}>
+                      <Text style={[DesignSystem.title4Md, {color: 'white'}]}>중지 요청</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
       {/* 하나만 중지 */}
       <Modal
@@ -71,32 +79,40 @@ export const MissionManageModal: FC<MissionManageModalProps> = ({
         animationType="fade"
         presentationStyle="overFullScreen"
         transparent={true}
+        statusBarTranslucent
       >
-        <View style={styles.modalWrap}>
-          <View style={styles.modalContainer}>
-            <View style={styles.warningContainer}>
-              <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 10}]}>
-                하나 미션 중지 요청시 주의사항
-              </Text>
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
-                현재까지 배포된 미션은 소멸되지 않으며, 모든 미션이 없어지기까지 최대 7일까지 소요될
-                수 있습니다.
-              </Text>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={closeMissionManageModal}>
-                <View style={styles.buttonNo}>
-                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>취소</Text>
+        <TouchableOpacity
+          style={[styles.overlay]}
+          activeOpacity={1}
+          onPress={closeMissionManageModal}
+        >
+          <TouchableWithoutFeedback>
+            <View style={styles.modalWrap}>
+              <View style={styles.modalContainer}>
+                <View style={styles.warningContainer}>
+                  <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 10}]}>
+                    미션 중지 요청시 주의사항
+                  </Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
+                    현재까지 배포된 미션은 소멸되지 않으며, 모든 미션이 없어지기까지 최대 7일이 소요될 수 있습니다.
+                  </Text>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSubmitStopOne}>
-                <View style={styles.buttonYes}>
-                  <Text style={[DesignSystem.title4Md, {color: 'white'}]}>중지 요청</Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity onPress={closeMissionManageModal}>
+                    <View style={styles.buttonNo}>
+                      <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>취소</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleSubmitStopOne}>
+                    <View style={styles.buttonYes}>
+                      <Text style={[DesignSystem.title4Md, {color: 'white'}]}>중지 요청</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
       {/* 재배포 요청 */}
       <Modal
@@ -104,42 +120,53 @@ export const MissionManageModal: FC<MissionManageModalProps> = ({
         animationType="fade"
         presentationStyle="overFullScreen"
         transparent={true}
+        statusBarTranslucent
       >
-        <View style={styles.modalWrap}>
-          <View style={styles.modalContainer}>
-            <View style={styles.warningContainer}>
-              <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 10}]}>
-                미션 재배포 요청시 주의사항
-              </Text>
-              <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
-                미션 재배포까지 최대 7일의 시간이 소요될 수 있습니다.
-              </Text>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={closeMissionManageModal}>
-                <View style={styles.buttonNo}>
-                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>취소</Text>
+        <TouchableOpacity
+          style={[styles.overlay]}
+          activeOpacity={1}
+          onPress={closeMissionManageModal}
+        >
+          <TouchableWithoutFeedback>
+            <View style={styles.modalWrap}>
+              <View style={styles.modalContainer}>
+                <View style={styles.warningContainer}>
+                  <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 10}]}>
+                    미션 재배포 안내
+                  </Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
+                    미션을 재배포 하시겠습니까? 재배포시 바로 미션이 활성화 됩니다.
+                  </Text>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSubmitActive}>
-                <View style={styles.buttonYes}>
-                  <Text style={[DesignSystem.title4Md, {color: 'white'}]}>재배포 요청</Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity onPress={closeMissionManageModal}>
+                    <View style={styles.buttonNo}>
+                      <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>취소</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleSubmitActive}>
+                    <View style={styles.buttonYes}>
+                      <Text style={[DesignSystem.title4Md, {color: 'white'}]}>확인</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </Modal>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  modalWrap: {
+  overlay: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  modalWrap: {
     paddingLeft: 16,
     paddingRight: 16,
   },

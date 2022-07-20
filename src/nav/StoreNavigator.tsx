@@ -16,7 +16,13 @@ export type StoreStackParamList = {
   StoreMission: undefined;
   StoreReview: undefined;
   StoreMissionDetail: {missionId: number};
-  StoreMissionPayment: {purchaseId: number};
+  StoreMissionPayment: {
+    missionId: number;
+    name: string;
+    successDate: string;
+    point: number;
+    phone: string;
+  };
 };
 
 const Stack = createStackNavigator<StoreStackParamList>();
