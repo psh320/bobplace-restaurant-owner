@@ -204,3 +204,8 @@ export const RCnowWrite = atom({
   key: 'RCnowWrite',
   default: true,
 });
+
+export const RCpressedMissionGroupId = atom({
+  key: 'RCpressedMissionGroupId',
+  default: 0,
+});

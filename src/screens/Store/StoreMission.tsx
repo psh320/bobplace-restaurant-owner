@@ -1,26 +1,24 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {MissionUserCard} from '../../components/mission/MissionUserCard';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
-import {StoreInfo} from '../../components/Store/StoreInfo';
-import {useNavigation} from '@react-navigation/native';
 
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StoreMissionCard} from '../../components/Store/StoreMissionCard';
-import {MissionStopModal} from '../../modal/MissionStopModal';
+import {MissionManageModal} from '../../modal/MissionManageModal';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {getMissionManage, getMissionManageCount} from '../../api/store';
 import {queryKey} from '../../api/queryKey';
 import {useQuery} from 'react-query';
+import {useRecoilState} from 'recoil';
+import {RCpressedMissionGroupId} from '../../state';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
 const StoreMission = ({navigation}: Props) => {
-  const [missionStopModal, setMissionStopModal] = useState(false);
-  const [pressedMissionGId, setPressedMissionGId] = useState(0);
+  const [missionManageModal, setMissionManageModal] = useState('');
+  const [pressedMissionGId, setPressedMissionGId] = useRecoilState(RCpressedMissionGroupId);
   const insets = useSafeAreaInsets();
   const [eyeballs, setEyeballs] = useState(1);
   getMissionManageCount().then((res) => {
@@ -28,7 +26,7 @@ const StoreMission = ({navigation}: Props) => {
   });
   const DataMissionManage = useQuery(queryKey.MISSIONMANAGE, getMissionManage);
   console.log('DataMissionManage', DataMissionManage);
-
+  // console.log('mmmm', missionManageModal);
   return (
     <>
       <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
@@ -62,13 +60,14 @@ const StoreMission = ({navigation}: Props) => {
                 name={item.name}
                 point={item.point}
                 navigation={navigation}
+                setMissionManageModal={(type) => setMissionManageModal(type)}
               />
             )}
             ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
             ListFooterComponent={() => (
               <TouchableOpacity
                 onPress={() => {
-                  setMissionStopModal(true);
+                  setMissionManageModal('STOPALL');
                 }}
                 style={[styles.missionStopButtonWrap]}
               >
@@ -83,10 +82,10 @@ const StoreMission = ({navigation}: Props) => {
         ) : (
           <Text>설정한 미션이 없는경우. 그럴수가 있나 ? ㅇㅁㅇ~</Text>
         )}
-        <MissionStopModal
-          visible={missionStopModal}
-          closeMissionStopModal={() => {
-            setMissionStopModal(false);
+        <MissionManageModal
+          type={missionManageModal}
+          closeMissionManageModal={() => {
+            setMissionManageModal('');
           }}
         />
       </View>
