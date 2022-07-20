@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,6 +12,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {MissionCard} from '../../components/mission/MissionCard';
 import {MissionStopModal} from '../../modal/MissionStopModal';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {getMissionManageCount} from '../../api/mission';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
@@ -53,9 +54,10 @@ const dummyMission = [
 const StoreMission = ({navigation}: Props) => {
   const [missionStopModal, setMissionStopModal] = useState(false);
   const insets = useSafeAreaInsets();
-
-  const numberOfUsers = dummyMission.length;
-
+  const [eyeballs, setEyeballs] = useState(1);
+  getMissionManageCount().then((res) => {
+    setEyeballs(res);
+  });
   return (
     <>
       <View style={{backgroundColor: '#FFFFFF', height: insets.top}} />
@@ -72,7 +74,7 @@ const StoreMission = ({navigation}: Props) => {
 
         <View style={[styles.missionUserNumberWrap]}>
           <Text style={[styles.missionStatText]}>최근 7일 미션이 총 </Text>
-          <Text style={[styles.missionStatPointText]}>{numberOfUsers}명</Text>
+          <Text style={[styles.missionStatPointText]}>{eyeballs}명</Text>
           <Text style={[styles.missionStatText]}> 에게 노출되었어요</Text>
         </View>
 
