@@ -31,13 +31,14 @@ import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages';
 import {RegisterStoreIntro} from '../../components/Register/RegisterStoreIntro';
 import {RegisterStoreAddressDetail} from '../../components/Register/RegisterStoreAddressDetail';
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
-import { putStoresMe } from '../../api/store';
+import {putStoresMe} from '../../api/store';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 
 const StoreEdit = ({navigation}: Props) => {
   const [store, setStore] = useRecoilState(storeGetData);
-  const [imageSwiperModal, setImageSwiperModal] = useState(false);//수정전 주석중
+  const [imageSwiperModal, setImageSwiperModal] = useState(false); //수정전 주석중
   const insets = useSafeAreaInsets();
   const {
     control,
@@ -81,20 +82,17 @@ const StoreEdit = ({navigation}: Props) => {
   return (
     <View style={[styles.flex, {paddingTop: insets.top}]}>
       <View style={[styles.screenHeaderWrap]}>
-        <Text style={[styles.screenHeaderTitle]}>가게 관리</Text>
+        <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
         <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-          <Text style={[styles.screenHeaderTitle, {color: '#6C69FF'}]}>저장</Text>
+          <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>저장</Text>
         </TouchableOpacity>
       </View>
-      <View pointerEvents="none" style={{opacity: 0.5}}>
-        <StoreMenuBar
-          toggleStore={() => navigation.navigate('Store')}
-          toggleMission={() => navigation.navigate('StoreMission')}
-          toggleReview={() => navigation.navigate('StoreReview')}
-          storeStatus={0}
-        />
-      </View>
-
+      <StoreMenuBar
+        toggleStore={() => navigation.navigate('Store')}
+        toggleMission={() => navigation.navigate('StoreMission')}
+        toggleReview={() => navigation.navigate('StoreReview')}
+        storeStatus={0}
+      />
       <KeyboardAvoidingView
         style={[{flex: 1}]}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -297,8 +295,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 14,
-    paddingTop: 8,
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
   },
