@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MyUser} from '../../components/My/MyUser';
@@ -8,9 +8,11 @@ import {queryKey} from '../../api/queryKey';
 import {useQuery} from 'react-query';
 import {IgetUsersMe} from '../../data/IUser';
 import {getUserInfo} from '../../api/user';
+import QuitModal from '../../modal/QuitModal';
 
 const MyPage = () => {
   const navigation = useNavigation();
+  const [quitModal, setQuitModal] = useState(false);
 
   // const storeData = async (value: string) => {
   //   try {
@@ -58,6 +60,12 @@ const MyPage = () => {
             <Text style={[styles.userMenu]}>로그아웃</Text>
           </View>
         </TouchableOpacity>
+        <View style={{alignItems: 'flex-end', marginTop: 14, marginRight: 16}}>
+          <TouchableOpacity onPress={() => setQuitModal(true)}>
+            <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}>회원탈퇴</Text>
+          </TouchableOpacity>
+        </View>
+        <QuitModal visible={quitModal} closeQuitModal={() => setQuitModal(false)} />
       </SafeAreaView>
     </>
   );
