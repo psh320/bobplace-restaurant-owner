@@ -35,7 +35,7 @@ const MyPage = () => {
 
   return (
     <>
-      <SafeAreaView style={{flex:0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex, {backgroundColor: '#F8F8F8'}]}>
         <View style={[styles.headerWrap]}>
           <Text style={[styles.headerText, DesignSystem.h2SB]}>마이페이지</Text>
@@ -43,7 +43,7 @@ const MyPage = () => {
         {data !== undefined ? (
           <MyUser email={data.email} name={data.name} />
         ) : (
-          <MyUser email={''} name={''} />
+          <MyUser email={'Undefiend Data'} name={''} />
         )}
         <TouchableOpacity onPress={() => navigation.navigate('MyNotificationsSetting')}>
           <View style={[styles.myMenuWrap]}>

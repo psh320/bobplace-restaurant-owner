@@ -32,7 +32,7 @@ export const StoreInfo = () => {
 
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-      {/* <ImageSwiper height={220} imageList={store.storeImage} /> */}
+      {/* <ImageSwiper height={220} imageList={store.sztoreImage} /> */}
       <View style={[styles.storeInfoWrap]}>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>상호명</Text>

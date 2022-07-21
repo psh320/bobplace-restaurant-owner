@@ -25,7 +25,7 @@ const RegisterStore = ({navigation, route}: Props) => {
 
   const goNext = async () => {
     //imageData를 formdata로 만들어서 서버에 이미지 등록하기
-    await postStoreAuthImages(imageUri); ////////////////////////////////////////////////////
+    await postStoreAuthImages(imageUri);
     navigation.navigate('RegisterDone', {status: 1});
   };
   console.log(imageUri);
@@ -109,7 +109,7 @@ const RegisterStore = ({navigation, route}: Props) => {
           <Text style={[DesignSystem.body2Lt, {color: '#1E1E1E'}]}>3. 통장사본</Text>
           <Text style={[DesignSystem.body2Lt, {color: '#1E1E1E'}]}>4. (선택) 로고</Text>
         </View>
-        {/* //////////////////////////////////////이미지첨부///////////////// */}
+
         <View style={[styles.flexRow]}>
           <TouchableOpacity
             style={
