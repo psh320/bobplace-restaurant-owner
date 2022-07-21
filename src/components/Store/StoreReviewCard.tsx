@@ -4,6 +4,9 @@ import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native'
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {postReply} from '../../api/review';
+import {useMutation, useQueryClient} from 'react-query';
+import {queryKey} from '../../api/queryKey';
 
 type StoreReviewCardProps = {
   images: {imageUrl: string}[];
@@ -13,6 +16,7 @@ type StoreReviewCardProps = {
   content: string;
   reviewId: number;
   reply: {date: string; reply: string; reviewReplyId: number}[];
+  storeId: number;
   openPhotoModal: (imageSource: string) => void;
 };
 
@@ -24,6 +28,7 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
   content,
   reply,
   reviewId,
+  storeId,
   openPhotoModal,
 }) => {
   const [openReply, setOpenReply] = useState(false);
@@ -44,6 +49,23 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
       </View>
     );
   };
+
+  ///
+  const queryClient = useQueryClient();
+
+  const reviewMutation = useMutation((data: {content: string}) => postReply(data, reviewId), {
+    onSuccess(Reviewdata) {
+      console.log(Reviewdata);
+      queryClient.invalidateQueries(queryKey.STOREREVIEWLIST);
+    },
+  });
+
+  const submitReview = async () => {
+    await reviewMutation.mutate({
+      content: replyContent,
+    });
+  };
+  ///
   return (
     <View style={[styles.reviewWrap]}>
       <View style={[styles.reviewRow1]}>
@@ -64,13 +86,18 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
       {/* 사장답글 있는지 여부에따라 */}
       {reply.length !== 0 ? (
         <View style={[styles.ownerWrap]}>
-          <View style={[styles.ownerTitle, {alignItems: 'center'}]}>
-            <Text style={[DesignSystem.body2Lt, {color: '#616161', marginRight: 6}]}>
-              사장님 답글
-            </Text>
-            <Text style={[DesignSystem.body2Lt, {color: '#B7B7B7'}]}>
-              {reply[0].date.slice(0, 4)}.{reply[0].date.slice(5, 7)}.{reply[0].date.slice(8, 10)}
-            </Text>
+          <View
+            style={[styles.ownerTitle, {alignItems: 'center', justifyContent: 'space-between'}]}
+          >
+            <View style={{flexDirection: 'row'}}>
+              <Text style={[DesignSystem.body2Lt, {color: '#616161'}]}>사장님 답글</Text>
+              <Text style={[DesignSystem.body2Lt, {color: '#B7B7B7', marginLeft: 8}]}>
+                {reply[0].date.slice(0, 4)}.{reply[0].date.slice(5, 7)}.{reply[0].date.slice(8, 10)}
+              </Text>
+            </View>
+            <TouchableOpacity>
+              <Text style={[DesignSystem.body2Lt, DesignSystem.grey7]}>삭제</Text>
+            </TouchableOpacity>
           </View>
           <View style={[styles.ownerContents]}>
             <Text style={[DesignSystem.body2Long, {color: 'black'}, styles.ownerContentsText]}>
@@ -97,6 +124,7 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
               if (openReply) {
                 if (replyContent !== '') {
                   //post 올리기
+                  submitReview();
                   setReplyContent('');
                 }
                 setOpenReply(false);

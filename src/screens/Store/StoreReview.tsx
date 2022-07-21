@@ -183,6 +183,7 @@ const StoreReview = ({navigation, route}: Props) => {
                       images={item.images}
                       reply={item.reply}
                       reviewId={item.reviewId}
+                      storeId={route.params.storeId}
                       openPhotoModal={openPhotoModal}
                     />
                     {/* {item.data.result.content.map((review: IStoreReview, i: number) => (
@@ -195,6 +196,7 @@ const StoreReview = ({navigation, route}: Props) => {
                           images={review.images}
                           reply={review.reply}
                           reviewId={review.reviewId}
+                          storeId={route.params.storeId}
                           openPhotoModal={openPhotoModal}
                         />
                       </View>

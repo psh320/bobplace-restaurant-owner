@@ -43,10 +43,7 @@ export const getStoreReviewList = async ({pageParam = 0}, storeId?: number) => {
 };
 export const postReply = async (
   data: {
-    storeId: number;
-    rate: number;
     content: string;
-    missionId: number;
   },
   reviewId: number,
 ) => {
