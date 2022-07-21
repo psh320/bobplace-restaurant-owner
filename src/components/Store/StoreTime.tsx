@@ -15,6 +15,7 @@ const processTime = (time: string) => {
 };
 
 export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
+  console.log('opopop', operationData); //가게정보화면에서 리뷰를 눌렀는데 이게 왜 다시 콘솔에 찍히는거지 ?
   const renderedTimeTable = () => {
     return (
       <>
@@ -109,6 +110,9 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
         </View>
       </View>
       {renderedTimeTable()}
+      {/* 기존코드. 근데 가게관리에서 리뷰로 넘어가면 오류남 operationData가 undefined로 뜨는이슈.. */}
+      {/* {operationData !== undefined && renderedTimeTable()} */}
+      {/* 이렇게하면 위같은 오류는 안나는데, 다시 가게정보로 돌아왔을때 다 빈칸임. 왜냐면 다시 operationData가 undefiend래. */}
     </View>
   );
 };

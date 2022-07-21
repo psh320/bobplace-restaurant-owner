@@ -112,7 +112,6 @@ const StoreReview = ({navigation, route}: Props) => {
     setReviewPhoto({uri: imageSource});
     setPhotoModal(true);
   };
-  // console.log('퍼어어어러미터', route.params.storeId);
 
   const reviewList = useInfiniteQuery(
     [queryKey.STOREREVIEWLIST, route.params.storeId],

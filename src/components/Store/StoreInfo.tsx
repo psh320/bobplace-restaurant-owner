@@ -33,6 +33,7 @@ export const StoreInfo = () => {
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>
       {/* <ImageSwiper height={220} imageList={store.sztoreImage} /> */}
+      {/* 가게관리에서 가게대표 이미지수정되면 살리기 */}
       <View style={[styles.storeInfoWrap]}>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>상호명</Text>
@@ -86,11 +87,11 @@ export const StoreInfo = () => {
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>대표메뉴 사진</Text>
           <View>{/* <RenderImageList imageData={store.menuImage} imageSize={100} /> */}</View>
+          {/* 가게관리에서 메뉴 이미지수정되면 살리기 */}
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>운영시간</Text>
-          {/* <StoreTime operationData={store.operationTimeRes} /> */}
-          {/* 이슈이슈 */}
+          <StoreTime operationData={store.operationTimeRes} />
         </View>
       </View>
     </ScrollView>
