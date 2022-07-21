@@ -89,7 +89,8 @@ export const StoreInfo = () => {
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>운영시간</Text>
-          <StoreTime operationData={store.operationTimeRes} />
+          {/* <StoreTime operationData={store.operationTimeRes} /> */}
+          {/* 이슈이슈 */}
         </View>
       </View>
     </ScrollView>

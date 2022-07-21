@@ -16,7 +16,7 @@ import {RCpressedMissionGroupId} from '../../state';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 
-const StoreMission = ({navigation}: Props) => {
+const StoreMission = ({navigation, route}: Props) => {
   const [missionManageModal, setMissionManageModal] = useState('');
   const [pressedMissionGId, setPressedMissionGId] = useRecoilState(RCpressedMissionGroupId);
   const insets = useSafeAreaInsets();
@@ -36,8 +36,8 @@ const StoreMission = ({navigation}: Props) => {
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
-          toggleMission={() => navigation.navigate('StoreMission')}
-          toggleReview={() => navigation.navigate('StoreReview')}
+          toggleMission={() => navigation.navigate('StoreMission', {storeId: route.params.storeId})}
+          toggleReview={() => navigation.navigate('StoreReview', {storeId: route.params.storeId})}
           storeStatus={1}
         />
 

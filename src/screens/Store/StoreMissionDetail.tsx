@@ -8,7 +8,7 @@ import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
 import {useQuery} from 'react-query';
 import {getMissionManageDetail} from '../../api/store';
-import { NoBobpool } from '../../components/common/NoBobpool';
+import {NoBobpool} from '../../components/common/NoBobpool';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionDetail'>;
 

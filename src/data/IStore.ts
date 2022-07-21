@@ -65,3 +65,22 @@ export type IStore = {
   storeId: number;
   storeStatus: string;
 };
+export type IStoreReview = {
+  content: string;
+  date: string;
+  images: [
+    {
+      imageUrl: string;
+    },
+  ];
+  name: string;
+  rate: number;
+  reply: [
+    {
+      date: string;
+      reply: string;
+      reviewReplyId: number;
+    },
+  ];
+  reviewId: number;
+};

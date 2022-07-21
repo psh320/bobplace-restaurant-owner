@@ -11,6 +11,7 @@ import {getUserInfo} from '../../api/user';
 import QuitModal from '../../modal/QuitModal';
 
 const MyPage = () => {
+  AsyncStorage.getItem('storeId').then((res) => console.log('get Async storeId', res));
   const navigation = useNavigation();
   const [quitModal, setQuitModal] = useState(false);
 

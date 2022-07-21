@@ -11,7 +11,7 @@ export const queryKey = {
   // STORELIST: 'storeList',
   // STOREDATA: 'storeData',
   // STOREREVIEWIMAGES: 'storeReviewImages',
-  // STOREREVIEWLIST: 'storeReviewList',
+  STOREREVIEWLIST: 'storeReviewList',
   NOTIFICATIONS: 'notifications',
   QUESTIONS: 'questions',
   QUESTIONDETAIL: 'questionDetail',
