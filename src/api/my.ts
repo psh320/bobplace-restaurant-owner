@@ -8,7 +8,7 @@ import {customAxios} from './customAxios';
 
 //알림
 export const getNotifications = async () => {
-  const response = await customAxios().get(`/api/v1/push-notifications/me`);
+  const response = await customAxios().get('/api/v1/push-notifications/me');
   return response.data.result;
 };
 //알림 확인
@@ -16,6 +16,15 @@ export const patchNotificationsStatus = async (notiId: number) => {
   const response = await customAxios().patch(`/api/v1/push-notifications/me/${notiId}`);
   console.log('sdsd', response.data);
   return response.data.message;
+};
+//마이페이지 - 알림 설정 수정
+export const patchNotifications = async (data: {
+  event: boolean;
+  review: boolean;
+  question: boolean;
+}) => {
+  const response = await customAxios().patch('/api/v1/users/me/notification', data);
+  return response.data;
 };
 
 //문의하기
@@ -34,9 +43,10 @@ export const getQuestionDetail = async (questionId: number) => {
   return response.data.result;
 };
 
-// //회원탈퇴
-// export const patchQuit = async () => {
-//   const response = await customAxios().patch('/api/v1/users/me/quit');
-//   console.log('탈퇴토티퉤퇴텥티퉤퉤토티퉤', response.data);
-//   return response.data;
-// };
+//회원탈퇴
+export const patchQuit = async () => {
+  console.log('탈퇴요청');
+  const response = await customAxios().patch('/api/v1/users/me/quit');
+  console.log('탈퇴토티퉤퇴텥티퉤퉤토티퉤', response.data);
+  return response.data;
+};

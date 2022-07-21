@@ -37,18 +37,18 @@ export const RegisterStoreType: FC<RegisterAddressProps> = ({onChange, value, er
         placeholder={{label: '가게유형 선택', value: -1}}
         value={value}
         items={[
-          {label: '한식당', value: 0},
-          {label: '일식당', value: 1},
-          {label: '중식당', value: 2},
-          {label: '양식당', value: 3},
-          {label: '치킨집', value: 4},
-          {label: '분식집', value: 5},
-          {label: '고기/구이', value: 6},
-          {label: '도시락', value: 7},
-          {label: '야식(족발,보쌈)', value: 8},
-          {label: '패스트푸드', value: 9},
-          {label: '디저트/카페', value: 10},
-          {label: '아시안푸드', value: 11},
+          {label: '한식당', value: 1},
+          {label: '일식당', value: 2},
+          {label: '중식당', value: 3},
+          {label: '양식당', value: 4},
+          {label: '치킨집', value: 5},
+          {label: '분식집', value: 6},
+          {label: '고기/구이', value: 7},
+          {label: '도시락', value: 8},
+          {label: '야식(족발,보쌈)', value: 9},
+          {label: '패스트푸드', value: 10},
+          {label: '디저트/카페', value: 11},
+          {label: '아시안푸드', value: 12},
         ]}
         Icon={() => {
           return <Icon name="chevron-down" size={24} />;

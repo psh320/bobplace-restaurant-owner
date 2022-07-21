@@ -13,6 +13,7 @@ import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
 import {useRecoilState} from 'recoil';
 import {RCprogressNow} from '../state';
 import {useNavigation} from '@react-navigation/native';
+import {NoBobpool} from '../components/common/NoBobpool';
 
 const dummyProgress = [
   {
@@ -108,7 +109,12 @@ const Mission = () => {
   );
   console.log('DataMissionsSuccess', DataMissionsSuccess.data);
   //Data___.data.키값(result내에서) 로 접근
-  // console.log('-----', DataMissionsSuccess.data); //초기 undefined, 이후 []
+  // console.log('DataMissionsProgress-----', DataMissionsProgress.data); //초기 undefined, 이후 []
+  console.log(
+    'DataMissionsProgress ownerMissionDto-----',
+    DataMissionsProgress.data?.ownerMissionDto,
+  ); //초기 undefined, 이후 []
+  console.log('DataMissionsSuccess-----', DataMissionsSuccess.data?.length); //초기 undefined, 이후 []
   useEffect(() => {
     seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
   }, [DataMissionsSuccess]);
@@ -126,45 +132,53 @@ const Mission = () => {
           )}
         </View>
         <View style={{flex: 1}}>
+          {/* 스위치 '진행중' 일때 */}
           {progressNow ? (
-            // 스위치 '진행중' 일때
+            DataMissionsProgress.data?.missionOnProgressCount !== 0 ? (
+              <>
+                <View style={[styles.missionUserNumberWrap]}>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>현재 </Text>
+                  {/* <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>_명</Text> */}
+                  <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>
+                    {DataMissionsProgress.data?.missionOnProgressCount}명
+                  </Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>
+                    의 유저가 미션을 진행하고 있습니다
+                  </Text>
+                </View>
+                <FlatList
+                  contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
+                  ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                  showsVerticalScrollIndicator={false}
+                  scrollEventThrottle={10}
+                  // data={dummyProgress}
+                  data={DataMissionsProgress.data?.ownerMissionDto}
+                  renderItem={({item}) => (
+                    <>
+                      <MissionUserCard
+                        mission={item.mission}
+                        missionId={item.missionId}
+                        point={item.point}
+                        startDate={item.startDate}
+                        userId={item.userId}
+                        userName={item.userName}
+                      />
+                    </>
+                  )}
+                />
+              </>
+            ) : (
+              <NoBobpool category={'진행중'} />
+            )
+          ) : // 스위치 '성공요청' 일때
+          DataMissionsSuccess.data?.length !== 0 ? (
             <>
-              <View style={[styles.missionUserNumberWrap]}>
-                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>현재 </Text>
-                <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>_명</Text>
-                {/* <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>{DataMissionsProgress.missionOnProgressCount}명</Text> */}
-                <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>의 유저가 미션을 진행하고 있습니다</Text>
-              </View>
               <FlatList
                 contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
-                showsVerticalScrollIndicator={false}
                 scrollEventThrottle={10}
-                data={dummyProgress}
-                // data={DataMissionsProgress.ownerMissionDto}
-                renderItem={({item}) => (
-                  <>
-                    <MissionUserCard
-                      mission={item.mission}
-                      missionId={item.missionId}
-                      point={item.point}
-                      startDate={item.startDate}
-                      userId={item.userId}
-                      userName={item.userName}
-                    />
-                  </>
-                )}
-              />
-            </>
-          ) : (
-            // 스위치 '성공요청' 일때
-            <>
-              <FlatList
-                contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
-                ItemSeparatorComponent={() => <View style={{height: 10}} />}
-                scrollEventThrottle={10}
-                data={dummySuccess}
-                // data={DataMissionsSuccess}
+                // data={dummySuccess}
+                data={DataMissionsSuccess.data}
                 renderItem={({item}) => (
                   <MissionAcceptCard
                     date={item.date}
@@ -179,6 +193,8 @@ const Mission = () => {
                 )}
               />
             </>
+          ) : (
+            <NoBobpool category={'성공요청'} />
           )}
         </View>
         <View style={[DesignSystem.centerArrange]}>

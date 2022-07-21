@@ -20,7 +20,7 @@ const dummyImage: ImageInterface[] = [
   {uri: 'https://source.unsplash.com/1024x768/?candy', type: 'image/jpg', name: '3.jpg'},
 ];
 //prettier-ignore
-const STORETYPE = ['한식당', '일식당', '중식당', '양식당', '치킨집', '분식집', '고기/구이', '도시락', '야식(족발,보쌈)', '패스트푸드', '디저트/카페', '아시안푸드'];
+const STORETYPE = ['', '한식당', '일식당', '중식당', '양식당', '치킨집', '분식집', '고기/구이', '도시락', '야식(족발,보쌈)', '패스트푸드', '디저트/카페', '아시안푸드'];
 
 export const StoreInfo = () => {
   const store = useRecoilValue(storeGetData); //쿼리?
@@ -32,7 +32,8 @@ export const StoreInfo = () => {
 
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-      {/* <ImageSwiper height={220} imageList={store.storeImage} /> */}
+      {/* <ImageSwiper height={220} imageList={store.sztoreImage} /> */}
+      {/* 가게관리에서 가게대표 이미지수정되면 살리기 */}
       <View style={[styles.storeInfoWrap]}>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>상호명</Text>
@@ -86,6 +87,7 @@ export const StoreInfo = () => {
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>대표메뉴 사진</Text>
           <View>{/* <RenderImageList imageData={store.menuImage} imageSize={100} /> */}</View>
+          {/* 가게관리에서 메뉴 이미지수정되면 살리기 */}
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>운영시간</Text>

@@ -5,13 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type CheckBoxRectangleProps = {
   onPress: () => void;
-  title: string;
+  title?: string;
   isChecked: boolean;
 };
 
 export const CheckBoxRectangle: FC<CheckBoxRectangleProps> = ({onPress, title, isChecked}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, title !== undefined && {width: '100%'}]}>
       <Pressable onPress={onPress}>
         <View style={isChecked ? styles.markedCircle : styles.unmarkedCircle}>
           <Icon
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
-    width: '100%',
+    // width: '100%',
     marginLeft: 8,
   },
   title: {

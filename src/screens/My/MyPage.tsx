@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MyUser} from '../../components/My/MyUser';
@@ -8,9 +8,12 @@ import {queryKey} from '../../api/queryKey';
 import {useQuery} from 'react-query';
 import {IgetUsersMe} from '../../data/IUser';
 import {getUserInfo} from '../../api/user';
+import QuitModal from '../../modal/QuitModal';
 
 const MyPage = () => {
+  AsyncStorage.getItem('storeId').then((res) => console.log('get Async storeId', res));
   const navigation = useNavigation();
+  const [quitModal, setQuitModal] = useState(false);
 
   // const storeData = async (value: string) => {
   //   try {
@@ -33,7 +36,7 @@ const MyPage = () => {
 
   return (
     <>
-      <SafeAreaView style={{flex:0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex, {backgroundColor: '#F8F8F8'}]}>
         <View style={[styles.headerWrap]}>
           <Text style={[styles.headerText, DesignSystem.h2SB]}>마이페이지</Text>
@@ -41,7 +44,7 @@ const MyPage = () => {
         {data !== undefined ? (
           <MyUser email={data.email} name={data.name} />
         ) : (
-          <MyUser email={''} name={''} />
+          <MyUser email={'Undefiend Data'} name={''} />
         )}
         <TouchableOpacity onPress={() => navigation.navigate('MyNotificationsSetting')}>
           <View style={[styles.myMenuWrap]}>
@@ -58,6 +61,12 @@ const MyPage = () => {
             <Text style={[styles.userMenu]}>로그아웃</Text>
           </View>
         </TouchableOpacity>
+        <View style={{alignItems: 'flex-end', marginTop: 14, marginRight: 16}}>
+          <TouchableOpacity onPress={() => setQuitModal(true)}>
+            <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}>회원탈퇴</Text>
+          </TouchableOpacity>
+        </View>
+        <QuitModal visible={quitModal} closeQuitModal={() => setQuitModal(false)} />
       </SafeAreaView>
     </>
   );

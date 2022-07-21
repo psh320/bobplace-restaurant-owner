@@ -18,6 +18,8 @@ import {DesignSystem} from '../assets/DesignSystem';
 import {getNotifications} from '../api/my';
 import {INotiType} from '../data/IMissions';
 import {patchNotificationsStatus} from '../data/INoti';
+import {Item} from 'react-native-paper/lib/typescript/components/List/List';
+import {NoBobpool} from '../components/common/NoBobpool';
 
 type Props = NativeStackScreenProps<MissionStackParamList, 'Notifications'>;
 const dummy = [
@@ -25,41 +27,41 @@ const dummy = [
     checked: true,
     date: '2022-07-19T06:44:56.115Z',
     id: 0,
-    missionId: 0,
-    pushType: 'OWNERMISSION',
-    storeId: 0,
-    storeName: 'string',
+    name: '이릉으',
+    pushType: 'OWNER_SUCCESS',
+    subId: 0,
     subTitle: 'string',
+    title: '타타이틀',
   },
   {
     checked: false,
     date: '2022-07-19T06:44:56.115Z',
-    id: 0,
-    missionId: 0,
-    pushType: 'OWNERMISSION',
-    storeId: 0,
-    storeName: 'string',
+    id: 10,
+    name: '고구마',
+    pushType: 'OWNER_SUCCESS',
+    subId: 110,
     subTitle: 'string',
+    title: '타타이틀',
   },
   {
     checked: false,
     date: '2022-07-19T06:44:56.115Z',
-    id: 0,
-    missionId: 0,
-    pushType: 'OWNERREVIEW',
-    storeId: 0,
-    storeName: 'string',
+    id: 20,
+    name: '감자',
+    pushType: 'OWNER_PROGRESS',
+    subId: 220,
     subTitle: 'string',
+    title: '타타이틀',
   },
   {
     checked: false,
     date: '2022-07-19T06:44:56.115Z',
-    id: 0,
-    missionId: 0,
-    pushType: 'MISSION',
-    storeId: 0,
-    storeName: 'string',
+    id: 30,
+    name: '홍길동',
+    pushType: 'OWNER_PROGRESS',
+    subId: 330,
     subTitle: 'string',
+    title: '타타이틀',
   },
 ];
 export const Notifications = ({navigation}: Props) => {
@@ -98,7 +100,7 @@ export const Notifications = ({navigation}: Props) => {
       <SafeAreaView style={[styles.flex]}>
         <MyHeader goBack={goBack} title={'알림'} />
         {/* {DataNoti.data?.length !== 0 ? ( */}
-        {1 === 1 ? (
+        {1 !== 1 ? (
           <FlatList
             style={{marginLeft: 16, marginRight: 16}}
             showsVerticalScrollIndicator={false}
@@ -108,28 +110,21 @@ export const Notifications = ({navigation}: Props) => {
             data={dummy}
             renderItem={({item}) => (
               <NotificationCard
-                pushType={item.pushType}
-                storeName={item.storeName}
-                storeId={item.storeId}
-                missionId={item.missionId}
-                mission={item.subTitle}
-                date={item.date}
                 checked={item.checked}
+                date={item.date}
                 id={item.id}
+                name={item.name}
+                pushType={item.pushType}
+                subId={item.subId}
+                subTitle={item.subTitle}
+                title={item.title}
                 navigation={navigation}
               />
             )}
             ItemSeparatorComponent={() => <View style={{marginTop: 8}} />}
           />
         ) : (
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <View style={[DesignSystem.centerArrange, {marginBottom: 30}]}>
-              <Text style={[DesignSystem.title1SB, {color: '#111111', marginBottom: 38}]}>
-                아직 받은 알람이 없어요!
-              </Text>
-              <Image source={require('../assets/images/bobpool/cryingBobBowl.png')} />
-            </View>
-          </View>
+          <NoBobpool category={'알림'} />
         )}
       </SafeAreaView>
     </>

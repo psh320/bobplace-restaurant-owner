@@ -58,14 +58,9 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     width: '100%',
-    height: 44,
-
     borderRadius: 10,
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginTop: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
     color: '#111111',
   },
   errorBorderFocus: {borderColor: '#E03D32', borderWidth: 1},

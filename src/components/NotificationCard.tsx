@@ -10,19 +10,20 @@ import {MissionStackParamList} from '../nav/MissionNavigator';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type NotificationCardProps = {
-  pushType: string; //미션알림1인지 리뷰남기란 알림0인지
-  storeName: string;
-  storeId: number;
-  missionId: number;
-  mission: string; //미션
-  date: string;
   checked: boolean;
+  date: string;
   id: number;
+  name: string;
+  pushType: string;
+  subId: number;
+  subTitle: string;
+  title: string;
   navigation: NativeStackNavigationProp<MissionStackParamList, 'Notifications', undefined>;
 };
 
 //prettier-ignore
-export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, storeName, storeId, missionId, mission, date, checked, checkedNoti, navigation}) => {
+//id는 알림구분번호id고 subId가 회원id, 미션id 등 기타 id
+export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, name, pushType, subId, subTitle, title, navigation}) => {
   const queryClient = useQueryClient();
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const [nowWrite, setNowWrite] = useRecoilState(RCnowWrite);
@@ -42,7 +43,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
   return (
     <>
     {/* 미션성공요청 */}
-    {pushType === 'OWNERMISSION' ?
+    {pushType === 'OWNER_SUCCESS' ?
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
@@ -55,8 +56,8 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
-            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>미션 성공요청이 도착했습니다!</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{mission}</Text></Text>
+            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>{title}</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{name}({subId})</Text>{subTitle}</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>
@@ -64,49 +65,71 @@ export const NotificationCard: FC<NotificationCardProps> = ({id, pushType, store
         </View>
       </TouchableOpacity>
       :
-      // 리뷰알림
-      pushType === 'OWNERREVIEW' ?
+      // 미션도전했습니다
+      // pushType === 'OWNER_PROGRESS' ?
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
           navigation.pop();
-          navigation.navigate('StoreNavigator', {screen: 'StoreReview'});
+          navigation.navigate('Mission');
           missionSuccessRequestMutation.mutate(id);
         }}
       >
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
-            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>OWNERREVIEW.</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>리뷰 달림</Text>
+            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>{title}</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{name}({subId})</Text>{subTitle}</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>
           </View>
         </View>
       </TouchableOpacity>
-      :
+      // :
+      // // 리뷰알림
+      // pushType === 'OWNERREVIEW' ?
+      // <TouchableOpacity
+      //   style={[styles.notiCard, checked && {opacity: 0.5}]}
+      //   onPress={() => {
+      //     navigation.pop();
+      //     navigation.navigate('StoreNavigator', {screen: 'StoreReview'});
+      //     missionSuccessRequestMutation.mutate(id);
+      //   }}
+      // >
+      //   <View style={[styles.notiWrap]}>
+      //     <View style={!checked ? [styles.dot] : [styles.noDot]} />
+      //     <View style={[styles.notiView]}>
+      //       <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>OWNERREVIEW.</Text>
+      //       <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>리뷰 달림</Text>
+      //       <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
+      //         {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
+      //       </Text>
+      //     </View>
+      //   </View>
+      // </TouchableOpacity>
+      // :
       //ANSWER(1:1문의 답변받으면)
-      <TouchableOpacity
-        style={[styles.notiCard, checked && {opacity: 0.5}]}
-        onPress={() => {
-          navigation.navigate('MyInquiry');
-          navigation.navigate('MyNavigator', {screen: 'MyInquiry'});
-          setNowWrite(false);
-          missionSuccessRequestMutation.mutate(id);
-        }}
-      >
-        <View style={[styles.notiWrap]}>
-          <View style={!checked ? [styles.dot] : [styles.noDot]} />
-          <View style={[styles.notiView]}>
-            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>ANSWER.</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>1:1문의 답옴.</Text>
-            <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
-              {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+      // <TouchableOpacity
+      //   style={[styles.notiCard, checked && {opacity: 0.5}]}
+      //   onPress={() => {
+      //     navigation.navigate('MyInquiry');
+      //     navigation.navigate('MyNavigator', {screen: 'MyInquiry'});
+      //     setNowWrite(false);
+      //     missionSuccessRequestMutation.mutate(id);
+      //   }}
+      // >
+      //   <View style={[styles.notiWrap]}>
+      //     <View style={!checked ? [styles.dot] : [styles.noDot]} />
+      //     <View style={[styles.notiView]}>
+      //       <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>ANSWER.</Text>
+      //       <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>1:1문의 답옴.</Text>
+      //       <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
+      //         {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
+      //       </Text>
+      //     </View>
+      //   </View>
+      // </TouchableOpacity>
     }
     </>
   );

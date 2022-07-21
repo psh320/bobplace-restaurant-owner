@@ -108,7 +108,7 @@ const RegisterForm = ({navigation, route}: Props) => {
         {errors.gender?.type === 'required' && (
           <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
         )}
-        {/* 휴대폰 인증 잠시 주석처리 */}
+        {/* 휴대폰 인증 잠시 주석처리 - 차라리 널로해야 userInfo받을수있대*/}
         {/* <Controller
           control={control}
           rules={{
