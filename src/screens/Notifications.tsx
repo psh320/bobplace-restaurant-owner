@@ -19,6 +19,7 @@ import {getNotifications} from '../api/my';
 import {INotiType} from '../data/IMissions';
 import {patchNotificationsStatus} from '../data/INoti';
 import {Item} from 'react-native-paper/lib/typescript/components/List/List';
+import {NoBobpool} from '../components/common/NoBobpool';
 
 type Props = NativeStackScreenProps<MissionStackParamList, 'Notifications'>;
 const dummy = [
@@ -99,7 +100,7 @@ export const Notifications = ({navigation}: Props) => {
       <SafeAreaView style={[styles.flex]}>
         <MyHeader goBack={goBack} title={'알림'} />
         {/* {DataNoti.data?.length !== 0 ? ( */}
-        {1 === 1 ? (
+        {1 !== 1 ? (
           <FlatList
             style={{marginLeft: 16, marginRight: 16}}
             showsVerticalScrollIndicator={false}
@@ -123,14 +124,7 @@ export const Notifications = ({navigation}: Props) => {
             ItemSeparatorComponent={() => <View style={{marginTop: 8}} />}
           />
         ) : (
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <View style={[DesignSystem.centerArrange, {marginBottom: 30}]}>
-              <Text style={[DesignSystem.title1SB, {color: '#111111', marginBottom: 38}]}>
-                아직 받은 알람이 없어요!
-              </Text>
-              <Image source={require('../assets/images/bobpool/cryingBobBowl.png')} />
-            </View>
-          </View>
+          <NoBobpool category={'알림'} />
         )}
       </SafeAreaView>
     </>

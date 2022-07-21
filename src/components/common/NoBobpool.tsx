@@ -15,13 +15,13 @@ export const NoBobpool: FC<NoBobpoolProps> = ({category}) => {
           : category === '성공요청'
           ? '성공 요청이 없어요'
           : category === '미션상세'
-          ? '결제한 미션들 없음'
+          ? '아직 상세내역이 없어요'
           : category === '리뷰'
           ? '아직 리뷰가 없어요'
           : category === '문의'
           ? '남긴 문의가 없어요'
           : category === '알림'
-          ? '아직 온 알림 없음'
+          ? '받은 알림이 없어요'
           : '모가더있나'}
       </Text>
       <Image source={require('../../assets/images/bobpool/cryingBob.png')} />

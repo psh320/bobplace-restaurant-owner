@@ -16,7 +16,6 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
   const DataMissionManageDetail = useQuery(queryKey.MISSIONMANAGEDETAIL, () =>
     getMissionManageDetail(route.params.missionId),
   );
-
   return (
     <>
       <View style={{flex: 0, backgroundColor: 'white'}} />
@@ -32,7 +31,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
           <Text style={[DesignSystem.title4Md, {color: 'black'}]}>상세정보</Text>
           <Icon name="arrow-left" size={24} color="black" style={{opacity: 0}} />
         </View>
-        {DataMissionManageDetail.data?.length !== 0 ? (
+        {DataMissionManageDetail.data?.length > 0 ? (
           <FlatList
             contentContainerStyle={{backgroundColor: '#F8F8F8'}}
             scrollEventThrottle={10}

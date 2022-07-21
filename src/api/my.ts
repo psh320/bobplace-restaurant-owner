@@ -17,6 +17,15 @@ export const patchNotificationsStatus = async (notiId: number) => {
   console.log('sdsd', response.data);
   return response.data.message;
 };
+//마이페이지 - 알림 설정 수정
+export const patchNotifications = async (data: {
+  event: boolean;
+  review: boolean;
+  question: boolean;
+}) => {
+  const response = await customAxios().patch('/api/v1/users/me/notification', data);
+  return response.data;
+};
 
 //문의하기
 export const postQuestions = async (data: {content: string; title: string}) => {
