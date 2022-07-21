@@ -8,7 +8,7 @@ import {customAxios} from './customAxios';
 
 //알림
 export const getNotifications = async () => {
-  const response = await customAxios().get(`/api/v1/push-notifications/me`);
+  const response = await customAxios().get('/api/v1/push-notifications/me');
   return response.data.result;
 };
 //알림 확인
