@@ -7,7 +7,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StoreReviewCard} from '../../components/Store/StoreReviewCard';
 import {PhotoModal} from '../../modal/PhotoModal';
-import { DesignSystem } from '../../assets/DesignSystem';
+import {DesignSystem} from '../../assets/DesignSystem';
 
 const dummyReviews = [
   {
@@ -69,26 +69,6 @@ const StoreReview = ({navigation}: Props) => {
   const openPhotoModal = (imageSource: string) => {
     setReviewPhoto({uri: imageSource});
     setPhotoModal(true);
-  };
-
-  const renderedReviews = (data: any) => {
-    return (
-      <>
-        {data.map((item: any, index: number) => {
-          return (
-            <StoreReviewCard
-              key={index}
-              name={item.name}
-              date={item.date}
-              rate={item.rate}
-              review={item.review}
-              images={item.images}
-              openPhotoModal={openPhotoModal}
-            />
-          );
-        })}
-      </>
-    );
   };
 
   return (
