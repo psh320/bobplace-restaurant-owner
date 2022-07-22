@@ -112,7 +112,7 @@ const Login = ({navigation}: Props) => {
       });
     } else {
       GoogleSignin.configure({
-        webClientId: '875664333601-70lt84v3hp8393bfr9s25m826otbdcdn.apps.googleusercontent.com',
+        webClientId: '875664333601-gdsrl919s9db2bqcre9emulifoa8rrp6.apps.googleusercontent.com',
       });
     }
   }, []);

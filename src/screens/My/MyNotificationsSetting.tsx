@@ -5,9 +5,9 @@ import {MyStackParamList} from '../../nav/MyNavigator';
 import {MyHeader} from '../../components/My/MyHeader';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {calHeight} from '../../assets/CalculateLength';
-import {useMutation, useQuery} from 'react-query';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {queryKey} from '../../api/queryKey';
-import {getNotifications, patchNotifications} from '../../api/my';
+import {getNotiSettting, patchNotiSetting} from '../../api/my';
 import {DesignSystem} from '../../assets/DesignSystem';
 
 type Props = NativeStackScreenProps<MyStackParamList, 'MyNotificationsSetting'>;
@@ -17,38 +17,45 @@ export const MyNotificationsSetting = ({navigation}: Props) => {
   const [onNewReview, setOnNewReview] = useState(false);
   const [onReplyInquiry, setOnReplyInquiry] = useState(false);
   // const [onNewEvent, setOnNewEvent] = useState(false); //새로운 이벤트
-  const DataNotifications = useQuery(queryKey.NOTIFICATIONS, getNotifications);
-  // console.log('nononti', DataNotifications.data);
+
+  const DataNotifications = useQuery(queryKey.NOTIFICATIONS_SETTING, getNotiSettting);
+  // console.log('NOTI SEtting', DataNotifications.data);
+  // console.log(onRequestSuccess, onNewReview, onReplyInquiry);
   useEffect(() => {
     if (DataNotifications.data !== undefined) {
-      setOnRequestSuccess(DataNotifications.data.request);//성공요청 키값뭐냐
+      setOnRequestSuccess(DataNotifications.data.mission); //성공요청 키값뭐냐
       setOnNewReview(DataNotifications.data.review);
-      setOnReplyInquiry(DataNotifications.data.question);//문의내역답변
+      setOnReplyInquiry(DataNotifications.data.question); //문의내역답변
     }
+    console.log(onRequestSuccess, onNewReview, onReplyInquiry);
   }, [DataNotifications.data]);
+  const queryClient = useQueryClient();
 
   const notificationsMutation = useMutation(
-    (data: {request: boolean; review: boolean; question: boolean}) => patchNotifications(data),
+    (data: {mission: boolean; review: boolean; question: boolean; event: boolean}) =>
+      patchNotiSetting(data),
     {
       onSuccess(data) {
         console.log('알림설정 patch 성공', data);
+        queryClient.invalidateQueries(queryKey.NOTIFICATIONS_SETTING);
       },
     },
   );
   const submitReview = async () => {
     await notificationsMutation.mutate({
-      request: onRequestSuccess,
-      review: onNewReview,
-      question: onReplyInquiry,
+      mission: onRequestSuccess, //성공요청
+      review: onNewReview, //새로운 리뷰
+      question: onReplyInquiry, //문의내역 답변
+      event: false, //나중...
     });
   };
   const goBack = () => {
-    navigation.goBack();
     submitReview();
+    navigation.goBack();
   };
   return (
     <>
-      <SafeAreaView style={{flex:0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex, {backgroundColor: '#F7F7F7'}]}>
         <MyHeader goBack={goBack} title={'알림 설정'} />
         <View style={{height: 1, backgroundColor: '#EFEFEF'}} />

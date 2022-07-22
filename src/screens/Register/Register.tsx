@@ -20,7 +20,6 @@ const Register = ({navigation}: Props) => {
   const [checkLocation, setCheckLocation] = useState(false);
   const [checkMarketing, setCheckMarketing] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
-
   //Check disable Button and Check ALL status
   useEffect(() => {
     if (checkPrivacy && checkService && check14) {
