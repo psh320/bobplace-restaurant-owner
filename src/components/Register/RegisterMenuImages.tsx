@@ -1,6 +1,6 @@
 import React from 'react';
 import type {FC} from 'react';
-import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ImageInterface} from '../../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -83,21 +83,21 @@ export const RegisterMenuImages: FC<RegisterMenuImagesProps> = ({onChange, value
     <View style={[styles.ImageSelectContainer]}>
       <View style={[styles.flexRow, {alignItems: 'baseline'}]}>
         <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>대표메뉴 사진 등록</Text>
-        <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> _/3</Text>
+        <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> {menuImages.length}/3</Text>
       </View>
       <View style={[styles.flexRow, {alignItems: 'center'}]}>
         <TouchableOpacity
           style={
-            menuImages.length > 3
+            menuImages.length > 2
               ? [styles.imageAddButton, {opacity: 0.2}]
               : [styles.imageAddButton]
           }
           onPress={openImagePicker}
-          disabled={menuImages.length > 3}
+          disabled={menuImages.length > 2}
         >
           <Icon name="plus" size={24} />
         </TouchableOpacity>
-        <View>
+        <ScrollView horizontal>
           {menuImages.map((data, index) => {
             return (
               <View style={{marginRight: 8}} key={index}>
@@ -115,7 +115,7 @@ export const RegisterMenuImages: FC<RegisterMenuImagesProps> = ({onChange, value
               </View>
             );
           })}
-        </View>
+        </ScrollView>
       </View>
     </View>
   );

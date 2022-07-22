@@ -32,7 +32,7 @@ export const storeData = atom<RegisterStoreInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
       },
       {
         breakEndTime: '00:00:00',
@@ -41,7 +41,7 @@ export const storeData = atom<RegisterStoreInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
       },
       {
         breakEndTime: '00:00:00',
@@ -50,7 +50,7 @@ export const storeData = atom<RegisterStoreInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
       },
       {
         breakEndTime: '00:00:00',
@@ -59,7 +59,7 @@ export const storeData = atom<RegisterStoreInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
       },
       {
         breakEndTime: '00:00:00',
@@ -68,7 +68,7 @@ export const storeData = atom<RegisterStoreInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
       },
       {
         breakEndTime: '00:00:00',
@@ -77,7 +77,7 @@ export const storeData = atom<RegisterStoreInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
       },
       {
         breakEndTime: '00:00:00',
@@ -86,7 +86,7 @@ export const storeData = atom<RegisterStoreInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
       },
     ],
     representativeMenuName: '',
@@ -112,7 +112,7 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
         operationTimeId: 0,
       },
       {
@@ -122,7 +122,7 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
         operationTimeId: 0,
       },
       {
@@ -132,7 +132,7 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
         operationTimeId: 0,
       },
       {
@@ -142,7 +142,7 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
         operationTimeId: 0,
       },
       {
@@ -152,7 +152,7 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
         operationTimeId: 0,
       },
       {
@@ -162,7 +162,7 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
         operationTimeId: 0,
       },
       {
@@ -172,7 +172,7 @@ export const storeGetData = atom<RegisterStoreGetInterface>({
         startTime: '00:00:00',
         dayOfWeek: 'MONDAY',
         hasBreak: true,
-        hasOperationiTime: true,
+        hasOperationTime: true,
         operationTimeId: 0,
       },
     ],

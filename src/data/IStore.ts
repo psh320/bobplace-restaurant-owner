@@ -6,7 +6,7 @@ export type OperationTime = {
   dayOfWeek: string;
   endTime: string;
   hasBreak: boolean;
-  hasOperationiTime: boolean;
+  hasOperationTime: boolean;
   operationTimeId?: number;
   startTime: string;
 };

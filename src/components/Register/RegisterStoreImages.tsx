@@ -87,7 +87,7 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({onChange, val
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>가게사진</Text>
           <Text style={{color: '#6C69FF'}}> * </Text>
-          <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> _/10</Text>
+          <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> {storeImages.length}/10</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text style={{color: '#6C69FF'}}>* </Text>
@@ -101,12 +101,12 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({onChange, val
       <View style={[styles.flexRow, {alignItems: 'center'}]}>
         <TouchableOpacity
           style={
-            storeImages.length > 10
+            storeImages.length > 9
               ? [styles.imageAddButton, {opacity: 0.2}]
               : [styles.imageAddButton]
           }
           onPress={openImagePicker}
-          disabled={storeImages.length > 10}
+          disabled={storeImages.length > 9}
         >
           <Icon name="plus" size={24} />
         </TouchableOpacity>

@@ -23,6 +23,16 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
 }) => {
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
   const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
+  const [operationData, setOperationData] = useState<OperationTime>(
+    RCstoreData.operationTimeVO[index],
+  );
+  const [operationData2, setOperationData2] = useState<OperationTime>(
+    RCstoreGetData.operationTimeRes[index],
+  );
+  useEffect(() => {
+    setOperationData(RCstoreData.operationTimeVO[index]);
+    setOperationData2(RCstoreGetData.operationTimeRes[index]);
+  }, [index, RCstoreData.operationTimeVO, RCstoreGetData.operationTimeRes]);
 
   const submitChangedDate = () => {
     const tempData = {...RCstoreData};
@@ -54,17 +64,8 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
     setRCstoreGetData(tempData2);
     closeOperationTimeModal();
   };
-  const [operationData, setOperationData] = useState<OperationTime>(
-    RCstoreData.operationTimeVO[index],
-  );
-  const [operationData2, setOperationData2] = useState<OperationTime>(
-    RCstoreGetData.operationTimeRes[index],
-  );
-  useEffect(() => {
-    setOperationData(RCstoreData.operationTimeVO[index]);
-    setOperationData2(RCstoreGetData.operationTimeRes[index]);
-  }, [index, RCstoreData.operationTimeVO, RCstoreGetData.operationTimeRes]);
-  console.log('OPERATION TIME', operationData);
+
+  console.log('OPERATION TIME', RCstoreData);
   return (
     <Modal
       visible={visible}

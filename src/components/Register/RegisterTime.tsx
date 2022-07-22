@@ -32,7 +32,7 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
     return (
       <>
         {RCstoreData.operationTimeVO.map((item, index) => {
-          if (item.hasOperationiTime) {
+          if (item.hasOperationTime) {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
                 <View style={[styles.checkboxWrap]}>
@@ -40,10 +40,10 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
                     title={MapIndexToDay[index]}
                     onPress={() => {
                       let tempData = {...RCstoreData};
-                      tempData.operationTimeVO[index].hasOperationiTime = !item.hasOperationiTime;
+                      tempData.operationTimeVO[index].hasOperationTime = !item.hasOperationTime;
                       setRCstoreData(tempData);
                     }}
-                    isChecked={item.hasOperationiTime}
+                    isChecked={item.hasOperationTime}
                   />
                 </View>
                 <View
@@ -84,10 +84,10 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
                     title={MapIndexToDay[index]}
                     onPress={() => {
                       let tempData = {...RCstoreData};
-                      tempData.operationTimeVO[index].hasOperationiTime = !item.hasOperationiTime;
+                      tempData.operationTimeVO[index].hasOperationTime = !item.hasOperationTime;
                       setRCstoreData(tempData);
                     }}
-                    isChecked={item.hasOperationiTime}
+                    isChecked={item.hasOperationTime}
                   />
                 </View>
                 <View
@@ -102,11 +102,12 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
       </>
     );
   };
+
   const renderedTimeTableGet = () => {
     return (
       <>
         {RCstoreGetData.operationTimeRes.map((item, index) => {
-          if (!item.hasOperationiTime) {
+          if (!item.hasOperationTime) {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
                 <View style={[styles.checkboxWrap]}>
@@ -114,10 +115,10 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
                     title={MapIndexToDay[index]}
                     onPress={() => {
                       let tempData = {...RCstoreGetData};
-                      tempData.operationTimeRes[index].hasOperationiTime = !item.hasOperationiTime;
+                      tempData.operationTimeRes[index].hasOperationTime = !item.hasOperationTime;
                       setRCstoreGetData(tempData);
                     }}
-                    isChecked={item.hasOperationiTime}
+                    isChecked={item.hasOperationTime}
                   />
                 </View>
                 <View
@@ -158,10 +159,10 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
                     title={MapIndexToDay[index]}
                     onPress={() => {
                       let tempData = {...RCstoreGetData};
-                      tempData.operationTimeRes[index].hasOperationiTime = !item.hasOperationiTime;
+                      tempData.operationTimeRes[index].hasOperationTime = !item.hasOperationTime;
                       setRCstoreGetData(tempData);
                     }}
-                    isChecked={item.hasOperationiTime}
+                    isChecked={item.hasOperationTime}
                   />
                 </View>
                 <View
