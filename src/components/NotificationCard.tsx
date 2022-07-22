@@ -66,7 +66,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
       </TouchableOpacity>
       :
       // 미션도전했습니다
-      // pushType === 'OWNER_PROGRESS' ?
+      pushType === 'OWNER_PROGRESS' ?
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
@@ -86,28 +86,28 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
           </View>
         </View>
       </TouchableOpacity>
-      // :
-      // // 리뷰알림
-      // pushType === 'OWNERREVIEW' ?
-      // <TouchableOpacity
-      //   style={[styles.notiCard, checked && {opacity: 0.5}]}
-      //   onPress={() => {
-      //     navigation.pop();
-      //     navigation.navigate('StoreNavigator', {screen: 'StoreReview'});
-      //     missionSuccessRequestMutation.mutate(id);
-      //   }}
-      // >
-      //   <View style={[styles.notiWrap]}>
-      //     <View style={!checked ? [styles.dot] : [styles.noDot]} />
-      //     <View style={[styles.notiView]}>
-      //       <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>OWNERREVIEW.</Text>
-      //       <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{storeName}</Text>리뷰 달림</Text>
-      //       <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
-      //         {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
-      //       </Text>
-      //     </View>
-      //   </View>
-      // </TouchableOpacity>
+      :
+      // 리뷰알림
+      // pushType === 'OWNER_REVIEW' ?
+      <TouchableOpacity
+        style={[styles.notiCard, checked && {opacity: 0.5}]}
+        onPress={() => {
+          navigation.pop();
+          navigation.navigate('StoreNavigator', {screen: 'StoreReview'});
+          missionSuccessRequestMutation.mutate(id);
+        }}
+      >
+        <View style={[styles.notiWrap]}>
+          <View style={!checked ? [styles.dot] : [styles.noDot]} />
+          <View style={[styles.notiView]}>
+            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>{title}</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}></Text>{subTitle}</Text>
+            <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
+              {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
       // :
       //ANSWER(1:1문의 답변받으면)
       // <TouchableOpacity
