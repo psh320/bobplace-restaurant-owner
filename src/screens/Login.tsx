@@ -1,13 +1,11 @@
 import React, {useCallback, useState, useEffect} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image, Platform} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import SocialWebviewModal from '../modal/SocialWebviewModal';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useMutation} from 'react-query';
 import {createRegister, createStore} from '../data';
 import {AuthStackParamList} from '../nav';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';

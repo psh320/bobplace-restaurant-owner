@@ -219,3 +219,8 @@ export const RCpressedMissionGroupId = atom({
   key: 'RCpressedMissionGroupId',
   default: 0,
 });
+
+export const RCstoreId = atom({
+  key: 'RCstoreId',
+  default: 0,
+});

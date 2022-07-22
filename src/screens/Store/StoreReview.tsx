@@ -14,6 +14,8 @@ import {getStoreData, getStoreReviewList} from '../../api/review';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IStoreReview} from '../../data/IStore';
 import {NoBobpool} from '../../components/common/NoBobpool';
+import {useRecoilValue} from 'recoil';
+import {RCstoreId} from '../../state';
 
 const dummyReviews = [
   {
@@ -112,10 +114,11 @@ const StoreReview = ({navigation, route}: Props) => {
     setReviewPhoto({uri: imageSource});
     setPhotoModal(true);
   };
+  const storeId = useRecoilValue(RCstoreId);
 
   const reviewList = useInfiniteQuery(
-    [queryKey.STOREREVIEWLIST, route.params.storeId],
-    ({pageParam}) => getStoreReviewList({pageParam}, route.params.storeId),
+    [queryKey.STOREREVIEWLIST, storeId],
+    ({pageParam}) => getStoreReviewList({pageParam}, storeId),
     {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.data.result.last === false) {
@@ -127,8 +130,8 @@ const StoreReview = ({navigation, route}: Props) => {
     },
   );
   console.log('리뷰길이 ', reviewList.data?.pages[0].data.result.content.length);
-  const reviewInfo = useQuery(queryKey.STOREINFO, () => getStoreData(route.params.storeId));
-  console.log('vudwjs', reviewInfo.data);
+  const reviewInfo = useQuery(queryKey.STOREINFO, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
+  console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
   return (
     <>
       <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
@@ -138,8 +141,8 @@ const StoreReview = ({navigation, route}: Props) => {
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
-          toggleMission={() => navigation.navigate('StoreMission', {storeId: route.params.storeId})}
-          toggleReview={() => navigation.navigate('StoreReview', {storeId: route.params.storeId})}
+          toggleMission={() => navigation.navigate('StoreMission')}
+          toggleReview={() => navigation.navigate('StoreReview')}
           storeStatus={2}
         />
         <View style={[styles.rateWrap]}>
@@ -182,7 +185,7 @@ const StoreReview = ({navigation, route}: Props) => {
                       images={item.images}
                       reply={item.reply}
                       reviewId={item.reviewId}
-                      storeId={route.params.storeId}
+                      storeId={storeId}
                       openPhotoModal={openPhotoModal}
                     />
                     {/* {item.data.result.content.map((review: IStoreReview, i: number) => (
@@ -195,7 +198,7 @@ const StoreReview = ({navigation, route}: Props) => {
                           images={review.images}
                           reply={review.reply}
                           reviewId={review.reviewId}
-                          storeId={route.params.storeId}
+                          storeId={storeId}
                           openPhotoModal={openPhotoModal}
                         />
                       </View>

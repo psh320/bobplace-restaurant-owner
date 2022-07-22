@@ -10,7 +10,7 @@ import {AuthNavigator, MainNavigator} from './src/nav';
 import {RecoilRoot} from 'recoil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {customAxios, getRegisterStatus, postToken} from './src/api';
+import {getRegisterStatus, postToken} from './src/api';
 import {QueryClient, QueryClientProvider} from 'react-query';
 
 Icon.loadFont();
@@ -30,20 +30,7 @@ export default function App() {
     }, 2000);
     return () => clearTimeout(id);
   }, []);
-  const getStoreId = async () => {
-    try {
-      const response = await customAxios().get('/api/v1/stores/me/id');
-      try {
-        await AsyncStorage.setItem('storeId', String(response.data.result), () =>
-          console.log('storeId async저장 (string)', response.data.result),
-        );
-      } catch (e) {
-        console.log('storeId 실패');
-      }
-    } catch (error) {
-      console.log('getStoreId get요청실패', error);
-    }
-  };
+
   const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem('accessToken');
@@ -57,8 +44,6 @@ export default function App() {
         console.log('가입 상태 확인 요청:', registerResult);
         if (registerResult === 'DONE') {
           setIsLogin(true);
-          // storeId 받아서 Async-----------------------------------------------------
-          getStoreId();
         }
       }
     } catch (e) {

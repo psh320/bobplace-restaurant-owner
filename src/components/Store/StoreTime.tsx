@@ -109,9 +109,9 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
           <Text>브레이크 타임</Text>
         </View>
       </View>
-      {renderedTimeTable()}
+      {/* {renderedTimeTable()} */}
       {/* 기존코드. 근데 가게관리에서 리뷰로 넘어가면 오류남 operationData가 undefined로 뜨는이슈.. */}
-      {/* {operationData !== undefined && renderedTimeTable()} */}
+      {operationData !== undefined && renderedTimeTable()}
       {/* 이렇게하면 위같은 오류는 안나는데, 다시 가게정보로 돌아왔을때 다 빈칸임. 왜냐면 다시 operationData가 undefiend래. */}
     </View>
   );

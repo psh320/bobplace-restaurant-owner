@@ -20,6 +20,8 @@ import {INotiType} from '../data/IMissions';
 import {patchNotificationsStatus} from '../data/INoti';
 import {Item} from 'react-native-paper/lib/typescript/components/List/List';
 import {NoBobpool} from '../components/common/NoBobpool';
+import {useRecoilValue} from 'recoil';
+import {RCstoreId} from '../state';
 
 type Props = NativeStackScreenProps<MissionStackParamList, 'Notifications'>;
 const dummy = [
@@ -66,7 +68,7 @@ const dummy = [
   {
     checked: false,
     date: '2022-07-19T06:44:56.115Z',
-    id: 30,
+    id: 45,
     name: '',
     pushType: 'OWNER_REVIEW',
     subId: 0,
@@ -76,7 +78,7 @@ const dummy = [
   {
     checked: false,
     date: '2022-07-19T06:44:56.115Z',
-    id: 30,
+    id: 50,
     name: '홍길동',
     pushType: 'OWNER_ANSWER',
     subId: 330,
@@ -86,6 +88,8 @@ const dummy = [
 ];
 export const Notifications = ({navigation}: Props) => {
   const queryClient = useQueryClient();
+  const storeId = useRecoilValue(RCstoreId);
+  // console.log('아이디이이이조라', storeId);
 
   const DataNoti = useQuery<INotiType[]>(queryKey.NOTIFICATIONS, getNotifications, {
     onError: (err) => {
@@ -110,7 +114,7 @@ export const Notifications = ({navigation}: Props) => {
   const checkedNoti = (notiId: number) => {
     missionSuccessRequestMutation.mutate(notiId);
   };
-  console.log('DataNoti.data', DataNoti); //스웨거에서result인 배열
+  console.log('DataNoti', DataNoti); //스웨거에서result인 배열
   const goBack = () => {
     navigation.goBack();
   };
