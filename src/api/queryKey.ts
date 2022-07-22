@@ -13,6 +13,7 @@ export const queryKey = {
   // STOREREVIEWIMAGES: 'storeReviewImages',
   STOREREVIEWLIST: 'storeReviewList',
   NOTIFICATIONS: 'notifications',
+  NOTIFICATIONS_SETTING: 'notificationsSetting',
   QUESTIONS: 'questions',
   QUESTIONDETAIL: 'questionDetail',
   MISSIONSPROGRESS: 'missionsProgress',

@@ -14,16 +14,24 @@ export const getNotifications = async () => {
 //알림 확인
 export const patchNotificationsStatus = async (notiId: number) => {
   const response = await customAxios().patch(`/api/v1/push-notifications/me/${notiId}`);
-  console.log('sdsd', response.data);
   return response.data.message;
 };
+
+//마이페이지 - 알림 설정 조회
+export const getNotiSettting = async () => {
+  const response = await customAxios().get('/api/v1/owners/me/notification');
+  console.log('알림설정조회axios', response.data.result);
+  return response.data.result;
+};
 //마이페이지 - 알림 설정 수정
-export const patchNotifications = async (data: {
+export const patchNotiSetting = async (data: {
   event: boolean;
-  review: boolean;
+  mission: boolean;
   question: boolean;
+  review: boolean;
 }) => {
-  const response = await customAxios().patch('/api/v1/users/me/notification', data);
+  // console.log('patch에 넘어온data', data);
+  const response = await customAxios().patch('/api/v1/owners/me/notification', data);
   return response.data;
 };
 

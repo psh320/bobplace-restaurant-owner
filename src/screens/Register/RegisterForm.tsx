@@ -8,12 +8,15 @@ import {AuthStackParamList} from '../../nav';
 import {useForm, Controller} from 'react-hook-form';
 import {customAxios} from '../../api';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {RegisterPhone} from '../../components/Register/RegisterPhone';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterForm'>;
 
 const RegisterForm = ({navigation, route}: Props) => {
   const [registerData, setRegisterData] = useState<RegisterInterface>(route.params.registerData);
   const [authError, setAuthError] = useState(true);
+  const [authKey, setAuthKey] = useState('-1');
+  console.log('렛데타', registerData);
   //react-hook-form 사용
   const {
     control,
@@ -108,8 +111,9 @@ const RegisterForm = ({navigation, route}: Props) => {
         {errors.gender?.type === 'required' && (
           <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
         )}
-        {/* 휴대폰 인증 잠시 주석처리 - 차라리 널로해야 userInfo받을수있대*/}
-        {/* <Controller
+
+        {/* 휴대폰 인증  - 차라리 널로해야 userInfo받을수있대*/}
+        <Controller
           control={control}
           rules={{
             required: true,
@@ -128,21 +132,22 @@ const RegisterForm = ({navigation, route}: Props) => {
                 value={value}
                 authError={authError}
                 setAuthError={setAuthError}
+                authKey={authKey}
+                setAuthKey={setAuthKey}
                 isError={errors.phone !== undefined}
               />
             );
           }}
           name="phone"
-        /> */}
-        {errors.phone?.type === 'required' && (
-          <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+        />
+        {authError && authKey !== '-1' && (
+          <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>
         )}
-        {authError && <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>}
+        {registerData.phone.length !== 0 &&
+          registerData.phone.length < 12 &&
+          authKey === '-1' &&
+          authError && <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>}
         {!authError && <Text style={[styles.clearMessage]}>인증이 완료되었습니다.</Text>}
-
-        {errors.address?.type === 'required' && (
-          <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-        )}
       </KeyboardAwareScrollView>
       <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
     </SafeAreaView>

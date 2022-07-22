@@ -63,6 +63,26 @@ const dummy = [
     subTitle: 'string',
     title: '타타이틀',
   },
+  {
+    checked: false,
+    date: '2022-07-19T06:44:56.115Z',
+    id: 30,
+    name: '',
+    pushType: 'OWNER_REVIEW',
+    subId: 0,
+    subTitle: '리뷰를 확인해쥣고 . . .',
+    title: '새로운 리뷰가 작성되었습니다',
+  },
+  {
+    checked: false,
+    date: '2022-07-19T06:44:56.115Z',
+    id: 30,
+    name: '홍길동',
+    pushType: 'OWNER_ANSWER',
+    subId: 330,
+    subTitle: 'string',
+    title: '타타이틀',
+  },
 ];
 export const Notifications = ({navigation}: Props) => {
   const queryClient = useQueryClient();
@@ -90,7 +110,7 @@ export const Notifications = ({navigation}: Props) => {
   const checkedNoti = (notiId: number) => {
     missionSuccessRequestMutation.mutate(notiId);
   };
-  console.log('DataNoti.data', DataNoti.data); //스웨거에서result인 배열
+  console.log('DataNoti.data', DataNoti); //스웨거에서result인 배열
   const goBack = () => {
     navigation.goBack();
   };
@@ -100,7 +120,7 @@ export const Notifications = ({navigation}: Props) => {
       <SafeAreaView style={[styles.flex]}>
         <MyHeader goBack={goBack} title={'알림'} />
         {/* {DataNoti.data?.length !== 0 ? ( */}
-        {1 !== 1 ? (
+        {1 === 1 ? ( // !== ???????????
           <FlatList
             style={{marginLeft: 16, marginRight: 16}}
             showsVerticalScrollIndicator={false}
