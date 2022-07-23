@@ -22,7 +22,7 @@ const SocialWebview: FC<SocialWebViewProps> = ({source, closeSocialModal}) => {
   //GET Login Result URL query param
   const queryString = (rawURL: string) => {
     var regex = /[?&]([^=#]+)=([^&#]*)/g,
-      params = {},
+      params: any = {},
       match;
     while ((match = regex.exec(rawURL))) {
       params[match[1]] = match[2];

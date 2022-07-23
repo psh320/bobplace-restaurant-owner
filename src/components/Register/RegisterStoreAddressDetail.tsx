@@ -3,7 +3,7 @@ import type {FC} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
-import {storeData, storeGetData} from '../../state';
+import {storeData} from '../../state';
 
 type RegisterStoreAddressDetailProps = {
   onChange: (...event: any[]) => void;
@@ -18,10 +18,9 @@ export const RegisterStoreAddressDetail: FC<RegisterStoreAddressDetailProps> = (
 }) => {
   const [focusedDetail, setFocusedDetail] = useState(false);
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
-  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
 
   return (
-    <View>
+    <View style={{marginBottom: 20}}>
       <TextInput
         style={[
           styles.nameInput,
@@ -36,10 +35,10 @@ export const RegisterStoreAddressDetail: FC<RegisterStoreAddressDetailProps> = (
         onChangeText={(text) => {
           onChange(text);
           setRCstoreData({...RCstoreData, addressDetail: text});
-          setRCstoreGetData({...RCstoreGetData, addressDetail: text});
         }}
         value={value}
         placeholder="상세주소 입력"
+        placeholderTextColor={'#949494'}
         selectionColor={'#6C69FF'}
         onBlur={() => setFocusedDetail(false)}
         onFocus={() => setFocusedDetail(true)}

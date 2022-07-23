@@ -3,8 +3,7 @@ import {Modal, StyleSheet, TouchableOpacity, View, SafeAreaView} from 'react-nat
 // import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Postcode from '@actbase/react-daum-postcode';
-import {useSetRecoilState} from 'recoil';
-import {address, storeGetData} from '../state';
+import {address} from '../state';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {kakaoGeocoder} from '../api/kakaoGeocoder';
 import {useRecoilState} from 'recoil';
@@ -23,7 +22,6 @@ const AddressSearchModal: FC<AddressSearchModalProps> = ({
 }) => {
   const insets = useSafeAreaInsets();
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
-  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
 
   return (
     <Modal visible={visible} animationType="slide">
@@ -44,13 +42,6 @@ const AddressSearchModal: FC<AddressSearchModalProps> = ({
             if (coordiate !== undefined) {
               setRCstoreData({
                 ...RCstoreData,
-                addressStreet: data.address,
-                addressDong: data.bname,
-                x: coordiate.x,
-                y: coordiate.y,
-              });
-              setRCstoreGetData({
-                ...RCstoreGetData,
                 addressStreet: data.address,
                 addressDong: data.bname,
                 x: coordiate.x,

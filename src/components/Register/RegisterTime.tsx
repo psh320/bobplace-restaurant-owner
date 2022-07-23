@@ -6,11 +6,7 @@ import {CheckBoxRectangle} from '../common/CheckBoxRectangle';
 import {RegisterTimeModal} from '../../modal';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
-import {registerOperationTime, storeGetData} from '../../state';
-
-type RegisterTimeProps = {
-  get?: number; //1이면 가게관리에서 수정하는거. 처음registser할땐 값 안넘김
-};
+import {registerOperationTime} from '../../state';
 
 const MapIndexToDay = ['월', '화', '수', '목', '금', '토', '일'];
 
@@ -18,7 +14,7 @@ const processTime = (time: string) => {
   return time.slice(undefined, 5);
 };
 
-export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
+export const RegisterTime = () => {
   const [registerTimeModal, setRegisterTimeModal] = useState(false);
   // const [operationTime, setOperationTime] = useState<OperationTime[]>(registerData.operationTimeVO);
   const [dayIndex, setDayIndex] = useState<number>(0);
@@ -126,7 +122,6 @@ export const RegisterTime: FC<RegisterTimeProps> = ({get}) => {
         </View>
       </View>
       {renderedTimeTable()}
-
       <RegisterTimeModal
         visible={registerTimeModal}
         closeRegisterTimeModal={() => setRegisterTimeModal(false)}

@@ -6,13 +6,13 @@ import FastImage from 'react-native-fast-image';
 import {ImageInterface, RegisterStoreInterface} from '../../data';
 import {RenderImageList} from '../common/RenderImageList';
 import {StoreTime} from './StoreTime';
-import {storeGetData} from '../../state';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {ImageSwiper} from '../common/ImageSwiper';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
 import {getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
+import {storeData} from '../../state';
 
 const dummyImage: ImageInterface[] = [
   {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
@@ -23,7 +23,7 @@ const dummyImage: ImageInterface[] = [
 const STORETYPE = ['', '한식당', '일식당', '중식당', '양식당', '치킨집', '분식집', '고기/구이', '도시락', '야식(족발,보쌈)', '패스트푸드', '디저트/카페', '아시안푸드'];
 
 export const StoreInfo = () => {
-  const store = useRecoilValue(storeGetData); //쿼리?
+  const store = useRecoilValue(storeData); //쿼리?
   console.log('storeInfo에서 store', store);
   // const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo);
   // const [RCstoreInfo, setRCstoreInfo] = useRecoilState<RegisterStoreInterface>(DataStoreInfo.data);

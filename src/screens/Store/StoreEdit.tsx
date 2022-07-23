@@ -16,7 +16,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {useForm, Controller} from 'react-hook-form';
 import {ImageInterface, RegisterStoreInterface} from '../../data';
-import {storeGetData} from '../../state';
+import {storeData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {ImageSwiper} from '../../components/common/ImageSwiper';
 import {ImageSwiperModal} from '../../modal/ImageSwiperModal';
@@ -33,11 +33,12 @@ import {RegisterStoreAddressDetail} from '../../components/Register/RegisterStor
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
 import {putStoresMe} from '../../api/store';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {StoreEditTime} from '../../components/Store/StoreEditTime';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 
 const StoreEdit = ({navigation}: Props) => {
-  const [store, setStore] = useRecoilState(storeGetData);
+  const [store, setStore] = useRecoilState(storeData);
   const [imageSwiperModal, setImageSwiperModal] = useState(false); //수정전 주석중
   const insets = useSafeAreaInsets();
   const {
@@ -51,7 +52,6 @@ const StoreEdit = ({navigation}: Props) => {
       addressDong: store.addressDong,
       addressStreet: store.addressStreet,
       intro: store.intro,
-      operationTimeRes: store.operationTimeRes,
       representativeMenuName: store.representativeMenuName,
       storeName: store.storeName,
       storeTypeId: store.storeTypeId,
@@ -63,18 +63,7 @@ const StoreEdit = ({navigation}: Props) => {
 
   const onSubmit = () => {
     //patch store to server--------------!!!!!!!!!!!!!!!!!!!!!!!
-    putStoresMe(
-      store.addressDetail,
-      store.addressDong,
-      store.addressStreet,
-      store.intro,
-      store.representativeMenuName,
-      store.storeName,
-      store.storeTypeId,
-      store.tableNum,
-      store.x,
-      store.y,
-    );
+    putStoresMe(storeData);
     navigation.goBack();
     console.log('저장!!');
   };
@@ -275,7 +264,7 @@ const StoreEdit = ({navigation}: Props) => {
               <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
             )} */}
 
-            <RegisterTime get={1} />
+            <StoreEditTime />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

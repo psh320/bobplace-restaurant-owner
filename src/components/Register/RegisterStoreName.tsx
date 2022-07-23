@@ -3,7 +3,7 @@ import type {FC} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
-import {storeData, storeGetData} from '../../state';
+import {storeData} from '../../state';
 
 type RegisterStoreNameProps = {
   onChange: (...event: any[]) => void;
@@ -15,7 +15,6 @@ export const RegisterStoreName: FC<RegisterStoreNameProps> = ({onChange, value, 
   const [focusedName, setFocusedName] = useState(false);
 
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
-  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
 
   return (
     <View style={[styles.addressWrap]}>
@@ -39,7 +38,6 @@ export const RegisterStoreName: FC<RegisterStoreNameProps> = ({onChange, value, 
         onChangeText={(text) => {
           onChange(text);
           setRCstoreData({...RCstoreData, storeName: text});
-          setRCstoreGetData({...RCstoreGetData, storeName: text});
         }}
         value={value}
         placeholder="상호명 입력"

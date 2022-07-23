@@ -10,6 +10,9 @@ import {registerMenuImage} from '../../state';
 
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
+  quality: 1,
+  maxHeight: 1600,
+  maxWidth: 1000,
 };
 
 type RegisterMenuImagesProps = {

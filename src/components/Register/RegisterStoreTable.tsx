@@ -6,7 +6,7 @@ import {Picker} from '@react-native-picker/picker';
 import RNPickerSelect from 'react-native-picker-select';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
-import {storeData, storeGetData} from '../../state';
+import {storeData} from '../../state';
 
 type RegisterAddressProps = {
   onChange: (...event: any[]) => void;
@@ -16,7 +16,6 @@ type RegisterAddressProps = {
 
 export const RegisterStoreTable: FC<RegisterAddressProps> = ({onChange, value, error}) => {
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
-  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
 
   return (
     <View style={[styles.addressWrap]}>
@@ -31,7 +30,6 @@ export const RegisterStoreTable: FC<RegisterAddressProps> = ({onChange, value, e
         onValueChange={(itemValue: number) => {
           onChange(itemValue);
           setRCstoreData({...RCstoreData, tableNum: value});
-          setRCstoreGetData({...RCstoreGetData, tableNum: value});
         }}
         useNativeAndroidPickerStyle={false}
         placeholder={{label: '테이블 수 선택', value: -1}}

@@ -52,7 +52,6 @@ export const postStoreMenuImages = async (imageList: imageData[], storeId: numbe
           name: 'image',
         });
     formdata.append('representativeMenuImages', photo);
-    console.log('formdata', formdata, photo);
   });
 
   const response = await customAxios().post(

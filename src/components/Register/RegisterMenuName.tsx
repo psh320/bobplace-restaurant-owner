@@ -4,7 +4,7 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {RegisterStoreInterface} from '../../data';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
-import {storeData, storeGetData} from '../../state';
+import {storeData} from '../../state';
 
 type RegisterMenuNameProps = {
   onChange: (...event: any[]) => void;
@@ -15,7 +15,6 @@ type RegisterMenuNameProps = {
 export const RegisterMenuName: FC<RegisterMenuNameProps> = ({onChange, value, error}) => {
   const [focusedName, setFocusedName] = useState(false);
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
-  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
 
   return (
     <View style={[styles.nameWrap]}>
@@ -40,7 +39,6 @@ export const RegisterMenuName: FC<RegisterMenuNameProps> = ({onChange, value, er
         onChangeText={(text) => {
           onChange(text);
           setRCstoreData({...RCstoreData, representativeMenuName: text});
-          setRCstoreGetData({...RCstoreGetData, representativeMenuName: text});
         }}
         value={value}
         placeholder="대표메뉴 이름 입력"

@@ -1,3 +1,4 @@
+import {OperationTime} from '../data';
 import {customAxios} from './customAxios';
 
 //사장 점포관리탭 (storeInfo)
@@ -8,34 +9,19 @@ export const getStoreInfo = async () => {
   return response.data.result; //스웨거에서의 result
 };
 
-export const putStoresMe = async (
-  addressDetail: string,
-  addressDong: string,
-  addressStreet: string,
-  intro: string,
-  representativeMenuName: string,
-  storeName: string,
-  storeTypeId: number,
-  tableNum: number,
-  x: number,
-  y: number,
-) => {
-  const response = await customAxios().put('/api/v1/stores/me', null, {
-    params: {
-      addressDetail: addressDetail,
-      addressDong: addressDong,
-      addressStreet: addressStreet,
-      intro: intro,
-      representativeMenuName: representativeMenuName,
-      storeName: storeName,
-      storeTypeId: storeTypeId,
-      tableNum: tableNum,
-      x: x,
-      y: y,
-    },
-  });
+export const putStoresMe = async (storeData: any) => {
+  const response = await customAxios().put('/api/v1/stores/me', storeData);
   console.log('putStoresMe r.data', response.data);
   return response.data; //스웨거에서의 result
+};
+
+export const putEditTime = async (operationTime: OperationTime, operationTimeId: any) => {
+  const response = await customAxios().put(
+    `/api/v1/stores/operation-time/${operationTimeId}`,
+    operationTime,
+  );
+  console.log('putStoresMe r.data', response.data);
+  return response.data;
 };
 
 //미션관리
