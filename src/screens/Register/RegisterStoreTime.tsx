@@ -6,27 +6,30 @@ import {customAxios} from '../../api';
 import {RegisterHeader, RegisterNextButton} from '../../components';
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
 import {RegisterStoreImages} from '../../components/Register/RegisterStoreImages';
-import {RegisterTime} from '../../components/Register/RegisterTime';
 import {AuthStackParamList} from '../../nav';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {registerMenuImage, registerStoreImage, storeData} from '../../state';
+import {registerMenuImage, registerOperationTime, registerStoreImage, storeData} from '../../state';
 import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages';
+import {postStoreImages, postStoreMenuImages} from '../../api/register';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreTime'>;
 
 const RegisterStoreTime = ({navigation, route}: Props) => {
-  const [storeImages, setStoreImages] = useRecoilState(registerStoreImage);
-  const [menuImages, setMenuImages] = useRecoilState(registerMenuImage);
+  const storeImages = useRecoilValue(registerStoreImage);
+  const menuImages = useRecoilValue(registerMenuImage);
   const RCstoreData = useRecoilValue(storeData);
+  const RegisterTime = useRecoilValue(registerOperationTime);
 
-  const postRegister = async () => {
+  const postRegister = async (data: any) => {
     try {
-      const response = await customAxios().post('/api/v1/stores', RCstoreData);
+      const response = await customAxios().post('/api/v1/stores', data);
       console.log('post stores register:', response.data);
+      return response.data;
     } catch (error) {
       console.log('post stores register:', error);
     }
   };
+
   const {
     control,
     handleSubmit,
@@ -44,7 +47,11 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
   };
 
   const goNext = async () => {
-    await postRegister();
+    const postData = {...RCstoreData, operationTimeVO: RegisterTime};
+    const response = await postRegister(postData);
+    await postStoreMenuImages(menuImages, response.storeId);
+    await postStoreImages(storeImages, response.storeId);
+
     navigation.navigate('MainNavigator');
   };
   return (

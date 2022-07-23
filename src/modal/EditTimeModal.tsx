@@ -6,66 +6,55 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
 import {TimeList} from '../data/TimeList';
 import {useRecoilState} from 'recoil';
-import {storeData, storeGetData} from '../state';
+import {editOperationTime, registerOperationTime, storeData, storeGetData} from '../state';
 
 type OperationTimeModalProps = {
   visible: boolean;
   closeOperationTimeModal: () => void;
   index: number;
-  item: OperationTime;
+  item: boolean;
 };
 
 export const OperationTimeModal: FC<OperationTimeModalProps> = ({
   visible,
   closeOperationTimeModal,
   index,
-  item,
+  isEdit,
 }) => {
-  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
-  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
-  const [operationData, setOperationData] = useState<OperationTime>(
-    RCstoreData.operationTimeVO[index],
+  const [registerTime, setRegisterTime] = useRecoilState(registerOperationTime);
+  const [editTime, setEditTime] = useRecoilState(editOperationTime);
+  const [editOperationData, setEditOperationData] = useState<OperationTime>(editTime[index]);
+  const [registerOperationData, setRegisterOperationData] = useState<OperationTime>(
+    registerTime[index],
   );
-  const [operationData2, setOperationData2] = useState<OperationTime>(
-    RCstoreGetData.operationTimeRes[index],
-  );
-  useEffect(() => {
-    setOperationData(RCstoreData.operationTimeVO[index]);
-    setOperationData2(RCstoreGetData.operationTimeRes[index]);
-  }, [index, RCstoreData.operationTimeVO, RCstoreGetData.operationTimeRes]);
 
   const submitChangedDate = () => {
-    const tempData = {...RCstoreData};
-    const tempData2 = {...RCstoreGetData};
-    //첫 데이터 입력할때만 모든 다른 날에 일관적용
-    if (
-      item.startTime === '00:00:00' &&
-      item.endTime === '00:00:00' &&
-      item.breakStartTime === '00:00:00' &&
-      item.breakEndTime === '00:00:00'
-    ) {
-      tempData.operationTimeVO.map((data, key) => {
-        tempData.operationTimeVO[key].breakEndTime = operationData.breakEndTime;
-        tempData.operationTimeVO[key].breakStartTime = operationData.breakStartTime;
-        tempData.operationTimeVO[key].endTime = operationData.endTime;
-        tempData.operationTimeVO[key].startTime = operationData.startTime;
-      });
-      tempData2.operationTimeRes.map((data, key) => {
-        tempData2.operationTimeRes[key].breakEndTime = operationData2.breakEndTime;
-        tempData2.operationTimeRes[key].breakStartTime = operationData2.breakStartTime;
-        tempData2.operationTimeRes[key].endTime = operationData2.endTime;
-        tempData2.operationTimeRes[key].startTime = operationData2.startTime;
-      });
+    if (isEdit) {
+      //POST 해서 그 index의 operationtimeID에 포스트 보내버리기.
+
+      setEditOperationData(editOperationData);
+    } else {
+      const tempData = [...registerTime];
+      if (
+        tempData[index].startTime === '00:00:00' &&
+        tempData[index].endTime === '00:00:00' &&
+        tempData[index].breakStartTime === '00:00:00' &&
+        tempData[index].breakEndTime === '00:00:00'
+      ) {
+        tempData.map((data, key) => {
+          tempData[key].breakEndTime = registerOperationData.breakEndTime;
+          tempData[key].breakStartTime = registerOperationData.breakStartTime;
+          tempData[key].endTime = registerOperationData.endTime;
+          tempData[key].startTime = registerOperationData.startTime;
+        });
+      }
+      tempData[index] = registerOperationData;
+      setRegisterTime(tempData);
     }
 
-    tempData.operationTimeVO[index] = operationData;
-    tempData2.operationTimeRes[index] = operationData2;
-    setRCstoreData(tempData);
-    setRCstoreGetData(tempData2);
     closeOperationTimeModal();
   };
 
-  console.log('OPERATION TIME', RCstoreData);
   return (
     <Modal
       visible={visible}
@@ -108,9 +97,12 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
               <RNPickerSelect
                 style={pickerSelectStyles}
                 onValueChange={(itemValue: string) => {
-                  const tempData = {...operationData};
-                  tempData.startTime = itemValue;
-                  setOperationData(tempData);
+                  if (isEdit) {
+                  } else {
+                    const tempData = [...register];
+                    tempData.startTime = itemValue;
+                    setOperationData(tempData);
+                  }
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={{}}

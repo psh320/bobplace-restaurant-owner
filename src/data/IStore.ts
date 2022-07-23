@@ -17,7 +17,6 @@ export type RegisterStoreInterface = {
   addressDong: string;
   addressStreet: string;
   intro: string;
-  operationTimeVO: OperationTime[];
   representativeMenuName: string;
   storeName: string;
   storeTypeId: number;
@@ -25,6 +24,11 @@ export type RegisterStoreInterface = {
   x: number;
   y: number;
 };
+
+export type IStoreOperationTime = {
+  operationTimeVO: OperationTime[];
+};
+
 export type RegisterStoreGetInterface = {
   addressDetail: string;
   addressDong: string;
