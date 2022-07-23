@@ -6,6 +6,8 @@ import {useRecoilState} from 'recoil';
 import DoneModal from '../../modal/DoneModal';
 import {RCnowWrite} from '../../state';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useMutation, useQueryClient} from 'react-query';
+import {postQuestions} from '../../api/my';
 
 export const MyWriteInquiry = () => {
   const [focusedTitle, setFocusedTitle] = useState(false);
@@ -15,9 +17,24 @@ export const MyWriteInquiry = () => {
   const [doneModal, setDoneModal] = useState(false);
   const [nowWrite, setNowWrite] = useRecoilState(RCnowWrite);
 
-  const handleSubmit = () => {
+  const queryClient = useQueryClient();
+  const questionMutation = useMutation(
+    (data: {content: string; title: string}) => postQuestions(data),
+    {
+      onSuccess: (data) => {
+        console.log('문의하기 성공: ', data);
+        queryClient.invalidateQueries('questions');
+        setDoneModal(true);
+      },
+      onError: (err) => {
+        console.log('문의하기 실패: ', err);
+      },
+    },
+  );
+
+  const handleSubmit = async () => {
     console.log('문의 제출');
-    // await questionMutation.mutate({content: body, title: title});
+    await questionMutation.mutate({content: body, title: title});
     setTitle('');
     setBody('');
     setDoneModal(true);

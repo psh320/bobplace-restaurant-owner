@@ -93,7 +93,7 @@ const Mission = () => {
 
   // const [progressNow, setProgressNow] = useState(true);
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
-  const [missionWaiting, setMissionWaiting] = useState(true);
+  const [missionWaiting, setMissionWaiting] = useState(false);
   const [notiModal, setNotiModal] = useState(false);
   const seperate = useRef('');
 
@@ -117,6 +117,12 @@ const Mission = () => {
   console.log('DataMissionsSuccess-----', DataMissionsSuccess.data?.length); //초기 undefined, 이후 []
   useEffect(() => {
     seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
+    if (DataMissionsSuccess.data?.length > 0) {
+      console.log('요청있음');
+      setMissionWaiting(true);
+    } else {
+      setMissionWaiting(false);
+    }
   }, [DataMissionsSuccess]);
 
   return (

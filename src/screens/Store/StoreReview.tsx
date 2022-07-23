@@ -130,8 +130,9 @@ const StoreReview = ({navigation, route}: Props) => {
     },
   );
   console.log('리뷰길이 ', reviewList.data?.pages[0].data.result.content.length);
+  console.log('리뷰', reviewList.data?.pages[0].data.result.content);
   const reviewInfo = useQuery(queryKey.STOREINFO, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
-  console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
+  // console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
   return (
     <>
       <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
@@ -172,12 +173,12 @@ const StoreReview = ({navigation, route}: Props) => {
             <FlatList
               contentContainerStyle={{backgroundColor: '#FFFFFF'}}
               scrollEventThrottle={10}
-              data={dummyReviews}
-              // data={reviewList.data?.pages}
+              // data={dummyReviews}
+              data={reviewList.data?.pages}
               renderItem={({item, index}) => {
                 return (
                   <>
-                    <StoreReviewCard
+                    {/* <StoreReviewCard
                       name={item.name}
                       date={item.date}
                       rate={item.rate}
@@ -187,8 +188,8 @@ const StoreReview = ({navigation, route}: Props) => {
                       reviewId={item.reviewId}
                       storeId={storeId}
                       openPhotoModal={openPhotoModal}
-                    />
-                    {/* {item.data.result.content.map((review: IStoreReview, i: number) => (
+                    /> */}
+                    {item.data.result.content.map((review: IStoreReview, i: number) => (
                       <View key={i + index}>
                         <StoreReviewCard
                           name={review.name}
@@ -202,7 +203,7 @@ const StoreReview = ({navigation, route}: Props) => {
                           openPhotoModal={openPhotoModal}
                         />
                       </View>
-                    ))} */}
+                    ))}
                   </>
                 );
               }}

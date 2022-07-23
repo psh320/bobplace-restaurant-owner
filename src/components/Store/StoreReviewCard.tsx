@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native'
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DesignSystem} from '../../assets/DesignSystem';
-import {postReply} from '../../api/review';
+import {patchDeleteReview, postReply} from '../../api/review';
 import {useMutation, useQueryClient} from 'react-query';
 import {queryKey} from '../../api/queryKey';
 
@@ -59,11 +59,23 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
       queryClient.invalidateQueries(queryKey.STOREREVIEWLIST);
     },
   });
-
-  const submitReview = async () => {
+  const submitReply = async () => {
     await reviewMutation.mutate({
       content: replyContent,
     });
+  };
+
+  const reviewDeleteMutation = useMutation(() => patchDeleteReview(reply[0].reviewReplyId), {
+    onSuccess: (data) => {
+      console.log('리뷰삭제 성공: ', data);
+      queryClient.invalidateQueries(queryKey.STOREREVIEWLIST);
+    },
+    onError: (e) => {
+      console.log('ere', e);
+    },
+  });
+  const handleSubmitReplyDelete = async () => {
+    await reviewDeleteMutation.mutate();
   };
   ///
   return (
@@ -95,7 +107,7 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
                 {reply[0].date.slice(0, 4)}.{reply[0].date.slice(5, 7)}.{reply[0].date.slice(8, 10)}
               </Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleSubmitReplyDelete}>
               <Text style={[DesignSystem.body2Lt, DesignSystem.grey7]}>삭제</Text>
             </TouchableOpacity>
           </View>
@@ -124,7 +136,7 @@ export const StoreReviewCard: FC<StoreReviewCardProps> = ({
               if (openReply) {
                 if (replyContent !== '') {
                   //post 올리기
-                  submitReview();
+                  submitReply();
                   setReplyContent('');
                 }
                 setOpenReply(false);

@@ -95,25 +95,7 @@ export const Notifications = ({navigation}: Props) => {
     onError: (err) => {
       console.log('ERR', err);
     },
-    onSuccess: (data) => {
-      console.log('DataNoti겟', data);
-    },
   });
-  const missionSuccessRequestMutation = useMutation(
-    (notiId: number) => patchNotificationsStatus(notiId),
-    {
-      onSuccess: (data) => {
-        console.log('알림확인 성공: ', data);
-        queryClient.invalidateQueries('notifications');
-      },
-      onError: (err) => {
-        console.log('알림확인 실패: ', err);
-      },
-    },
-  );
-  const checkedNoti = (notiId: number) => {
-    missionSuccessRequestMutation.mutate(notiId);
-  };
   console.log('DataNoti', DataNoti); //스웨거에서result인 배열
   const goBack = () => {
     navigation.goBack();
@@ -123,8 +105,7 @@ export const Notifications = ({navigation}: Props) => {
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex]}>
         <MyHeader goBack={goBack} title={'알림'} />
-        {/* {DataNoti.data?.length !== 0 ? ( */}
-        {1 === 1 ? ( // !== ???????????
+        {DataNoti.data?.length !== 0 ? (
           <FlatList
             style={{marginLeft: 16, marginRight: 16}}
             showsVerticalScrollIndicator={false}
