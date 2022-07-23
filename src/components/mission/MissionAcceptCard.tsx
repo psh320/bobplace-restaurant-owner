@@ -3,6 +3,9 @@ import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {dayofweekType, IMissionSuccessType} from '../../data/IMissions';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {patchMissionAccept, patchMissionDeny} from '../../api/mission';
+import {queryKey} from '../../api/queryKey';
 
 //prettier-ignore
 export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mission, missionId, point, userId, userName, seperate}) => {
@@ -23,12 +26,40 @@ export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mis
     }
     return `${Math.floor(betweenTimeDay / 365)}년 전`;
   }
+
+  const queryClient = useQueryClient();
+  const missionDenyMutation = useMutation(
+    (missionId: number) => patchMissionDeny(missionId),
+    {
+      onSuccess: (data) => {
+        console.log('미션 거절 성공: ', data);
+        queryClient.invalidateQueries(queryKey.MISSIONSSUCCESS);
+      },
+      onError: (err) => {
+        console.log('미션 거절 실패: ', err);
+      },
+    },
+  );
+  const missionAcceptMutation = useMutation(
+    (missionId: number) => patchMissionAccept(missionId),
+    {
+      onSuccess: (data) => {
+        console.log('미션 수락 성공: ', data);
+        queryClient.invalidateQueries(queryKey.MISSIONSSUCCESS);
+      },
+      onError: (err) => {
+        console.log('미션 수락 실패: ', err);
+      },
+    },
+  );
   function handleDeny() {
     //거절요청 버튼 누를 시
+    missionDenyMutation.mutate(missionId);
     console.log('거절');
   }
   function handleAccept() {
     //수락 버튼 누를 시
+    missionAcceptMutation.mutate(missionId);
     console.log('수락');
   }
   const buttonWidth = (Dimensions.get('screen').width - 66 - 15 ) / 2;
