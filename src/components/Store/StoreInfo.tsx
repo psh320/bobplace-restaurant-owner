@@ -12,7 +12,7 @@ import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
 import {getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
-import {storeData} from '../../state';
+import {editOperationTime, storeData} from '../../state';
 
 const dummyImage: ImageInterface[] = [
   {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
@@ -24,6 +24,7 @@ const STORETYPE = ['', '한식당', '일식당', '중식당', '양식당', '치�
 
 export const StoreInfo = () => {
   const store = useRecoilValue(storeData); //쿼리?
+  const storeTime = useRecoilValue(editOperationTime);
   console.log('storeInfo에서 store', store);
   // const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo);
   // const [RCstoreInfo, setRCstoreInfo] = useRecoilState<RegisterStoreInterface>(DataStoreInfo.data);
@@ -91,7 +92,7 @@ export const StoreInfo = () => {
         </View>
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>운영시간</Text>
-          <StoreTime operationData={store.operationTimeRes} />
+          <StoreTime operationData={storeTime} />
         </View>
       </View>
     </ScrollView>

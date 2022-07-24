@@ -15,7 +15,7 @@ type EditTimeModalProps = {
   index: number;
 };
 
-export const RegisterTimeModal: FC<EditTimeModalProps> = ({visible, closeEditTimeModal, index}) => {
+export const EditTimeModal: FC<EditTimeModalProps> = ({visible, closeEditTimeModal, index}) => {
   const [editTime, setEditTime] = useRecoilState(editOperationTime);
   const [editOperationData, setEditOperationData] = useState<OperationTime>(editTime[index]);
 

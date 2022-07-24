@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 import {ImageInterface} from '../data';
-import {OperationTime, RegisterStoreGetInterface, RegisterStoreInterface} from '../data/IStore';
+import {OperationTime, RegisterStoreInterface} from '../data/IStore';
 
 export const userToken = atom({
   key: 'userToken',

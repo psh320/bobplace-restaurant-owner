@@ -20,7 +20,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
     return (
       <>
         {operationData.map((item, index) => {
-          if (item.hasOperationiTime) {
+          if (item.hasOperationTime) {
             return (
               <View style={[styles.tableContainer, {backgroundColor: '#FFFFFF'}]} key={index}>
                 <View
@@ -32,7 +32,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
                 >
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    isChecked={item.hasOperationiTime}
+                    isChecked={item.hasOperationTime}
                     onPress={() => {}}
                   />
                 </View>
@@ -72,7 +72,7 @@ export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
                 >
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    isChecked={item.hasOperationiTime}
+                    isChecked={item.hasOperationTime}
                     onPress={() => {}}
                   />
                 </View>

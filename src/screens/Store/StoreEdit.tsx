@@ -16,8 +16,8 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {useForm, Controller} from 'react-hook-form';
 import {ImageInterface, RegisterStoreInterface} from '../../data';
-import {storeData} from '../../state';
-import {useRecoilState} from 'recoil';
+import {storeData, storeImage} from '../../state';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {ImageSwiper} from '../../components/common/ImageSwiper';
 import {ImageSwiperModal} from '../../modal/ImageSwiperModal';
 import {
@@ -39,6 +39,7 @@ type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 
 const StoreEdit = ({navigation}: Props) => {
   const [store, setStore] = useRecoilState(storeData);
+  const storeImageList = useRecoilValue(storeImage);
   const [imageSwiperModal, setImageSwiperModal] = useState(false); //수정전 주석중
   const insets = useSafeAreaInsets();
   const {
@@ -88,14 +89,12 @@ const StoreEdit = ({navigation}: Props) => {
       >
         <ScrollView style={{backgroundColor: '#FFFFFF'}}>
           {/* 이미지 이거 아직 수정 안해서 꺼놓음 */}
-          {/* <View>
+          <View>
             <ImageSwiperModal
               visible={imageSwiperModal}
               closeImageSwiperModal={() => setImageSwiperModal(false)}
-              storeEditData={storeEditData}
-              setStoreEditData={setStoreEditData}
             />
-            <ImageSwiper height={220} imageList={storeEditData.storeImage} />
+            <ImageSwiper height={220} imageList={storeImageList} />
             <TouchableOpacity
               style={[styles.editImageSwiperButton]}
               onPress={() => setImageSwiperModal(true)}
@@ -104,7 +103,7 @@ const StoreEdit = ({navigation}: Props) => {
                 <Icon name="pencil" size={18} color="#323232" />
               </View>
             </TouchableOpacity>
-          </View> */}
+          </View>
           <View style={[styles.storeInfoWrap]}>
             <Controller
               control={control}
