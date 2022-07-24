@@ -4,7 +4,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StoreInfo} from '../../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
-import {storeData, storeGetData} from '../../state';
+import {storeData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {RegisterStoreInterface} from '../../data/IStore';
 import {DesignSystem} from '../../assets/DesignSystem';
@@ -17,79 +17,16 @@ const dummyStore: RegisterStoreInterface = {
   addressDong: '강남구',
   addressStreet: '서울특별시 강남구 논현로150길 16',
   intro: '고기먹고싶다',
-  operationTimeVO: [
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      dayOfWeek: 'MONDAY',
-      endTime: '23:00:00',
-      hasBreak: true,
-      hasOperationiTime: false,
-      startTime: '23:00:00',
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      dayOfWeek: 'TUESDAY',
-      endTime: '23:00:00',
-      hasBreak: false,
-      hasOperationiTime: true,
-      startTime: '23:00:00',
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      dayOfWeek: 'WEDNESDSAY',
-      endTime: '23:00:00',
-      hasBreak: false,
-      hasOperationiTime: true,
-      startTime: '23:00:00',
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      dayOfWeek: 'THURSDAY',
-      endTime: '23:00:00',
-      hasBreak: true,
-      hasOperationiTime: true,
-      startTime: '23:00:00',
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      dayOfWeek: 'FRIDAY',
-      endTime: '23:00:00',
-      hasBreak: true,
-      hasOperationiTime: true,
-      startTime: '23:00:00',
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      dayOfWeek: 'SATURDAY',
-      endTime: '23:00:00',
-      hasBreak: true,
-      hasOperationiTime: true,
-      startTime: '23:00:00',
-    },
-    {
-      breakEndTime: '16:00:00',
-      breakStartTime: '14:00:00',
-      dayOfWeek: 'SUNDAY',
-      endTime: '23:00:00',
-      hasBreak: true,
-      hasOperationiTime: true,
-      startTime: '23:00:00',
-    },
-  ],
   representativeMenuName: '삼겹살',
   storeName: '강남고기집 신칠성집xx',
   storeTypeId: 6,
   tableNum: 1,
+  x: 0,
+  y: 0,
 };
 
 const Store = () => {
-  const [store, setStore] = useRecoilState(storeGetData);
+  const [store, setStore] = useRecoilState(storeData);
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo, {

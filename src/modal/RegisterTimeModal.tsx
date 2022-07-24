@@ -1,71 +1,54 @@
 import React, {useEffect, useState} from 'react';
 import type {FC} from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import {OperationTime, RegisterStoreInterface} from '../data';
+import {OperationTime} from '../data';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
 import {TimeList} from '../data/TimeList';
 import {useRecoilState} from 'recoil';
-import {storeData, storeGetData} from '../state';
+import {registerOperationTime} from '../state';
 
-type OperationTimeModalProps = {
+type RegisterTimeModalProps = {
   visible: boolean;
-  closeOperationTimeModal: () => void;
+  closeRegisterTimeModal: () => void;
   index: number;
-  item: OperationTime;
 };
 
-export const OperationTimeModal: FC<OperationTimeModalProps> = ({
+export const RegisterTimeModal: FC<RegisterTimeModalProps> = ({
   visible,
-  closeOperationTimeModal,
+  closeRegisterTimeModal,
   index,
-  item,
 }) => {
-  const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
-  const [RCstoreGetData, setRCstoreGetData] = useRecoilState(storeGetData);
-  const [operationData, setOperationData] = useState<OperationTime>(
-    RCstoreData.operationTimeVO[index],
+  const [registerTime, setRegisterTime] = useRecoilState(registerOperationTime);
+  const [registerOperationData, setRegisterOperationData] = useState<OperationTime>(
+    registerTime[index],
   );
-  const [operationData2, setOperationData2] = useState<OperationTime>(
-    RCstoreGetData.operationTimeRes[index],
-  );
-  useEffect(() => {
-    setOperationData(RCstoreData.operationTimeVO[index]);
-    setOperationData2(RCstoreGetData.operationTimeRes[index]);
-  }, [index, RCstoreData.operationTimeVO, RCstoreGetData.operationTimeRes]);
 
   const submitChangedDate = () => {
-    const tempData = {...RCstoreData};
-    const tempData2 = {...RCstoreGetData};
-    //첫 데이터 입력할때만 모든 다른 날에 일관적용
+    const tempData = [...registerTime];
     if (
-      item.startTime === '00:00:00' &&
-      item.endTime === '00:00:00' &&
-      item.breakStartTime === '00:00:00' &&
-      item.breakEndTime === '00:00:00'
+      tempData[index].startTime === '00:00:00' &&
+      tempData[index].endTime === '00:00:00' &&
+      tempData[index].breakStartTime === '00:00:00' &&
+      tempData[index].breakEndTime === '00:00:00'
     ) {
-      tempData.operationTimeVO.map((data, key) => {
-        tempData.operationTimeVO[key].breakEndTime = operationData.breakEndTime;
-        tempData.operationTimeVO[key].breakStartTime = operationData.breakStartTime;
-        tempData.operationTimeVO[key].endTime = operationData.endTime;
-        tempData.operationTimeVO[key].startTime = operationData.startTime;
-      });
-      tempData2.operationTimeRes.map((data, key) => {
-        tempData2.operationTimeRes[key].breakEndTime = operationData2.breakEndTime;
-        tempData2.operationTimeRes[key].breakStartTime = operationData2.breakStartTime;
-        tempData2.operationTimeRes[key].endTime = operationData2.endTime;
-        tempData2.operationTimeRes[key].startTime = operationData2.startTime;
+      tempData.map((data, key) => {
+        tempData[key] = {
+          ...tempData[key],
+          breakEndTime: registerOperationData.breakEndTime,
+          breakStartTime: registerOperationData.breakStartTime,
+          startTime: registerOperationData.startTime,
+          endTime: registerOperationData.endTime,
+        };
       });
     }
 
-    tempData.operationTimeVO[index] = operationData;
-    tempData2.operationTimeRes[index] = operationData2;
-    setRCstoreData(tempData);
-    setRCstoreGetData(tempData2);
-    closeOperationTimeModal();
+    tempData[index] = {...registerOperationData};
+    setRegisterTime(tempData);
+
+    closeRegisterTimeModal();
   };
 
-  console.log('OPERATION TIME', RCstoreData);
   return (
     <Modal
       visible={visible}
@@ -92,7 +75,7 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
           }}
         >
           <TouchableOpacity
-            onPress={closeOperationTimeModal}
+            onPress={closeRegisterTimeModal}
             style={{position: 'absolute', top: 16, right: 16}}
           >
             <View style={{width: 24, height: 24}}>
@@ -108,13 +91,16 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
               <RNPickerSelect
                 style={pickerSelectStyles}
                 onValueChange={(itemValue: string) => {
-                  const tempData = {...operationData};
-                  tempData.startTime = itemValue;
-                  setOperationData(tempData);
+                  let tempData = {...registerOperationData};
+                  tempData = {
+                    ...tempData,
+                    startTime: itemValue,
+                  };
+                  setRegisterOperationData(tempData);
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={{}}
-                value={operationData.startTime}
+                value={registerOperationData.startTime}
                 items={TimeList}
                 //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
                 Icon={() => {
@@ -126,13 +112,16 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
               <RNPickerSelect
                 style={pickerSelectStyles}
                 onValueChange={(itemValue: string) => {
-                  const tempData = {...operationData};
-                  tempData.endTime = itemValue;
-                  setOperationData(tempData);
+                  let tempData = {...registerOperationData};
+                  tempData = {
+                    ...tempData,
+                    endTime: itemValue,
+                  };
+                  setRegisterOperationData(tempData);
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={{}}
-                value={operationData.endTime}
+                value={registerOperationData.endTime}
                 items={TimeList}
                 //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
                 Icon={() => {
@@ -150,13 +139,16 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
               <RNPickerSelect
                 style={pickerSelectStyles}
                 onValueChange={(itemValue: string) => {
-                  const tempData = {...operationData};
-                  tempData.breakStartTime = itemValue;
-                  setOperationData(tempData);
+                  let tempData = {...registerOperationData};
+                  tempData = {
+                    ...tempData,
+                    breakStartTime: itemValue,
+                  };
+                  setRegisterOperationData(tempData);
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={{}}
-                value={operationData.breakStartTime}
+                value={registerOperationData.breakStartTime}
                 items={TimeList}
                 //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
                 Icon={() => {
@@ -168,13 +160,16 @@ export const OperationTimeModal: FC<OperationTimeModalProps> = ({
               <RNPickerSelect
                 style={pickerSelectStyles}
                 onValueChange={(itemValue: string) => {
-                  const tempData = {...operationData};
-                  tempData.breakEndTime = itemValue;
-                  setOperationData(tempData);
+                  let tempData = {...registerOperationData};
+                  tempData = {
+                    ...tempData,
+                    breakEndTime: itemValue,
+                  };
+                  setRegisterOperationData(tempData);
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={{}}
-                value={operationData.breakEndTime}
+                value={registerOperationData.breakEndTime}
                 items={TimeList}
                 //Picker Select library에 가서 Icon type을 React.ReactNode | (()=>JSX.element) 로 설정 해줘야 빨간줄 안뜸
                 Icon={() => {

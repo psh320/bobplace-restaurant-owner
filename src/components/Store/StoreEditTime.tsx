@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import type {FC} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {OperationTime, RegisterStoreInterface} from '../../data';
 import {CheckBoxRectangle} from '../common/CheckBoxRectangle';
 import {RegisterTimeModal} from '../../modal';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
-import {registerOperationTime} from '../../state';
+import {editOperationTime} from '../../state';
+import {EditTimeModal} from '../../modal/EditTimeModal';
 
 const MapIndexToDay = ['월', '화', '수', '목', '금', '토', '일'];
 
@@ -14,11 +14,11 @@ const processTime = (time: string) => {
   return time.slice(undefined, 5);
 };
 
-export const RegisterTime = () => {
-  const [registerTimeModal, setRegisterTimeModal] = useState(false);
+export const StoreEditTime = () => {
+  const [editTimeModal, setEditTimeModal] = useState(false);
   // const [operationTime, setOperationTime] = useState<OperationTime[]>(registerData.operationTimeVO);
   const [dayIndex, setDayIndex] = useState<number>(0);
-  const [RCOperationTime, setRCOperationTime] = useRecoilState(registerOperationTime);
+  const [RCOperationTime, setRCOperationTime] = useRecoilState(editOperationTime);
 
   // useEffect(() => {
   //   setOperationTime(registerData.operationTimeVO);
@@ -51,7 +51,7 @@ export const RegisterTime = () => {
                     style={{height: 50, justifyContent: 'center'}}
                     onPress={() => {
                       setDayIndex(index);
-                      setRegisterTimeModal(true);
+                      setEditTimeModal(true);
                     }}
                   >
                     <View>
@@ -122,9 +122,9 @@ export const RegisterTime = () => {
         </View>
       </View>
       {renderedTimeTable()}
-      <RegisterTimeModal
-        visible={registerTimeModal}
-        closeRegisterTimeModal={() => setRegisterTimeModal(false)}
+      <EditTimeModal
+        visible={editTimeModal}
+        closeEditTimeModal={() => setEditTimeModal(false)}
         index={dayIndex}
       />
     </View>

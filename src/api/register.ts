@@ -36,7 +36,7 @@ export const postStoreAuthImages = async (imageList: imageData[]) => {
   return response;
 };
 
-export const postStoreMenuImages = async (imageList: imageData[]) => {
+export const postStoreMenuImages = async (imageList: imageData[], storeId: number) => {
   var formdata = new FormData();
   imageList.map((image) => {
     let photo;
@@ -52,11 +52,10 @@ export const postStoreMenuImages = async (imageList: imageData[]) => {
           name: 'image',
         });
     formdata.append('representativeMenuImages', photo);
-    console.log('formdata', formdata, photo);
   });
 
   const response = await customAxios().post(
-    '/api/v1/stores/store-authentication-images',
+    `/api/v1/stores/representative-menu-images/${storeId}`,
     formdata,
     {
       headers: {'Content-Type': 'multipart/form-data'},
@@ -66,7 +65,7 @@ export const postStoreMenuImages = async (imageList: imageData[]) => {
   return response;
 };
 
-export const postStoreImages = async (imageList: imageData[]) => {
+export const postStoreImages = async (imageList: imageData[], storeId: number) => {
   var formdata = new FormData();
   imageList.map((image) => {
     let photo;
@@ -85,13 +84,9 @@ export const postStoreImages = async (imageList: imageData[]) => {
     console.log('formdata', formdata, photo);
   });
 
-  const response = await customAxios().post(
-    '/api/v1/stores/store-authentication-images',
-    formdata,
-    {
-      headers: {'Content-Type': 'multipart/form-data'},
-    },
-  );
+  const response = await customAxios().post(`/api/v1/stores/store-images/${storeId}`, formdata, {
+    headers: {'Content-Type': 'multipart/form-data'},
+  });
   console.log('register.ts', response);
   return response;
 };

@@ -125,7 +125,7 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
           <Controller
             control={control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => {
               return (
@@ -140,11 +140,11 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
             }}
             name="addressDetail"
           />
-          {errors.addressDetail?.type === 'required' ? (
+          {/* {errors.addressDetail?.type === 'required' ? (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           ) : (
             <View style={{height: 20}} />
-          )}
+          )} */}
 
           {/* 가게유형 */}
           <Controller

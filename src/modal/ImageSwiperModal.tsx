@@ -1,37 +1,47 @@
 import React, {useEffect, useState} from 'react';
 import type {FC} from 'react';
-import {Alert, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {storeData} from '../state';
+import {storeData, storeImage} from '../state';
 import {useRecoilState} from 'recoil';
 import {ImageSwiper} from '../components/common/ImageSwiper';
-import {RenderUploadImage} from '../components/common/RenderUploadImage';
 import {ImageInterface, RegisterStoreInterface} from '../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {postStoreImages} from '../api/register';
+import {patchDeleteStoreImage} from '../api/store';
 
 type ImageSwiperModalProps = {
   visible: boolean;
   closeImageSwiperModal: () => void;
-  storeEditData: RegisterStoreInterface;
-  setStoreEditData: React.Dispatch<React.SetStateAction<RegisterStoreInterface>>;
 };
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
 };
-export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({
-  visible,
-  closeImageSwiperModal,
-  storeEditData,
-  setStoreEditData,
-}) => {
-  const [imageData, setImageData] = useState(storeEditData.storeImage);
+export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImageSwiperModal}) => {
+  const [imageData, setImageData] = useRecoilState(storeImage);
   const [error, setError] = useState(false);
+
+  const storeId = 0; //리코일 storeId 가져오기
 
   useEffect(() => {
     if (imageData.length > 0) {
       setError(false);
     }
   }, [imageData]);
+
+  const removeImage = (storeImageId: string) => {
+    patchDeleteStoreImage(storeImageId);
+  };
 
   const openImagePicker = () => {
     Alert.alert('사진', '어떻게 가져올까요?', [
@@ -57,7 +67,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
-      setImageData([...imageData, data]);
+      const response = postStoreImages([data], storeId);
     }
     console.log(result);
   };
@@ -76,7 +86,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
-      setImageData([...imageData, data]);
+      postStoreImages([data], storeId);
     }
     console.log(result);
   };
@@ -96,7 +106,6 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({
               if (imageData.length <= 0) {
                 setError(true);
               } else {
-                setStoreEditData({...storeEditData, storeImage: imageData});
                 closeImageSwiperModal();
               }
             }}
@@ -112,7 +121,34 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({
           <TouchableOpacity style={[styles.imageAddButton]} onPress={openImagePicker}>
             <Icon name="plus" size={24} />
           </TouchableOpacity>
-          <RenderUploadImage imageData={imageData} setImageData={setImageData} imageSize={80} />
+          <ScrollView horizontal>
+            {imageData.map((item, index) => {
+              return (
+                <View key={index} style={{marginRight: 8, borderColor: '#DFDFDF', borderWidth: 1}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      removeImage(item.storeImageId);
+                    }}
+                    style={{position: 'absolute', top: 5, right: 5, zIndex: 1}}
+                  >
+                    <View
+                      style={{
+                        backgroundColor: '#2A2A2A',
+                        width: 18,
+                        height: 18,
+                        borderRadius: 12,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Icon name="close" size={14} color="#DFDFDF" />
+                    </View>
+                  </TouchableOpacity>
+                  <Image source={{uri: item.imageURL}} style={{width: 80, height: 80}} />
+                </View>
+              );
+            })}
+          </ScrollView>
         </View>
         {error && <Text>최소 한장은 올려야합니다</Text>}
       </SafeAreaView>

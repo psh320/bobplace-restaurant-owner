@@ -6,7 +6,7 @@ import Swiper from 'react-native-swiper';
 import {ImageInterface} from '../../data';
 
 type ImageSwiperProps = {
-  imageList: ImageInterface[];
+  imageList: {imageURL: string; storeImageId: string}[];
   height: number;
 };
 
@@ -42,7 +42,13 @@ export const ImageSwiper: FC<ImageSwiperProps> = ({height, imageList}) => {
     <View style={{height: height, width: '100%'}}>
       <Swiper dot={dot()} activeDot={activeDot()} showsButtons={false}>
         {imageList.map((image, index) => {
-          return <FastImage key={index} source={image} style={{width: '100%', height: height}} />;
+          return (
+            <FastImage
+              key={index}
+              source={{uri: image.imageURL}}
+              style={{width: '100%', height: height}}
+            />
+          );
         })}
       </Swiper>
     </View>

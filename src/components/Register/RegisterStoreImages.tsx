@@ -11,6 +11,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
+  quality: 1,
+  maxHeight: 1600,
+  maxWidth: 1000,
 };
 
 type RegisterStoreImagesProps = {
