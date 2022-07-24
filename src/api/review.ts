@@ -50,3 +50,9 @@ export const postReply = async (
   const response = await customAxios().post(`/api/v1/reviews/reply/${reviewId}`, data);
   return response.data;
 };
+//사장 리뷰 삭제
+export const patchDeleteReview = async (reviewReplyId: number) => {
+  const response = await customAxios().patch(`/api/v1/reviews/reply/${reviewReplyId}`);
+  console.log(response.data);
+  return response.data;
+};

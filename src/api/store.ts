@@ -1,5 +1,15 @@
 import {customAxios} from './customAxios';
 
+//사장 가게id 확인용!!!
+export const getStoreId = async () => {
+  try {
+    const response = await customAxios().get('/api/v1/stores/me/id');
+    return response.data.result;
+  } catch (err) {
+    console.log('getStoreId err', err);
+  }
+};
+
 //사장 점포관리탭 (storeInfo)
 
 export const getStoreInfo = async () => {

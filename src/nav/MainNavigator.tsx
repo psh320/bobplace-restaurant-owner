@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 Icon.loadFont();
@@ -8,14 +8,6 @@ import {MyNavigator} from './MyNavigator';
 import {getMissionsProgress} from '../api/mission';
 import {MissionNavigator} from './MissionNavigator';
 import {Image} from 'react-native';
-
-type TabBarIconProps = {focused: boolean; color: string; size: number};
-
-const icons: Record<string, string[]> = {
-  MissionNavigator: ['home', 'home-outline'],
-  StoreNavigator: ['food', 'food-outline'],
-  MyNavigator: ['account-settings', 'account-settings-outline'],
-};
 
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
   return {
