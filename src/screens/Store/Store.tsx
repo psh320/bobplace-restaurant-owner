@@ -11,7 +11,6 @@ import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
 import {getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const dummyStore: RegisterStoreInterface = {
   addressDetail: '1층 2층 3층',
@@ -41,21 +40,7 @@ const Store = () => {
   //   //axios 어쩌구
   //   setStore(dummyStore); //쿼리요청되고 리코일 갱신되면 이 useEffect지워도 될듯
   // }, [setStore]);
-  const [storeId, setStoreId] = useState('');
-  const getAsync = async () => {
-    try {
-      const value = await AsyncStorage.getItem('storeId');
-      if (value !== null && value !== undefined) {
-        setStoreId(value);
-      }
-      return value;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    getAsync();
-  }, []);
+
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
@@ -68,8 +53,8 @@ const Store = () => {
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
-          toggleMission={() => navigation.navigate('StoreMission', {storeId: storeId})}
-          toggleReview={() => navigation.navigate('StoreReview', {storeId: storeId})}
+          toggleMission={() => navigation.navigate('StoreMission')}
+          toggleReview={() => navigation.navigate('StoreReview')}
           storeStatus={0}
         />
         <StoreInfo />

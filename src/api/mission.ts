@@ -22,3 +22,14 @@ export const postCancelPoint = async (missionId: number, reason: string) => {
   console.log('postCancelPoint r.data', response.data);
   return response.data; //스웨거에서의 result
 };
+
+//미션 거절
+export const patchMissionDeny = async (missionId: number) => {
+  const response = await customAxios().patch(`/api/v1/missions/deny/${missionId}`);
+  return response.data.message;
+};
+//미션 수락
+export const patchMissionAccept = async (missionId: number) => {
+  const response = await customAxios().patch(`/api/v1/missions/accept/${missionId}`);
+  return response.data.message;
+};

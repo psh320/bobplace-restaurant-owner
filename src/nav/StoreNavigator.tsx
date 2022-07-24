@@ -13,8 +13,8 @@ import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 export type StoreStackParamList = {
   Store: undefined;
   StoreEdit: undefined;
-  StoreMission: {storeId: number};
-  StoreReview: {storeId: number};
+  StoreMission: undefined;
+  StoreReview: undefined;
   StoreMissionDetail: {missionId: number};
   StoreMissionPayment: {
     missionId: number;

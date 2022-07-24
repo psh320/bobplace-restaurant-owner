@@ -36,8 +36,8 @@ const StoreMission = ({navigation, route}: Props) => {
         </View>
         <StoreMenuBar
           toggleStore={() => navigation.navigate('Store')}
-          toggleMission={() => navigation.navigate('StoreMission', {storeId: route.params.storeId})}
-          toggleReview={() => navigation.navigate('StoreReview', {storeId: route.params.storeId})}
+          toggleMission={() => navigation.navigate('StoreMission')}
+          toggleReview={() => navigation.navigate('StoreReview')}
           storeStatus={1}
         />
 

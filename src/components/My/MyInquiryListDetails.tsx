@@ -20,7 +20,7 @@ export const MyInquiryDetails: FC<MyInquiryDetailsProps> = ({title, date, status
   function handleReviewPress() {
     console.log(`${questionId}번 문의`);
     setOpenQuestion(!openQuestion);
-  };
+  }
   const {data} = useQuery([queryKey.QUESTIONDETAIL, questionId], () =>
     getQuestionDetail(questionId),
   );
@@ -44,16 +44,19 @@ export const MyInquiryDetails: FC<MyInquiryDetailsProps> = ({title, date, status
           </Text>
         </View>
       </TouchableOpacity>
-      {status !== 'WAITING' && openQuestion && (
+      {openQuestion && (
         <View>
-          <View style={[styles.replyWrap]}>
+          <View style={styles.myInquiryContent}>
             <Text style={[DesignSystem.body1Long, {color: 'black'}]}>{data?.content}</Text>
           </View>
-          <View
-            style={{padding: 16, backgroundColor: '#F8F8F8', marginBottom: 14, borderRadius: 10}}
-          >
-            <Text style={[DesignSystem.body1Long, {color: 'black'}]}>{data?.answer}</Text>
-          </View>
+          {status !== 'WAITING' && (
+            <View style={styles.inquiryAnswer}>
+              <Text style={[DesignSystem.title4Md, DesignSystem.purple5, {}]}>밥플레이스</Text>
+              <Text style={[DesignSystem.body1Long, {color: 'black'}]}>
+                {data?.answers[0].answer}
+              </Text>
+            </View>
+          )}
         </View>
       )}
     </View>
@@ -81,5 +84,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     marginBottom: 8,
+  },
+  myInquiryContent: {
+    padding: 16,
+    borderColor: '#E8E8E8',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 8,
+  },
+  inquiryAnswer: {
+    padding: 16,
+    backgroundColor: '#F8F8F8',
+    marginBottom: 14,
+    borderRadius: 10,
   },
 });
