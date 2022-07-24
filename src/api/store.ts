@@ -12,11 +12,6 @@ export const getStoreId = async () => {
 };
 
 //사장 점포관리탭 (storeInfo)
-export const getStoreId = async () => {
-  const response = await customAxios().get('/api/v1/stores/me/id');
-  console.log('스토어 아이디값 얻기', response.data.result);
-  return response.data.result; //스웨거에서의 result
-};
 
 export const getStoreInfo = async () => {
   const response = await customAxios().get('/api/v1/stores/me');
@@ -30,13 +25,13 @@ export const putStoresMe = async (storeData: any) => {
   return response.data; //스웨거에서의 result
 };
 
-export const patchDeleteStoreImage = async (storeImageId: string) => {
+export const patchDeleteStoreImage = async (storeImageId: any) => {
   const response = await customAxios().patch(`/api/v1/stores/store-images/${storeImageId}`);
   console.log('가게 사진삭제 완료', response.data);
   return response.data; //스웨거에서의 result
 };
 
-export const patchDeleteMenuImage = async (menuImageId: string) => {
+export const patchDeleteMenuImage = async (menuImageId: any) => {
   const response = await customAxios().patch(
     `/api/v1/stores/representative-menu-images/${menuImageId}`,
   );
@@ -51,6 +46,18 @@ export const putEditTime = async (operationTime: OperationTime, operationTimeId:
   );
   console.log('putStoresMe r.data', response.data);
   return response.data;
+};
+
+export const getStoreImage = async () => {
+  const response = await customAxios().patch('/api/v1/stores/me/menu-images');
+  console.log('메뉴 사진삭제 완료', response.data);
+  return response.data; //스웨거에서의 result
+};
+
+export const getMenuImage = async () => {
+  const response = await customAxios().patch('/api/v1/stores/store-images');
+  console.log('메뉴 사진삭제 완료', response.data);
+  return response.data; //스웨거에서의 result
 };
 
 //미션관리

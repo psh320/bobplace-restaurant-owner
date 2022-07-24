@@ -12,13 +12,15 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {storeData, storeImage} from '../state';
-import {useRecoilState} from 'recoil';
+import {RCstoreId} from '../state';
+import {useRecoilValue} from 'recoil';
 import {ImageSwiper} from '../components/common/ImageSwiper';
-import {ImageInterface, RegisterStoreInterface} from '../data';
+import {ImageInterface} from '../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {postStoreImages} from '../api/register';
-import {patchDeleteStoreImage} from '../api/store';
+import {getStoreImage, patchDeleteStoreImage} from '../api/store';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {queryKey} from '../api/queryKey';
 
 type ImageSwiperModalProps = {
   visible: boolean;
@@ -26,21 +28,43 @@ type ImageSwiperModalProps = {
 };
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
+  quality: 1,
+  maxHeight: 1600,
+  maxWidth: 1000,
 };
 export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImageSwiperModal}) => {
-  const [imageData, setImageData] = useRecoilState(storeImage);
   const [error, setError] = useState(false);
-
-  const storeId = 0; //리코일 storeId 가져오기
+  const queryClient = useQueryClient();
+  const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
+  const storeImagesMutation = useMutation(
+    (data: ImageInterface[]) => postStoreImages(data, storeId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKey.STOREIMAGES);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    },
+  );
+  const deleteMutation = useMutation(
+    (storeImageId: string) => patchDeleteStoreImage(storeImageId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKey.STOREIMAGES);
+      },
+    },
+  );
+  const storeId = useRecoilValue(RCstoreId);
 
   useEffect(() => {
-    if (imageData.length > 0) {
+    if (storeImages.data.length > 0) {
       setError(false);
     }
-  }, [imageData]);
+  }, [storeImages.data]);
 
   const removeImage = (storeImageId: string) => {
-    patchDeleteStoreImage(storeImageId);
+    deleteMutation.mutate(storeImageId);
   };
 
   const openImagePicker = () => {
@@ -67,7 +91,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
-      const response = postStoreImages([data], storeId);
+      storeImagesMutation.mutate([data]);
     }
     console.log(result);
   };
@@ -86,7 +110,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
-      postStoreImages([data], storeId);
+      storeImagesMutation.mutate([data]);
     }
     console.log(result);
   };
@@ -103,7 +127,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
           <Text style={[styles.storeHeaderText]}>가게 대표 사진</Text>
           <TouchableOpacity
             onPress={() => {
-              if (imageData.length <= 0) {
+              if (storeImages.data.length <= 0) {
                 setError(true);
               } else {
                 closeImageSwiperModal();
@@ -116,13 +140,13 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
           </TouchableOpacity>
         </View>
 
-        <ImageSwiper height={220} imageList={imageData} />
+        <ImageSwiper height={220} imageList={storeImages.data} />
         <View style={[styles.flexRow, {alignItems: 'center'}]}>
           <TouchableOpacity style={[styles.imageAddButton]} onPress={openImagePicker}>
             <Icon name="plus" size={24} />
           </TouchableOpacity>
           <ScrollView horizontal>
-            {imageData.map((item, index) => {
+            {storeImages.data.map((item, index) => {
               return (
                 <View key={index} style={{marginRight: 8, borderColor: '#DFDFDF', borderWidth: 1}}>
                   <TouchableOpacity

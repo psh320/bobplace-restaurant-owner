@@ -34,6 +34,7 @@ import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
 import {putStoresMe} from '../../api/store';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {StoreEditTime} from '../../components/Store/StoreEditTime';
+import {StoreEditMenuImages} from '../../components/Store/StoreEditMenuImages';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 
@@ -262,6 +263,7 @@ const StoreEdit = ({navigation}: Props) => {
             {errors.menuImages?.type === 'min' && (
               <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
             )} */}
+            <StoreEditMenuImages />
 
             <StoreEditTime />
           </View>
