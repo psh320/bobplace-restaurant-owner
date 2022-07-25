@@ -18,7 +18,7 @@ import {useQuery} from 'react-query';
 import {IMissionProgressType, IMissionSuccessType} from '../data/IMissions';
 import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
 import {useRecoilState} from 'recoil';
-import {RCprogressNow} from '../state';
+import {RCprogressNow, storeImage} from '../state';
 import {useNavigation} from '@react-navigation/native';
 import {NoBobpool} from '../components/common/NoBobpool';
 import messaging from '@react-native-firebase/messaging';
@@ -100,12 +100,17 @@ const dummySuccess = [
 ];
 const Mission = () => {
   const navigation = useNavigation();
+  const [storeImages, setStoreImages] = useRecoilState(storeImage);
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const [missionWaiting, setMissionWaiting] = useState(false);
   const [notiModal, setNotiModal] = useState(false);
   const seperate = useRef('');
-  const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
-  const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
+  const storeImageList = useQuery(queryKey.STOREIMAGES, getStoreImage, {
+    onSuccess: () => {
+      setStoreImages(storeImageList.data);
+    },
+  });
+  const menuImageList = useQuery(queryKey.MENUIMAGES, getMenuImage);
   //진행중 카드 목록
   const DataMissionsProgress = useQuery<IMissionProgressType>(
     queryKey.MISSIONSPROGRESS,

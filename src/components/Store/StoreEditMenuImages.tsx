@@ -33,7 +33,7 @@ export const StoreEditMenuImages = () => {
       },
     },
   );
-  const deleteMutation = useMutation(() => patchDeleteMenuImage(storeId), {
+  const deleteMutation = useMutation((id) => patchDeleteMenuImage(id), {
     onSuccess: () => {
       queryClient.invalidateQueries(queryKey.MENUIMAGES);
     },
@@ -64,6 +64,7 @@ export const StoreEditMenuImages = () => {
         type: result.assets[0].type as string,
         name: result.assets[0].fileName as string,
       };
+
       menuImagesMutation.mutate([data]);
     }
     console.log(result);
@@ -88,8 +89,8 @@ export const StoreEditMenuImages = () => {
     console.log(result);
   };
   //여기까지 이미지 등록!
-  const removeImage = (imageName: string) => {
-    deleteMutation.mutate();
+  const removeImage = (id: string) => {
+    deleteMutation.mutate(id);
   };
 
   return (
@@ -117,7 +118,7 @@ export const StoreEditMenuImages = () => {
                 <TouchableOpacity
                   onPress={() => {
                     //id 받아온걸로 data.menuImageId 로 바꾸기
-                    removeImage(data.name);
+                    removeImage(data.id);
                   }}
                   style={{position: 'absolute', top: 5, right: 5, zIndex: 1}}
                 >
