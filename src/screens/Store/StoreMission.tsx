@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
-
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StoreMissionCard} from '../../components/Store/StoreMissionCard';
@@ -19,7 +17,6 @@ type Props = StackScreenProps<StoreStackParamList, 'StoreMission'>;
 const StoreMission = ({navigation, route}: Props) => {
   const [missionManageModal, setMissionManageModal] = useState('');
   const [pressedMissionGId, setPressedMissionGId] = useRecoilState(RCpressedMissionGroupId);
-  const insets = useSafeAreaInsets();
   const [eyeballs, setEyeballs] = useState(1);
   getMissionManageCount().then((res) => {
     setEyeballs(res);

@@ -67,7 +67,6 @@ const StoreEdit = ({navigation}: Props) => {
   });
 
   const onSubmit = () => {
-    //patch store to server--------------!!!!!!!!!!!!!!!!!!!!!!!
     putStoresMe(store);
     navigation.goBack();
     console.log('저장!!');

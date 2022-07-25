@@ -20,96 +20,10 @@ import {DesignSystem} from '../../assets/DesignSystem';
 import {useInfiniteQuery, useQuery} from 'react-query';
 import {queryKey} from '../../api/queryKey';
 import {getStoreData, getStoreReviewList} from '../../api/review';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IStoreReview} from '../../data/IStore';
 import {NoBobpool} from '../../components/common/NoBobpool';
 import {useRecoilValue} from 'recoil';
 import {RCstoreId} from '../../state';
-
-const dummyReviews = [
-  {
-    name: '박성호',
-    date: '2022-07-11T15:34:55.530Z',
-    rate: 3,
-    images: [
-      {imageUrl: 'https://source.unsplash.com/1024x768/?tree'},
-      {imageUrl: 'https://source.unsplash.com/1024x768/?girl'},
-      {imageUrl: 'https://source.unsplash.com/1024x768/?boy'},
-    ],
-    content:
-      '너무 맛있어요! 최고! 포인트도 낭낭하니 많아요~~~ 추천추천 미션밥파서블 덕분에 인생폈다',
-    reviewId: 1,
-    reply: [],
-  },
-  {
-    name: '이아영',
-    date: '2022-07-03T15:34:55.530Z',
-    rate: 3,
-    images: [{imageUrl: 'https://source.unsplash.com/1024x768/?tree'}],
-    content:
-      '너무 맛있어요! 최고! 너무 맛있어요! 최고!너무 맛있어요! 최고!너무 맛있어요! 최고!너무 맛있어요! 최고!',
-    reviewId: 12,
-    reply: [
-      {
-        date: '2022-07-19T15:34:55.530Z',
-        reply: 'ㄳ',
-        reviewReplyId: 0,
-      },
-    ],
-  },
-  {
-    name: '이예진',
-    date: '2022-07-12T15:34:55.530Z',
-    rate: 3,
-    images: [
-      {imageUrl: 'https://source.unsplash.com/1024x768/?girl'},
-      {imageUrl: 'https://source.unsplash.com/1024x768/?boy'},
-    ],
-    content: '너무 맛있어요! 최고!',
-    reviewId: 13,
-    reply: [
-      {
-        date: '2022-07-23T15:34:55.530Z',
-        reply: 'ㄳ',
-        reviewReplyId: 0,
-      },
-    ],
-  },
-  {
-    name: '박승민',
-    date: '2022-07-20T15:34:55.530Z',
-    rate: 3,
-    images: [],
-    content: '너무 맛있어요! 최고!',
-    reviewId: 14,
-    reply: [
-      {
-        date: '2022-07-25T15:34:55.530Z',
-        reply: 'ㄳ',
-        reviewReplyId: 0,
-      },
-    ],
-  },
-  {
-    name: '김진범',
-    date: '2022-07-20T15:34:55.530Z',
-    rate: 3,
-    images: [
-      {imageUrl: 'https://source.unsplash.com/1024x768/?tree'},
-      {imageUrl: 'https://source.unsplash.com/1024x768/?girl'},
-      {imageUrl: 'https://source.unsplash.com/1024x768/?boy'},
-    ],
-    content: '너무 맛있어요! 최고!',
-    reviewId: 15,
-    reply: [
-      {
-        date: '2022-07-30T15:34:55.530Z',
-        reply: 'ㄳ',
-        reviewReplyId: 0,
-      },
-    ],
-  },
-];
 
 const RATEHALFWIDTH = (Dimensions.get('screen').width - 27) / 2;
 type Props = StackScreenProps<StoreStackParamList, 'StoreReview'>;
@@ -138,8 +52,7 @@ const StoreReview = ({navigation, route}: Props) => {
       },
     },
   );
-  // console.log('리뷰길이 ', reviewList.data?.pages[0].data.result.content.length);
-  // console.log('리뷰', reviewList.data?.pages[0].data.result.content);
+
   const reviewInfo = useQuery(queryKey.STOREID, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
   // console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
   const refreshStoreReview = () => {
@@ -181,30 +94,17 @@ const StoreReview = ({navigation, route}: Props) => {
           </View>
         </View>
         <View style={{flex: 1}}>
-          {/* {reviewList.data?.pages[0].data.result.content.length > 0 ? ( */}
-          {dummyReviews.length > 0 ? (
+          {reviewList.data?.pages[0].data.result.content.length > 0 ? (
             <FlatList
               refreshControl={
                 <RefreshControl refreshing={reviewList.isLoading} onRefresh={refreshStoreReview} />
               }
               contentContainerStyle={{backgroundColor: '#FFFFFF'}}
               scrollEventThrottle={10}
-              // data={dummyReviews}
               data={reviewList.data?.pages}
               renderItem={({item, index}) => {
                 return (
                   <>
-                    {/* <StoreReviewCard
-                      name={item.name}
-                      date={item.date}
-                      rate={item.rate}
-                      content={item.content}
-                      images={item.images}
-                      reply={item.reply}
-                      reviewId={item.reviewId}
-                      storeId={storeId}
-                      openPhotoModal={openPhotoModal}
-                    /> */}
                     {item.data.result.content.map((review: IStoreReview, i: number) => (
                       <View key={i + index}>
                         <StoreReviewCard
