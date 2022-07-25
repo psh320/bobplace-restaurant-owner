@@ -33,7 +33,7 @@ const dummy = [
     pushType: 'OWNER_SUCCESS',
     subId: 0,
     subTitle: 'string',
-    title: '타타이틀',
+    title: '성공요청이들어왔습니다',
   },
   {
     checked: false,
@@ -42,8 +42,8 @@ const dummy = [
     name: '고구마',
     pushType: 'OWNER_SUCCESS',
     subId: 110,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '님의성공여부를확인후수락',
+    title: '성공요청이들어왔습니다',
   },
   {
     checked: false,
@@ -52,8 +52,8 @@ const dummy = [
     name: '감자',
     pushType: 'OWNER_PROGRESS',
     subId: 220,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '님의성공여부를확인후수락',
+    title: '고객님이미션도전했습니다',
   },
   {
     checked: false,
@@ -62,8 +62,8 @@ const dummy = [
     name: '홍길동',
     pushType: 'OWNER_PROGRESS',
     subId: 330,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '님이 현재 미션 진행중입니다',
+    title: '고객님이미션도전했습니다',
   },
   {
     checked: false,
@@ -80,10 +80,10 @@ const dummy = [
     date: '2022-07-19T06:44:56.115Z',
     id: 50,
     name: '홍길동',
-    pushType: 'OWNER_ANSWER',
+    pushType: 'ANSWER',
     subId: 330,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '문의제목...에대한 답변ㄴ이디ㅡㅇ록',
+    title: '(1:1)문의 답변이등록되었습니다',
   },
 ];
 export const Notifications = ({navigation}: Props) => {

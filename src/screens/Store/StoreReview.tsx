@@ -138,8 +138,8 @@ const StoreReview = ({navigation, route}: Props) => {
       },
     },
   );
-  console.log('리뷰길이 ', reviewList.data?.pages[0].data.result.content.length);
-  console.log('리뷰', reviewList.data?.pages[0].data.result.content);
+  // console.log('리뷰길이 ', reviewList.data?.pages[0].data.result.content.length);
+  // console.log('리뷰', reviewList.data?.pages[0].data.result.content);
   const reviewInfo = useQuery(queryKey.STOREINFO, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
   // console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
   const refreshStoreReview = () => {
