@@ -10,7 +10,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {ImageSwiper} from '../common/ImageSwiper';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
-import {getStoreInfo} from '../../api/store';
+import {getMenuImage, getStoreImage, getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
 import {editOperationTime, storeData} from '../../state';
 
@@ -25,7 +25,11 @@ const STORETYPE = ['', '한식당', '일식당', '중식당', '양식당', '치�
 export const StoreInfo = () => {
   const store = useRecoilValue(storeData); //쿼리?
   const storeTime = useRecoilValue(editOperationTime);
-  console.log('storeInfo에서 store', store);
+  const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
+  const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
+
+  console.log(storeImages.data);
+  // console.log('storeInfo에서 store', store);
   // const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo);
   // const [RCstoreInfo, setRCstoreInfo] = useRecoilState<RegisterStoreInterface>(DataStoreInfo.data);
   // console.log('datasroeInfo query', DataStoreInfo);
@@ -33,7 +37,7 @@ export const StoreInfo = () => {
 
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-      {/* <ImageSwiper height={220} imageList={store.sztoreImage} /> */}
+      <ImageSwiper height={220} imageList={storeImages.data} />
       {/* 가게관리에서 가게대표 이미지수정되면 살리기 */}
       <View style={[styles.storeInfoWrap]}>
         <View style={[styles.infoFieldWrap]}>
@@ -87,7 +91,9 @@ export const StoreInfo = () => {
 
         <View style={[styles.infoFieldWrap]}>
           <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>대표메뉴 사진</Text>
-          <View>{/* <RenderImageList imageData={store.menuImage} imageSize={100} /> */}</View>
+          <View>
+            <RenderImageList imageData={menuImages.data} imageSize={100} />
+          </View>
           {/* 가게관리에서 메뉴 이미지수정되면 살리기 */}
         </View>
         <View style={[styles.infoFieldWrap]}>

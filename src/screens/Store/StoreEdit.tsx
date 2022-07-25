@@ -31,16 +31,19 @@ import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages';
 import {RegisterStoreIntro} from '../../components/Register/RegisterStoreIntro';
 import {RegisterStoreAddressDetail} from '../../components/Register/RegisterStoreAddressDetail';
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
-import {putStoresMe} from '../../api/store';
+import {getMenuImage, getStoreImage, putStoresMe} from '../../api/store';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {StoreEditTime} from '../../components/Store/StoreEditTime';
 import {StoreEditMenuImages} from '../../components/Store/StoreEditMenuImages';
+import {useQuery} from 'react-query';
+import {queryKey} from '../../api/queryKey';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreEdit'>;
 
 const StoreEdit = ({navigation}: Props) => {
   const [store, setStore] = useRecoilState(storeData);
-  const storeImageList = useRecoilValue(storeImage);
+  const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
+  const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
   const [imageSwiperModal, setImageSwiperModal] = useState(false); //수정전 주석중
   const insets = useSafeAreaInsets();
   const {
@@ -95,7 +98,7 @@ const StoreEdit = ({navigation}: Props) => {
               visible={imageSwiperModal}
               closeImageSwiperModal={() => setImageSwiperModal(false)}
             />
-            <ImageSwiper height={220} imageList={storeImageList} />
+            <ImageSwiper height={220} imageList={storeImages.data} />
             <TouchableOpacity
               style={[styles.editImageSwiperButton]}
               onPress={() => setImageSwiperModal(true)}

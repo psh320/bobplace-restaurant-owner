@@ -19,7 +19,8 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
   const menuImages = useRecoilValue(registerMenuImage);
   const RCstoreData = useRecoilValue(storeData);
   const registerTime = useRecoilValue(registerOperationTime);
-
+  const postData = {...RCstoreData, operationTimeVO: registerTime};
+  console.log(postData);
   const postRegister = async (data: any) => {
     try {
       const response = await customAxios().post('/api/v1/stores', data);

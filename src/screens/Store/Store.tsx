@@ -4,12 +4,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StoreInfo} from '../../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
-import {storeData} from '../../state';
+import {editOperationTime, storeData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {RegisterStoreInterface} from '../../data/IStore';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
-import {getStoreInfo} from '../../api/store';
+import {getMenuImage, getOperationTime, getStoreImage, getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
 
 const dummyStore: RegisterStoreInterface = {
@@ -27,13 +27,20 @@ const dummyStore: RegisterStoreInterface = {
 
 const Store = () => {
   const [store, setStore] = useRecoilState(storeData);
+  const [storeTime, setStoreTime] = useRecoilState(editOperationTime);
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo, {
     onSuccess: (data) => {
       setStore(data);
-    }, //쿼리요청 성공하면 리턴받은값으로 리코일 갱신 ..하고싶
+    },
   });
+  const OperationTimeData = useQuery(queryKey.OPERATIONTIME, getOperationTime, {
+    onSuccess: (data) => {
+      setStoreTime(data);
+    },
+  });
+
   console.log('datasroeInfo query', DataStoreInfo.data);
   // useEffect(() => {
   //   //가게 정보 get을 통해서 1회 받고 리코일에 저장하기

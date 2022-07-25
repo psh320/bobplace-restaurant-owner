@@ -4,7 +4,7 @@ import {ImageInterface} from '../../data';
 import {Image, ScrollView, View} from 'react-native';
 
 type RenderUploadImageProps = {
-  imageData: {uri: string}[];
+  imageData: {imageUrl: string; id: number}[];
   imageSize: number;
 };
 
@@ -14,7 +14,7 @@ export const RenderImageList: FC<RenderUploadImageProps> = ({imageData, imageSiz
       {imageData.map((item, index) => {
         return (
           <View key={index} style={{marginRight: 8, borderColor: '#DFDFDF', borderWidth: 1}}>
-            <Image source={{uri: item.uri}} style={{width: imageSize, height: imageSize}} />
+            <Image source={{uri: item.imageUrl}} style={{width: imageSize, height: imageSize}} />
           </View>
         );
       })}

@@ -1,6 +1,6 @@
 import React from 'react';
 import type {FC} from 'react';
-import {View} from 'react-native';
+import {Image, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Swiper from 'react-native-swiper';
 import {ImageInterface} from '../../data';
@@ -45,7 +45,7 @@ export const ImageSwiper: FC<ImageSwiperProps> = ({height, imageList}) => {
           return (
             <FastImage
               key={index}
-              source={{uri: image.imageURL}}
+              source={{uri: image.imageUrl}}
               style={{width: '100%', height: height}}
             />
           );

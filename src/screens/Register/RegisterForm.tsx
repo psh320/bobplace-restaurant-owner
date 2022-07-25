@@ -117,11 +117,11 @@ const RegisterForm = ({navigation, route}: Props) => {
           control={control}
           rules={{
             required: true,
-            validate: {
-              authValid: (value) => {
-                return !authError;
-              },
-            },
+            // validate: {
+            //   authValid: (value) => {
+            //     return !authError;
+            //   },
+            // },
           }}
           render={({field: {onChange, value}}) => {
             return (

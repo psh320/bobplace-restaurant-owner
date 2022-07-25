@@ -168,7 +168,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
                       <Icon name="close" size={14} color="#DFDFDF" />
                     </View>
                   </TouchableOpacity>
-                  <Image source={{uri: item.imageURL}} style={{width: 80, height: 80}} />
+                  <Image source={{uri: item.imageUrl}} style={{width: 80, height: 80}} />
                 </View>
               );
             })}

@@ -13,7 +13,6 @@ import {MissionUserCard} from '../components/mission/MissionUserCard';
 import {MissionAcceptCard} from '../components/mission/MissionAcceptCard';
 import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
-import {NotiModal} from '../modal/NotiModal';
 import {queryKey} from '../api/queryKey';
 import {useQuery} from 'react-query';
 import {IMissionProgressType, IMissionSuccessType} from '../data/IMissions';
@@ -24,6 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NoBobpool} from '../components/common/NoBobpool';
 import messaging from '@react-native-firebase/messaging';
 import {ScrollView} from 'react-native-gesture-handler';
+import {getMenuImage, getStoreImage} from '../api/store';
 
 const dummyProgress = [
   {
@@ -100,13 +100,12 @@ const dummySuccess = [
 ];
 const Mission = () => {
   const navigation = useNavigation();
-
-  // const [progressNow, setProgressNow] = useState(true);
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const [missionWaiting, setMissionWaiting] = useState(false);
   const [notiModal, setNotiModal] = useState(false);
   const seperate = useRef('');
-
+  const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
+  const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
   //진행중 카드 목록
   const DataMissionsProgress = useQuery<IMissionProgressType>(
     queryKey.MISSIONSPROGRESS,
@@ -125,6 +124,7 @@ const Mission = () => {
     DataMissionsProgress.data?.ownerMissionDto,
   ); //초기 undefined, 이후 []
   console.log('DataMissionsSuccess-----', DataMissionsSuccess.data?.length); //초기 undefined, 이후 []
+
   useEffect(() => {
     seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
     if (DataMissionsSuccess.data?.length > 0) {
@@ -134,6 +134,7 @@ const Mission = () => {
       setMissionWaiting(false);
     }
   }, [DataMissionsSuccess]);
+
   const refreshMission = () => {
     DataMissionsProgress.refetch();
     DataMissionsSuccess.refetch();
@@ -145,6 +146,7 @@ const Mission = () => {
     }
     console.log('www? ', missionWaiting);
   };
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
       if (remoteMessage.data.title === 'missionSuccess') {
@@ -156,12 +158,7 @@ const Mission = () => {
     });
     return unsubscribe;
   }, []);
-  const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
