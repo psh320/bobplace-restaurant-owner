@@ -24,6 +24,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
   const DataMissionManageDetail = useQuery(queryKey.MISSIONMANAGEDETAIL, () =>
     getMissionManageDetail(route.params.missionId),
   );
+  console.log(DataMissionManageDetail);
   return (
     <>
       <View style={{flex: 0, backgroundColor: 'white'}} />
@@ -52,6 +53,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
             data={DataMissionManageDetail.data}
             renderItem={({item}) => (
               <StoreMissionDetailCard
+                dayOfWeek={item.dayOfWeek}
                 missionId={item.missionId}
                 name={item.name}
                 successDate={item.successDate}
