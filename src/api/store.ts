@@ -39,6 +39,12 @@ export const patchDeleteMenuImage = async (menuImageId: any) => {
   return response.data; //스웨거에서의 result
 };
 
+export const getOperationTime = async () => {
+  const response = await customAxios().get('/api/v1/stores/operation-time');
+  console.log('가게 시간 정보', response.data.result);
+  return response.data.result;
+};
+
 export const putEditTime = async (operationTime: OperationTime, operationTimeId: any) => {
   const response = await customAxios().put(
     `/api/v1/stores/operation-time/${operationTimeId}`,
