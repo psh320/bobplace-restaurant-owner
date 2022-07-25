@@ -1,5 +1,14 @@
 import React, {useState} from 'react';
-import {Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
@@ -171,6 +180,12 @@ const StoreReview = ({navigation, route}: Props) => {
           {/* {reviewList.data?.pages[0].data.result.content.length > 0 ? ( */}
           {dummyReviews.length > 0 ? (
             <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={reviewList.isLoading}
+                  onRefresh={() => reviewList.refetch()}
+                />
+              }
               contentContainerStyle={{backgroundColor: '#FFFFFF'}}
               scrollEventThrottle={10}
               // data={dummyReviews}
@@ -212,7 +227,17 @@ const StoreReview = ({navigation, route}: Props) => {
               )}
             />
           ) : (
-            <NoBobpool category={'리뷰'} />
+            <ScrollView
+              contentContainerStyle={{flex: 1}}
+              refreshControl={
+                <RefreshControl
+                  refreshing={reviewList.isLoading}
+                  onRefresh={() => reviewList.refetch()}
+                />
+              }
+            >
+              <NoBobpool category={'리뷰'} />
+            </ScrollView>
           )}
 
           <PhotoModal
