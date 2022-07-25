@@ -106,6 +106,7 @@ const Mission = () => {
   const seperate = useRef('');
   const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
   const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
+
   //진행중 카드 목록
   const DataMissionsProgress = useQuery<IMissionProgressType>(
     queryKey.MISSIONSPROGRESS,
@@ -117,13 +118,15 @@ const Mission = () => {
     getMissionsSuccess,
   );
   console.log('DataMissionsSuccess', DataMissionsSuccess.data);
-  //Data___.data.키값(result내에서) 로 접근
-  // console.log('DataMissionsProgress-----', DataMissionsProgress.data); //초기 undefined, 이후 []
   console.log(
-    'DataMissionsProgress ownerMissionDto-----',
+    'DataMissionsProgress ownerMissionDto----',
     DataMissionsProgress.data?.ownerMissionDto,
-  ); //초기 undefined, 이후 []
-  console.log('DataMissionsSuccess-----', DataMissionsSuccess.data?.length); //초기 undefined, 이후 []
+  );
+  console.log(
+    'DataMissionsSuccess--길이',
+    DataMissionsSuccess.data?.length,
+    DataMissionsSuccess.data,
+  );
 
   useEffect(() => {
     seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
@@ -144,7 +147,6 @@ const Mission = () => {
     } else {
       setMissionWaiting(false);
     }
-    console.log('www? ', missionWaiting);
   };
 
   useEffect(() => {
@@ -153,7 +155,7 @@ const Mission = () => {
         //title값 추후 변경 - - - - -
         DataMissionsProgress.refetch();
         DataMissionsSuccess.refetch();
-        console.log('성공요청 업데이트!');
+        console.log('미션 messaging 업데이트!');
       }
     });
     return unsubscribe;

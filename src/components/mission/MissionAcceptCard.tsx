@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {dayofweekType, IMissionSuccessType} from '../../data/IMissions';
@@ -26,6 +26,7 @@ export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mis
     }
     return `${Math.floor(betweenTimeDay / 365)}년 전`;
   }
+  const [acceptDisabled, setAcceptDisabled] = useState(false);
 
   const queryClient = useQueryClient();
   const missionDenyMutation = useMutation(
@@ -59,6 +60,7 @@ export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mis
   }
   function handleAccept() {
     //수락 버튼 누를 시
+    setAcceptDisabled(true);
     missionAcceptMutation.mutate(missionId);
     console.log('수락');
   }
@@ -100,7 +102,7 @@ export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mis
                 <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>거절</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.missionButtonAccept, {width: buttonWidth}]} onPress={handleAccept}>
+            <TouchableOpacity disabled={acceptDisabled} style={[acceptDisabled ? styles.missionButtonDeny : styles.missionButtonAccept, {width: buttonWidth}]} onPress={handleAccept}>
               <View>
                 <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>수락</Text>
               </View>
