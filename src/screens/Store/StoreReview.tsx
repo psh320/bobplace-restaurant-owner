@@ -140,7 +140,7 @@ const StoreReview = ({navigation, route}: Props) => {
   );
   // console.log('리뷰길이 ', reviewList.data?.pages[0].data.result.content.length);
   // console.log('리뷰', reviewList.data?.pages[0].data.result.content);
-  const reviewInfo = useQuery(queryKey.STOREINFO, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
+  const reviewInfo = useQuery(queryKey.STOREID, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
   // console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
   const refreshStoreReview = () => {
     reviewList.refetch();
@@ -166,7 +166,7 @@ const StoreReview = ({navigation, route}: Props) => {
                 가게 평점
               </Text>
               <Text style={[DesignSystem.subtitle2, DesignSystem.grey17]}>
-                <Icon name="star" size={20} color={'#FFDE69'} /> {reviewInfo.data.averageRate}
+                <Icon name="star" size={20} color={'#FFDE69'} /> {reviewInfo.data?.averageRate}
               </Text>
             </View>
             <View style={[styles.rateSeperateLine]} />
@@ -175,7 +175,7 @@ const StoreReview = ({navigation, route}: Props) => {
                 리뷰 개수
               </Text>
               <Text style={[DesignSystem.subtitle2, DesignSystem.grey17]}>
-                {reviewInfo.data.reviewCount}
+                {reviewInfo.data?.reviewCount}
               </Text>
             </View>
           </View>

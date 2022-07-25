@@ -8,6 +8,7 @@ export const queryKey = {
   // MISSIONSCOMPLETE: 'missionsComplete',
   USERINFO: 'userInfo',
   STOREINFO: 'storeInfo',
+  STOREID: 'storeId',
   // STORELIST: 'storeList',
   // STOREDATA: 'storeData',
   // STOREREVIEWIMAGES: 'storeReviewImages',

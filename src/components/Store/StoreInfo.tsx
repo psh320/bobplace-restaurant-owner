@@ -34,6 +34,7 @@ export const StoreInfo = () => {
   // const [RCstoreInfo, setRCstoreInfo] = useRecoilState<RegisterStoreInterface>(DataStoreInfo.data);
   // console.log('datasroeInfo query', DataStoreInfo);
   // console.log('datasroeInfo rcrc', RCstoreInfo);
+  console.log('스토어어어엉어', store);
 
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>

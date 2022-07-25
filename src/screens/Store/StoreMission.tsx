@@ -26,7 +26,7 @@ const StoreMission = ({navigation, route}: Props) => {
   });
   const DataMissionManage = useQuery(queryKey.MISSIONMANAGE, getMissionManage);
   console.log('DataMissionManage', DataMissionManage);
-  // console.log('mmmm', missionManageModal);
+
   return (
     <>
       <View style={{backgroundColor: '#FFFFFF', flex: 0}} />
