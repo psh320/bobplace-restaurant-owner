@@ -142,6 +142,10 @@ const StoreReview = ({navigation, route}: Props) => {
   console.log('리뷰', reviewList.data?.pages[0].data.result.content);
   const reviewInfo = useQuery(queryKey.STOREINFO, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
   // console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
+  const refreshStoreReview = () => {
+    reviewList.refetch();
+    reviewInfo.refetch();
+  };
   return (
     <>
       <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
@@ -181,10 +185,7 @@ const StoreReview = ({navigation, route}: Props) => {
           {dummyReviews.length > 0 ? (
             <FlatList
               refreshControl={
-                <RefreshControl
-                  refreshing={reviewList.isLoading}
-                  onRefresh={() => reviewList.refetch()}
-                />
+                <RefreshControl refreshing={reviewList.isLoading} onRefresh={refreshStoreReview} />
               }
               contentContainerStyle={{backgroundColor: '#FFFFFF'}}
               scrollEventThrottle={10}
@@ -230,10 +231,7 @@ const StoreReview = ({navigation, route}: Props) => {
             <ScrollView
               contentContainerStyle={{flex: 1}}
               refreshControl={
-                <RefreshControl
-                  refreshing={reviewList.isLoading}
-                  onRefresh={() => reviewList.refetch()}
-                />
+                <RefreshControl refreshing={reviewList.isLoading} onRefresh={refreshStoreReview} />
               }
             >
               <NoBobpool category={'리뷰'} />

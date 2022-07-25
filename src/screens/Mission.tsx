@@ -134,7 +134,17 @@ const Mission = () => {
       setMissionWaiting(false);
     }
   }, [DataMissionsSuccess]);
-
+  const refreshMission = () => {
+    DataMissionsProgress.refetch();
+    DataMissionsSuccess.refetch();
+    if (DataMissionsSuccess.data?.length > 0) {
+      console.log('요청있음');
+      setMissionWaiting(true);
+    } else {
+      setMissionWaiting(false);
+    }
+    console.log('www? ', missionWaiting);
+  };
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
       if (remoteMessage.data.title === 'missionSuccess') {
@@ -183,15 +193,15 @@ const Mission = () => {
                   refreshControl={
                     <RefreshControl
                       refreshing={DataMissionsProgress.isLoading}
-                      onRefresh={() => DataMissionsProgress.refetch()}
+                      onRefresh={refreshMission}
                     />
                   }
                   contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
                   ItemSeparatorComponent={() => <View style={{height: 10}} />}
                   showsVerticalScrollIndicator={false}
                   scrollEventThrottle={10}
-                  data={dummyProgress}
-                  // data={DataMissionsProgress.data?.ownerMissionDto}
+                  // data={dummyProgress}
+                  data={DataMissionsProgress.data?.ownerMissionDto}
                   renderItem={({item}) => (
                     <>
                       <MissionUserCard
@@ -212,7 +222,7 @@ const Mission = () => {
                 refreshControl={
                   <RefreshControl
                     refreshing={DataMissionsProgress.isLoading}
-                    onRefresh={() => DataMissionsProgress.refetch()}
+                    onRefresh={refreshMission}
                   />
                 }
               >
@@ -226,7 +236,7 @@ const Mission = () => {
                 refreshControl={
                   <RefreshControl
                     refreshing={DataMissionsSuccess.isLoading}
-                    onRefresh={() => DataMissionsSuccess.refetch()}
+                    onRefresh={refreshMission}
                   />
                 }
                 contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
@@ -254,7 +264,7 @@ const Mission = () => {
               refreshControl={
                 <RefreshControl
                   refreshing={DataMissionsSuccess.isLoading}
-                  onRefresh={() => DataMissionsSuccess.refetch()}
+                  onRefresh={refreshMission}
                 />
               }
             >
