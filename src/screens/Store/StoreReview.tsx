@@ -1,5 +1,14 @@
 import React, {useState} from 'react';
-import {Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
@@ -133,6 +142,10 @@ const StoreReview = ({navigation, route}: Props) => {
   console.log('리뷰', reviewList.data?.pages[0].data.result.content);
   const reviewInfo = useQuery(queryKey.STOREINFO, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
   // console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
+  const refreshStoreReview = () => {
+    reviewList.refetch();
+    reviewInfo.refetch();
+  };
   return (
     <>
       <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
@@ -171,6 +184,9 @@ const StoreReview = ({navigation, route}: Props) => {
           {/* {reviewList.data?.pages[0].data.result.content.length > 0 ? ( */}
           {dummyReviews.length > 0 ? (
             <FlatList
+              refreshControl={
+                <RefreshControl refreshing={reviewList.isLoading} onRefresh={refreshStoreReview} />
+              }
               contentContainerStyle={{backgroundColor: '#FFFFFF'}}
               scrollEventThrottle={10}
               // data={dummyReviews}
@@ -212,7 +228,14 @@ const StoreReview = ({navigation, route}: Props) => {
               )}
             />
           ) : (
-            <NoBobpool category={'리뷰'} />
+            <ScrollView
+              contentContainerStyle={{flex: 1}}
+              refreshControl={
+                <RefreshControl refreshing={reviewList.isLoading} onRefresh={refreshStoreReview} />
+              }
+            >
+              <NoBobpool category={'리뷰'} />
+            </ScrollView>
           )}
 
           <PhotoModal

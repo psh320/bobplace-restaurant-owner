@@ -1,5 +1,13 @@
 import React from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -16,6 +24,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
   const DataMissionManageDetail = useQuery(queryKey.MISSIONMANAGEDETAIL, () =>
     getMissionManageDetail(route.params.missionId),
   );
+  console.log(DataMissionManageDetail);
   return (
     <>
       <View style={{flex: 0, backgroundColor: 'white'}} />
@@ -33,11 +42,18 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
         </View>
         {DataMissionManageDetail.data?.length > 0 ? (
           <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={DataMissionManageDetail.isLoading}
+                onRefresh={() => DataMissionManageDetail.refetch()}
+              />
+            }
             contentContainerStyle={{backgroundColor: '#F8F8F8'}}
             scrollEventThrottle={10}
             data={DataMissionManageDetail.data}
             renderItem={({item}) => (
               <StoreMissionDetailCard
+                dayOfWeek={item.dayOfWeek}
                 missionId={item.missionId}
                 name={item.name}
                 successDate={item.successDate}
@@ -51,7 +67,17 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
             ListFooterComponentStyle={{margin: 20}}
           />
         ) : (
-          <NoBobpool category={'미션상세'} />
+          <ScrollView
+            contentContainerStyle={{flex: 1}}
+            refreshControl={
+              <RefreshControl
+                refreshing={DataMissionManageDetail.isLoading}
+                onRefresh={() => DataMissionManageDetail.refetch()}
+              />
+            }
+          >
+            <NoBobpool category={'미션상세'} />
+          </ScrollView>
         )}
       </View>
     </>

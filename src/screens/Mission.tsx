@@ -1,11 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MissionUserCard} from '../components/mission/MissionUserCard';
 import {MissionAcceptCard} from '../components/mission/MissionAcceptCard';
 import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
-import {NotiModal} from '../modal/NotiModal';
 import {queryKey} from '../api/queryKey';
 import {useQuery} from 'react-query';
 import {IMissionProgressType, IMissionSuccessType} from '../data/IMissions';
@@ -14,6 +21,8 @@ import {useRecoilState} from 'recoil';
 import {RCprogressNow} from '../state';
 import {useNavigation} from '@react-navigation/native';
 import {NoBobpool} from '../components/common/NoBobpool';
+import messaging from '@react-native-firebase/messaging';
+import {ScrollView} from 'react-native-gesture-handler';
 import {getMenuImage, getStoreImage} from '../api/store';
 
 const dummyProgress = [
@@ -91,8 +100,6 @@ const dummySuccess = [
 ];
 const Mission = () => {
   const navigation = useNavigation();
-
-  // const [progressNow, setProgressNow] = useState(true);
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const [missionWaiting, setMissionWaiting] = useState(false);
   const [notiModal, setNotiModal] = useState(false);
@@ -117,6 +124,7 @@ const Mission = () => {
     DataMissionsProgress.data?.ownerMissionDto,
   ); //초기 undefined, 이후 []
   console.log('DataMissionsSuccess-----', DataMissionsSuccess.data?.length); //초기 undefined, 이후 []
+
   useEffect(() => {
     seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
     if (DataMissionsSuccess.data?.length > 0) {
@@ -126,6 +134,30 @@ const Mission = () => {
       setMissionWaiting(false);
     }
   }, [DataMissionsSuccess]);
+
+  const refreshMission = () => {
+    DataMissionsProgress.refetch();
+    DataMissionsSuccess.refetch();
+    if (DataMissionsSuccess.data?.length > 0) {
+      console.log('요청있음');
+      setMissionWaiting(true);
+    } else {
+      setMissionWaiting(false);
+    }
+    console.log('www? ', missionWaiting);
+  };
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage: any) => {
+      if (remoteMessage.data.title === 'missionSuccess') {
+        //title값 추후 변경 - - - - -
+        DataMissionsProgress.refetch();
+        DataMissionsSuccess.refetch();
+        console.log('성공요청 업데이트!');
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <>
@@ -155,6 +187,12 @@ const Mission = () => {
                   </Text>
                 </View>
                 <FlatList
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={DataMissionsProgress.isLoading}
+                      onRefresh={refreshMission}
+                    />
+                  }
                   contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
                   ItemSeparatorComponent={() => <View style={{height: 10}} />}
                   showsVerticalScrollIndicator={false}
@@ -176,12 +214,28 @@ const Mission = () => {
                 />
               </>
             ) : (
-              <NoBobpool category={'진행중'} />
+              <ScrollView
+                contentContainerStyle={{flex: 1}}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={DataMissionsProgress.isLoading}
+                    onRefresh={refreshMission}
+                  />
+                }
+              >
+                <NoBobpool category={'진행중'} />
+              </ScrollView>
             )
           ) : // 스위치 '성공요청' 일때
           DataMissionsSuccess.data?.length !== 0 ? (
             <>
               <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={DataMissionsSuccess.isLoading}
+                    onRefresh={refreshMission}
+                  />
+                }
                 contentContainerStyle={{paddingTop: 12, paddingBottom: 50}}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
                 scrollEventThrottle={10}
@@ -202,7 +256,17 @@ const Mission = () => {
               />
             </>
           ) : (
-            <NoBobpool category={'성공요청'} />
+            <ScrollView
+              contentContainerStyle={{flex: 1}}
+              refreshControl={
+                <RefreshControl
+                  refreshing={DataMissionsSuccess.isLoading}
+                  onRefresh={refreshMission}
+                />
+              }
+            >
+              <NoBobpool category={'성공요청'} />
+            </ScrollView>
           )}
         </View>
         <View style={[DesignSystem.centerArrange]}>
