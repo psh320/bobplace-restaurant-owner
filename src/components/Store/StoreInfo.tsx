@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
 import Swiper from 'react-native-swiper';
 import FastImage from 'react-native-fast-image';
@@ -14,11 +13,6 @@ import {getMenuImage, getStoreImage, getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
 import {editOperationTime, storeData} from '../../state';
 
-const dummyImage: ImageInterface[] = [
-  {uri: 'https://source.unsplash.com/1024x768/?food', type: 'image/jpg', name: '1.jpg'},
-  {uri: 'https://source.unsplash.com/1024x768/?snack', type: 'image/jpg', name: '2.jpg'},
-  {uri: 'https://source.unsplash.com/1024x768/?candy', type: 'image/jpg', name: '3.jpg'},
-];
 //prettier-ignore
 const STORETYPE = ['', '한식당', '일식당', '중식당', '양식당', '치킨집', '분식집', '고기/구이', '도시락', '야식(족발,보쌈)', '패스트푸드', '디저트/카페', '아시안푸드'];
 
@@ -29,11 +23,6 @@ export const StoreInfo = () => {
   const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
 
   console.log(storeImages.data);
-  // console.log('storeInfo에서 store', store);
-  // const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo);
-  // const [RCstoreInfo, setRCstoreInfo] = useRecoilState<RegisterStoreInterface>(DataStoreInfo.data);
-  // console.log('datasroeInfo query', DataStoreInfo);
-  // console.log('datasroeInfo rcrc', RCstoreInfo);
 
   return (
     <ScrollView style={{backgroundColor: '#FFFFFF'}}>

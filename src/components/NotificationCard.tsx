@@ -57,7 +57,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
             <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>{title}</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{name}({subId})</Text>{subTitle}</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{name}</Text>{subTitle}</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>
@@ -79,7 +79,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
             <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>{title}</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{name}({subId})</Text>{subTitle}</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}>{name}</Text>{subTitle}</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>
@@ -113,7 +113,6 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {
-          navigation.navigate('MyInquiry');
           navigation.navigate('MyNavigator', {screen: 'MyInquiry'});
           setNowWrite(false);
           missionSuccessRequestMutation.mutate(id);
@@ -122,7 +121,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
         <View style={[styles.notiWrap]}>
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
-            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>ANSWER.{title}</Text>
+            <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>{title}</Text>
             <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}></Text>{subTitle}1:1문의 답옴.</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}

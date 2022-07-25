@@ -1,6 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet, Text, Image, SafeAreaView, Animated} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRecoilState} from 'recoil';
+import {RCstoreId} from '../state';
+import {getStoreId} from '../api/store';
 
 const moveUp = (progressValue: Animated.Value) => {
   Animated.timing(progressValue, {
@@ -16,6 +19,16 @@ const Splash = () => {
   setTimeout(() => {
     moveUp(progressValue);
   }, 300);
+
+  const [storeId, setStoreId] = useRecoilState(RCstoreId);
+  const getStoreIdRc = async () => {
+    const re = await getStoreId();
+    setStoreId(re);
+  };
+  useEffect(() => {
+    getStoreIdRc();
+  }, []);
+  console.log('storeId 저장됨 ? ', storeId);
 
   return (
     <SafeAreaView style={[styles.flex]}>

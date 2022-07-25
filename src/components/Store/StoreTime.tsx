@@ -15,7 +15,7 @@ const processTime = (time: string) => {
 };
 
 export const StoreTime: FC<RegisterTimeProps> = ({operationData}) => {
-  console.log('opopop', operationData); //가게정보화면에서 리뷰를 눌렀는데 이게 왜 다시 콘솔에 찍히는거지 ?
+  // console.log('opopop', operationData); //가게정보화면에서 리뷰를 눌렀는데 이게 왜 다시 콘솔에 찍히는거지 ?
   const renderedTimeTable = () => {
     return (
       <>

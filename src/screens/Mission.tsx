@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   RefreshControl,
@@ -15,15 +15,16 @@ import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
 import {queryKey} from '../api/queryKey';
 import {useQuery} from 'react-query';
-import {IMissionProgressType, IMissionSuccessType} from '../data/IMissions';
+import {IMissionProgressType, IMissionSuccessType, INotiType} from '../data/IMissions';
 import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
 import {useRecoilState} from 'recoil';
 import {RCprogressNow} from '../state';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NoBobpool} from '../components/common/NoBobpool';
 import messaging from '@react-native-firebase/messaging';
 import {ScrollView} from 'react-native-gesture-handler';
 import {getMenuImage, getStoreImage} from '../api/store';
+import {getNotifications} from '../data';
 
 const dummyProgress = [
   {
@@ -102,10 +103,10 @@ const Mission = () => {
   const navigation = useNavigation();
   const [progressNow, setProgressNow] = useRecoilState(RCprogressNow);
   const [missionWaiting, setMissionWaiting] = useState(false);
-  const [notiModal, setNotiModal] = useState(false);
   const seperate = useRef('');
   const storeImageList = useQuery(queryKey.STOREIMAGES, getStoreImage);
   const menuImageList = useQuery(queryKey.MENUIMAGES, getMenuImage);
+
   //진행중 카드 목록
   const DataMissionsProgress = useQuery<IMissionProgressType>(
     queryKey.MISSIONSPROGRESS,
@@ -117,13 +118,15 @@ const Mission = () => {
     getMissionsSuccess,
   );
   console.log('DataMissionsSuccess', DataMissionsSuccess.data);
-  //Data___.data.키값(result내에서) 로 접근
-  // console.log('DataMissionsProgress-----', DataMissionsProgress.data); //초기 undefined, 이후 []
   console.log(
-    'DataMissionsProgress ownerMissionDto-----',
+    'DataMissionsProgress ownerMissionDto----',
     DataMissionsProgress.data?.ownerMissionDto,
-  ); //초기 undefined, 이후 []
-  console.log('DataMissionsSuccess-----', DataMissionsSuccess.data?.length); //초기 undefined, 이후 []
+  );
+  console.log(
+    'DataMissionsSuccess--길이',
+    DataMissionsSuccess.data?.length,
+    DataMissionsSuccess.data,
+  );
 
   useEffect(() => {
     seperate.current = '2022-00-00T15:16:39.528Z'.slice(0, 10); //구분날짜 초기화
@@ -144,7 +147,6 @@ const Mission = () => {
     } else {
       setMissionWaiting(false);
     }
-    console.log('www? ', missionWaiting);
   };
 
   useEffect(() => {
@@ -153,12 +155,26 @@ const Mission = () => {
         //title값 추후 변경 - - - - -
         DataMissionsProgress.refetch();
         DataMissionsSuccess.refetch();
-        console.log('성공요청 업데이트!');
+        console.log('미션 messaging 업데이트!');
       }
     });
     return unsubscribe;
   }, []);
-
+  const [newNotiCount, setNewNotiCount] = useState(0);
+  const DataNoti = useQuery<INotiType[]>(queryKey.NOTIFICATIONS, getNotifications, {
+    onSuccess: (data) => {
+      const countNewNoti = data.filter((e) => !e.checked);
+      setNewNotiCount(countNewNoti.length);
+    },
+    onError: (err) => {
+      console.log('ERR', err);
+    },
+  });
+  useFocusEffect(
+    useCallback(() => {
+      DataNoti.refetch();
+    }, []),
+  );
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
@@ -166,7 +182,14 @@ const Mission = () => {
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
           {progressNow && (
-            <TouchableOpacity onPress={() => navigation.navigate('Notifications', {userId: 0})}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Notifications', {newNotiCount: newNotiCount})}
+            >
+              {newNotiCount > 0 && (
+                <View style={styles.notificationBadge}>
+                  <Text style={styles.notificationCount}>{newNotiCount}</Text>
+                </View>
+              )}
               <Icon name="bell-outline" size={24} color="#323232" />
             </TouchableOpacity>
           )}
@@ -313,5 +336,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 16,
     color: '#6C69FF',
+  },
+  notificationBadge: {
+    borderRadius: 16,
+    minWidth: 16,
+    height: 16,
+    backgroundColor: '#E24C44',
+    position: 'absolute',
+    left: 12,
+    top: 0,
+    zIndex: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 2.5,
+  },
+  notificationCount: {
+    fontSize: 11,
+    lineHeight: 11,
+    fontFamily: 'Pretendard-SemiBold',
+    color: 'white',
   },
 });

@@ -4,30 +4,12 @@ import {customAxios} from './customAxios';
 export const postReviewsReply = async (
   data: {
     content: string;
-    // missionId: number;
-    // rate: number;
-    // storeId: number;
   },
   reviewId: number,
 ) => {
   const response = await customAxios().post(`/api/v1/reviews/report/${reviewId}`, data);
   return response.data;
 };
-// const replyMutation = useMutation(
-//   (data: {content: string}, reviewId) =>
-//     postReviewsReply(data, reviewId),
-//   {
-//     onSuccess(replyData) {
-//       console.log('답글목록 , ', replyData);
-//     },
-//   },
-// );
-//   const submitReview = async () => {
-//     await reviewMutation.mutate({
-//       content: content,
-//     });
-//     await setOpen____Modal(true);//모달 열기
-//   };
 
 //가게 정보 조회 (평점, 리뷰갯수 보려고)
 export const getStoreData = async (storeId?: number) => {

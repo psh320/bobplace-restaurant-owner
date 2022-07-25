@@ -166,6 +166,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingVertical: 12,
+    borderBottomColor: '#EDEDED',
+    borderBottomWidth: 0.5,
   },
   reviewRow1: {
     flexDirection: 'row',

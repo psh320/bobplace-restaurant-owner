@@ -1,24 +1,13 @@
-import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, FlatList, SafeAreaView} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MissionStackParamList} from '../nav/MissionNavigator';
 import {MyHeader} from '../components/My/MyHeader';
 import {NotificationCard} from '../components/NotificationCard';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {useQuery, useQueryClient} from 'react-query';
 import {queryKey} from '../api/queryKey';
-import {DesignSystem} from '../assets/DesignSystem';
 import {getNotifications} from '../api/my';
 import {INotiType} from '../data/IMissions';
-import {patchNotificationsStatus} from '../data/INoti';
-import {Item} from 'react-native-paper/lib/typescript/components/List/List';
 import {NoBobpool} from '../components/common/NoBobpool';
 import {useRecoilValue} from 'recoil';
 import {RCstoreId} from '../state';
@@ -33,7 +22,7 @@ const dummy = [
     pushType: 'OWNER_SUCCESS',
     subId: 0,
     subTitle: 'string',
-    title: '타타이틀',
+    title: '성공요청이들어왔습니다',
   },
   {
     checked: false,
@@ -42,8 +31,8 @@ const dummy = [
     name: '고구마',
     pushType: 'OWNER_SUCCESS',
     subId: 110,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '님의성공여부를확인후수락',
+    title: '성공요청이들어왔습니다',
   },
   {
     checked: false,
@@ -52,8 +41,8 @@ const dummy = [
     name: '감자',
     pushType: 'OWNER_PROGRESS',
     subId: 220,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '님의성공여부를확인후수락',
+    title: '고객님이미션도전했습니다',
   },
   {
     checked: false,
@@ -62,8 +51,8 @@ const dummy = [
     name: '홍길동',
     pushType: 'OWNER_PROGRESS',
     subId: 330,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '님이 현재 미션 진행중입니다',
+    title: '고객님이미션도전했습니다',
   },
   {
     checked: false,
@@ -80,17 +69,15 @@ const dummy = [
     date: '2022-07-19T06:44:56.115Z',
     id: 50,
     name: '홍길동',
-    pushType: 'OWNER_ANSWER',
+    pushType: 'ANSWER',
     subId: 330,
-    subTitle: 'string',
-    title: '타타이틀',
+    subTitle: '문의제목...에대한 답변ㄴ이디ㅡㅇ록',
+    title: '(1:1)문의 답변이등록되었습니다',
   },
 ];
-export const Notifications = ({navigation}: Props) => {
+export const Notifications = ({navigation, route}: Props) => {
   const queryClient = useQueryClient();
   const storeId = useRecoilValue(RCstoreId);
-  // console.log('아이디이이이조라', storeId);
-
   const DataNoti = useQuery<INotiType[]>(queryKey.NOTIFICATIONS, getNotifications, {
     onError: (err) => {
       console.log('ERR', err);
