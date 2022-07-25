@@ -40,7 +40,7 @@ export const patchDeleteMenuImage = async (menuImageId: any) => {
 };
 
 export const getOperationTime = async () => {
-  const response = await customAxios().get('/api/v1/stores/operation-time');
+  const response = await customAxios().get('/api/v1/stores/me/operationTime');
   console.log('가게 시간 정보', response.data.result);
   return response.data.result;
 };
@@ -51,19 +51,19 @@ export const putEditTime = async (operationTime: OperationTime, operationTimeId:
     operationTime,
   );
   console.log('putStoresMe r.data', response.data);
-  return response.data;
+  return response.data.result;
 };
 
 export const getStoreImage = async () => {
-  const response = await customAxios().patch('/api/v1/stores/me/menu-images');
-  console.log('메뉴 사진삭제 완료', response.data);
-  return response.data; //스웨거에서의 result
+  const response = await customAxios().get('/api/v1/stores/me/store-images');
+  console.log('가게 사진 가져오기: ', response.data.result);
+  return response.data.result; //스웨거에서의 result
 };
 
 export const getMenuImage = async () => {
-  const response = await customAxios().patch('/api/v1/stores/store-images');
-  console.log('메뉴 사진삭제 완료', response.data);
-  return response.data; //스웨거에서의 result
+  const response = await customAxios().get('/api/v1/stores/me/menu-images');
+  console.log('메뉴 사진 가져오기: ', response.data);
+  return response.data.result; //스웨거에서의 result
 };
 
 //미션관리

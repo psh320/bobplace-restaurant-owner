@@ -125,7 +125,7 @@ export const StoreEditMenuImages = () => {
                     <Icon name="close" size={14} color="#DFDFDF" />
                   </View>
                 </TouchableOpacity>
-                <Image source={{uri: data.uri}} style={{width: 80, height: 80}} />
+                <Image source={{uri: data.imageUrl}} style={{width: 80, height: 80}} />
               </View>
             );
           })}

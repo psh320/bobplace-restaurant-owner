@@ -4,12 +4,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StoreInfo} from '../../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
-import {storeData} from '../../state';
+import {editOperationTime, storeData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {RegisterStoreInterface} from '../../data/IStore';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
-import {getOperationTime, getStoreInfo} from '../../api/store';
+import {getMenuImage, getOperationTime, getStoreImage, getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
 
 const dummyStore: RegisterStoreInterface = {
@@ -27,6 +27,7 @@ const dummyStore: RegisterStoreInterface = {
 
 const Store = () => {
   const [store, setStore] = useRecoilState(storeData);
+  const [storeTime, setStoreTime] = useRecoilState(editOperationTime);
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo, {
@@ -34,7 +35,11 @@ const Store = () => {
       setStore(data);
     },
   });
-  const OperationTimeData = useQuery(queryKey.OPERATIONTIME, getOperationTime);
+  const OperationTimeData = useQuery(queryKey.OPERATIONTIME, getOperationTime, {
+    onSuccess: (data) => {
+      setStoreTime(data);
+    },
+  });
 
   console.log('datasroeInfo query', DataStoreInfo.data);
   // useEffect(() => {

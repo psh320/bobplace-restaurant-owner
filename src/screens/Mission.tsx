@@ -14,6 +14,7 @@ import {useRecoilState} from 'recoil';
 import {RCprogressNow} from '../state';
 import {useNavigation} from '@react-navigation/native';
 import {NoBobpool} from '../components/common/NoBobpool';
+import {getMenuImage, getStoreImage} from '../api/store';
 
 const dummyProgress = [
   {
@@ -96,7 +97,8 @@ const Mission = () => {
   const [missionWaiting, setMissionWaiting] = useState(false);
   const [notiModal, setNotiModal] = useState(false);
   const seperate = useRef('');
-
+  const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
+  const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
   //진행중 카드 목록
   const DataMissionsProgress = useQuery<IMissionProgressType>(
     queryKey.MISSIONSPROGRESS,

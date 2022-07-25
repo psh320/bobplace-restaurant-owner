@@ -178,12 +178,12 @@ export const storeData = atom<RegisterStoreInterface>({
   },
 });
 
-export const storeImage = atom<{imageURL: string; id: string}[]>({
+export const storeImage = atom<{imageUrl: string; id: string}[]>({
   key: 'storeImage',
   default: [],
 });
 
-export const menuImage = atom<{imageURL: string; id: string}[]>({
+export const menuImage = atom<{imageUrl: string; id: string}[]>({
   key: 'menuImage',
   default: [],
 });
