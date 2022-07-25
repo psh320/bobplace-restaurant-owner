@@ -1,24 +1,13 @@
-import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, FlatList, SafeAreaView} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MissionStackParamList} from '../nav/MissionNavigator';
 import {MyHeader} from '../components/My/MyHeader';
 import {NotificationCard} from '../components/NotificationCard';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {useQuery, useQueryClient} from 'react-query';
 import {queryKey} from '../api/queryKey';
-import {DesignSystem} from '../assets/DesignSystem';
 import {getNotifications} from '../api/my';
 import {INotiType} from '../data/IMissions';
-import {patchNotificationsStatus} from '../data/INoti';
-import {Item} from 'react-native-paper/lib/typescript/components/List/List';
 import {NoBobpool} from '../components/common/NoBobpool';
 import {useRecoilValue} from 'recoil';
 import {RCstoreId} from '../state';
@@ -86,11 +75,9 @@ const dummy = [
     title: '(1:1)문의 답변이등록되었습니다',
   },
 ];
-export const Notifications = ({navigation}: Props) => {
+export const Notifications = ({navigation, route}: Props) => {
   const queryClient = useQueryClient();
   const storeId = useRecoilValue(RCstoreId);
-  // console.log('아이디이이이조라', storeId);
-
   const DataNoti = useQuery<INotiType[]>(queryKey.NOTIFICATIONS, getNotifications, {
     onError: (err) => {
       console.log('ERR', err);

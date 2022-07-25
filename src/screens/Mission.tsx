@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   RefreshControl,
@@ -15,15 +15,16 @@ import {MissionSwitch} from '../components/mission/MissionSwitch';
 import {DesignSystem} from '../assets/DesignSystem';
 import {queryKey} from '../api/queryKey';
 import {useQuery} from 'react-query';
-import {IMissionProgressType, IMissionSuccessType} from '../data/IMissions';
+import {IMissionProgressType, IMissionSuccessType, INotiType} from '../data/IMissions';
 import {getMissionsProgress, getMissionsSuccess} from '../api/mission';
 import {useRecoilState} from 'recoil';
 import {RCprogressNow} from '../state';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NoBobpool} from '../components/common/NoBobpool';
 import messaging from '@react-native-firebase/messaging';
 import {ScrollView} from 'react-native-gesture-handler';
 import {getMenuImage, getStoreImage} from '../api/store';
+import {getNotifications} from '../data';
 
 const dummyProgress = [
   {
@@ -159,7 +160,21 @@ const Mission = () => {
     });
     return unsubscribe;
   }, []);
-
+  const [newNotiCount, setNewNotiCount] = useState(0);
+  const DataNoti = useQuery<INotiType[]>(queryKey.NOTIFICATIONS, getNotifications, {
+    onSuccess: (data) => {
+      const countNewNoti = data.filter((e) => !e.checked);
+      setNewNotiCount(countNewNoti.length);
+    },
+    onError: (err) => {
+      console.log('ERR', err);
+    },
+  });
+  useFocusEffect(
+    useCallback(() => {
+      DataNoti.refetch();
+    }, []),
+  );
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
@@ -167,7 +182,14 @@ const Mission = () => {
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
           {progressNow && (
-            <TouchableOpacity onPress={() => navigation.navigate('Notifications', {userId: 0})}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Notifications', {newNotiCount: newNotiCount})}
+            >
+              {newNotiCount > 0 && (
+                <View style={styles.notificationBadge}>
+                  <Text style={styles.notificationCount}>{newNotiCount}</Text>
+                </View>
+              )}
               <Icon name="bell-outline" size={24} color="#323232" />
             </TouchableOpacity>
           )}
@@ -314,5 +336,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 16,
     color: '#6C69FF',
+  },
+  notificationBadge: {
+    borderRadius: 16,
+    minWidth: 16,
+    height: 16,
+    backgroundColor: '#E24C44',
+    position: 'absolute',
+    left: 12,
+    top: 0,
+    zIndex: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 2.5,
+  },
+  notificationCount: {
+    fontSize: 11,
+    lineHeight: 11,
+    fontFamily: 'Pretendard-SemiBold',
+    color: 'white',
   },
 });

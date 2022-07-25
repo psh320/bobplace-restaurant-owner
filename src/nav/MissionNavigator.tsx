@@ -6,7 +6,7 @@ import {Notifications} from '../screens/Notifications';
 
 export type MissionStackParamList = {
   Main: undefined;
-  Notifications: undefined;
+  Notifications: {newNotiCount: number};
   Mission: {missionId: number};
 };
 
