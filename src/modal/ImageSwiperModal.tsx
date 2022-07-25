@@ -12,8 +12,8 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RCstoreId} from '../state';
-import {useRecoilValue} from 'recoil';
+import {RCstoreId, storeImage} from '../state';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {ImageSwiper} from '../components/common/ImageSwiper';
 import {ImageInterface} from '../data';
 import {ImageLibraryOptions, launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -34,23 +34,69 @@ const options: ImageLibraryOptions = {
 };
 export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImageSwiperModal}) => {
   const [error, setError] = useState(false);
+  // const [storeImages, setStoreImages] = useRecoilState(storeImage);
   const queryClient = useQueryClient();
-  const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
+  const storeImageList = useQuery(queryKey.STOREIMAGES, getStoreImage);
   const storeImagesMutation = useMutation(
     (data: ImageInterface[]) => postStoreImages(data, storeId),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(queryKey.STOREIMAGES);
+      onMutate: async (image) => {
+        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+        await queryClient.cancelQueries(queryKey.STOREIMAGES);
+
+        // Snapshot the previous value
+        const previousImages: {imageUrl: string; id: string}[] = queryClient.getQueryData(
+          queryKey.STOREIMAGES,
+        );
+
+        // Optimistically update to the new value
+        queryClient.setQueryData(queryKey.STOREIMAGES, [
+          ...previousImages,
+          {imageUrl: image[0].uri},
+        ]);
+
+        // Return a context with the previous and new todo
+        return {previousImages, image};
       },
-      onError: (err) => {
-        console.log(err);
+      // If the mutation fails, use the context we returned above
+      onError: (err, newTodo, context) => {
+        queryClient.setQueryData(queryKey.STOREIMAGES, context?.previousImages);
+      },
+      // Always refetch after error or success:
+      onSettled: () => {
+        queryClient.invalidateQueries(queryKey.STOREIMAGES);
       },
     },
   );
+
   const deleteMutation = useMutation(
     (storeImageId: string) => patchDeleteStoreImage(storeImageId),
     {
-      onSuccess: () => {
+      onMutate: async (id) => {
+        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+        await queryClient.cancelQueries(queryKey.STOREIMAGES);
+
+        // Snapshot the previous value
+        const previousImages: {imageUrl: string; id: string}[] = queryClient.getQueryData(
+          queryKey.STOREIMAGES,
+        );
+
+        // Optimistically update to the new value
+        queryClient.setQueryData(queryKey.STOREIMAGES, () =>
+          previousImages.filter((image) => {
+            return image.id !== id;
+          }),
+        );
+
+        // Return a context with the previous and new todo
+        return {previousImages, id};
+      },
+      // If the mutation fails, use the context we returned above
+      onError: (err, newTodo, context) => {
+        queryClient.setQueryData(queryKey.STOREIMAGES, context?.previousImages);
+      },
+      // Always refetch after error or success:
+      onSettled: () => {
         queryClient.invalidateQueries(queryKey.STOREIMAGES);
       },
     },
@@ -58,10 +104,10 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
   const storeId = useRecoilValue(RCstoreId);
 
   useEffect(() => {
-    if (storeImages.data.length > 0) {
+    if (storeImageList.data.length > 0) {
       setError(false);
     }
-  }, [storeImages.data]);
+  }, [storeImageList.data]);
 
   const removeImage = (storeImageId: string) => {
     deleteMutation.mutate(storeImageId);
@@ -93,7 +139,6 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
       };
       storeImagesMutation.mutate([data]);
     }
-    console.log(result);
   };
 
   const selectImageFromCamera = async () => {
@@ -112,7 +157,6 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
       };
       storeImagesMutation.mutate([data]);
     }
-    console.log(result);
   };
 
   return (
@@ -127,7 +171,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
           <Text style={[styles.storeHeaderText]}>가게 대표 사진</Text>
           <TouchableOpacity
             onPress={() => {
-              if (storeImages.data.length <= 0) {
+              if (storeImageList.data.length <= 0) {
                 setError(true);
               } else {
                 closeImageSwiperModal();
@@ -140,18 +184,18 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
           </TouchableOpacity>
         </View>
 
-        <ImageSwiper height={220} imageList={storeImages.data} />
+        <ImageSwiper height={220} imageList={storeImageList.data} />
         <View style={[styles.flexRow, {alignItems: 'center'}]}>
           <TouchableOpacity style={[styles.imageAddButton]} onPress={openImagePicker}>
             <Icon name="plus" size={24} />
           </TouchableOpacity>
           <ScrollView horizontal>
-            {storeImages.data.map((item, index) => {
+            {storeImageList.data.map((item, index) => {
               return (
                 <View key={index} style={{marginRight: 8, borderColor: '#DFDFDF', borderWidth: 1}}>
                   <TouchableOpacity
                     onPress={() => {
-                      removeImage(item.storeImageId);
+                      removeImage(item.id);
                     }}
                     style={{position: 'absolute', top: 5, right: 5, zIndex: 1}}
                   >
