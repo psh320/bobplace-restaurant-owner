@@ -14,7 +14,7 @@ export const getMissionsSuccess = async () => {
 
 //포인트 적립 취소
 export const postCancelPoint = async (missionId: number, reason: string) => {
-  const response = await customAxios().put(`/api/v1/missions/owner/${missionId}`, null, {
+  const response = await customAxios().post(`/api/v1/missions/owner/${missionId}`, null, {
     params: {
       reason: reason,
     },

@@ -17,6 +17,7 @@ export type StoreStackParamList = {
   StoreReview: undefined;
   StoreMissionDetail: {missionId: number};
   StoreMissionPayment: {
+    dayOfWeek: string;
     missionId: number;
     name: string;
     successDate: string;

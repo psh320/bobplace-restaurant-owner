@@ -3,6 +3,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -14,13 +15,22 @@ import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {CancelPointModal} from '../../modal/CancelPointModal';
 import {DesignSystem} from '../../assets/DesignSystem';
+import {dayofweekType} from '../../data/IMissions';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionPayment'>;
 
 const StoreMissionPayment = ({navigation, route}: Props) => {
   const [cancelPointModal, setCancelPointModal] = useState(false);
   const [cancelContent, setCancelContent] = useState('');
-
+  const DAYOFWEEK: dayofweekType = {
+    MONDAY: '월',
+    TUESDAY: '화',
+    WEDNESDAY: '수',
+    THURSDAY: '목',
+    FRIDAY: '금',
+    SATURDAY: '토',
+    SUNDAY: '일',
+  };
   return (
     <>
       <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
@@ -57,7 +67,9 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
               <View style={[styles.infoRow]}>
                 <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>결제일</Text>
                 <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>
-                  {route.params.successDate}
+                  {route.params.successDate.slice(0, 4)}.{route.params.successDate.slice(5, 7)}.
+                  {route.params.successDate.slice(8, 10)} {DAYOFWEEK[route.params.dayOfWeek]}요일{' '}
+                  {route.params.successDate.slice(11, 19)}
                 </Text>
               </View>
               <View style={[styles.infoRow]}>
@@ -107,6 +119,7 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
           closeCancelPointModal={() => setCancelPointModal(false)}
           missionId={route.params.missionId}
           reason={cancelContent}
+          navigation={navigation}
         />
       </SafeAreaView>
     </>
@@ -116,7 +129,7 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
 export default StoreMissionPayment;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#F6F6FA'},
+  flex: {flex: 1, backgroundColor: '#F8F8F8'},
   screenHeaderWrap: {
     height: 50,
     backgroundColor: '#FFFFFF',
