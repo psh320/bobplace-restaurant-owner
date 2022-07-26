@@ -37,7 +37,7 @@ export const RegisterAddress: FC<RegisterAddressProps> = ({onChange, value, erro
             error ? styles.errorBorderNoFocus : styles.unfocusBorder,
           ]}
         >
-          <Text style={[value === '' && styles.placeholder]}>
+          <Text style={[value === '' ? styles.placeholder : DesignSystem.grey17]}>
             {value === '' ? '주소 선택' : value}
           </Text>
           <Icon name="chevron-down" size={24} />

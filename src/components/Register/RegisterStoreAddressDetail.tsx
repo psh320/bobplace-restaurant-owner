@@ -20,7 +20,7 @@ export const RegisterStoreAddressDetail: FC<RegisterStoreAddressDetailProps> = (
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
 
   return (
-    <View style={{marginBottom: 20}}>
+    <View>
       <TextInput
         style={[
           styles.nameInput,
