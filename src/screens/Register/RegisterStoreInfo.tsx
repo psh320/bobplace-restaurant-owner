@@ -122,24 +122,26 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
             <Text style={[styles.errorMessage, {marginBottom: 0}]}>필수 입력사항입니다.</Text>
           )}
           {/* 상세주소 */}
-          <Controller
-            control={control}
-            rules={{
-              required: false,
-            }}
-            render={({field: {onChange, value}}) => {
-              return (
-                <>
-                  <RegisterStoreAddressDetail
-                    onChange={onChange}
-                    value={value}
-                    error={errors.addressDetail !== undefined}
-                  />
-                </>
-              );
-            }}
-            name="addressDetail"
-          />
+          <View style={{marginBottom: 20}}>
+            <Controller
+              control={control}
+              rules={{
+                required: false,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <>
+                    <RegisterStoreAddressDetail
+                      onChange={onChange}
+                      value={value}
+                      error={errors.addressDetail !== undefined}
+                    />
+                  </>
+                );
+              }}
+              name="addressDetail"
+            />
+          </View>
           {/* {errors.addressDetail?.type === 'required' ? (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           ) : (

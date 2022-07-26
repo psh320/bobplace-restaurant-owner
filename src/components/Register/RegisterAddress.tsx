@@ -6,6 +6,7 @@ import {useRecoilValue} from 'recoil';
 import {address} from '../../state';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DesignSystem} from '../../assets/DesignSystem';
+import Config from 'react-native-config';
 
 type RegisterAddressProps = {
   onChange: (...event: any[]) => void;
@@ -15,7 +16,8 @@ type RegisterAddressProps = {
 
 export const RegisterAddress: FC<RegisterAddressProps> = ({onChange, value, error}) => {
   const [addressModal, setAddressModal] = useState(false);
-
+  const kakaoApi = Config.KAKAO_REST_API;
+  console.log('??????????', kakaoApi);
   return (
     <View style={[styles.addressWrap]}>
       <AddressSearchModal

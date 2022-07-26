@@ -1,4 +1,4 @@
-import {Platform, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const DesignSystem = StyleSheet.create({
   centerArrange: {
@@ -13,7 +13,6 @@ export const DesignSystem = StyleSheet.create({
   h2SB: {
     fontSize: 17,
     fontFamily: 'Pretendard-SemiBold',
-    // fontWeight: Platform.OS !== 'ios' ? null : '600',
     lineHeight: 27,
   },
   h3SB: {

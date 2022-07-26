@@ -111,7 +111,7 @@ export const RegisterStoreImages: FC<RegisterStoreImagesProps> = ({onChange, val
           onPress={openImagePicker}
           disabled={storeImages.length > 9}
         >
-          <Icon name="plus" size={24} />
+          <Icon name="plus" color="#111111" size={24} />
         </TouchableOpacity>
         <ScrollView horizontal>
           {storeImages.map((data, index) => {
