@@ -46,12 +46,12 @@ export const StoreMissionCard: FC<StoreMissionCardProps> = ({category, mission, 
               <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>{point}P 적립</Text>
             </Text>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[styles.openBtnWrap]}
             onPress={missionGroupStatus === 'ACTIVE' ? closeMission :  reopenMission}
           >
             <Text style={[DesignSystem.h3SB, DesignSystem.grey8]}>{missionGroupStatus === 'ACTIVE' ? '배포 중지 요청' : '재배포 요청' }</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </TouchableOpacity>
     </View>

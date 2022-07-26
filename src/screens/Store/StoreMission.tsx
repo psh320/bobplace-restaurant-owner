@@ -45,6 +45,7 @@ const StoreMission = ({navigation, route}: Props) => {
         </View>
         {DataMissionManage.data?.length !== 0 ? (
           <FlatList
+            contentContainerStyle={{height: 500, marginTop: 16}}
             scrollEventThrottle={10}
             data={DataMissionManage.data}
             renderItem={({item}) => (
@@ -60,20 +61,20 @@ const StoreMission = ({navigation, route}: Props) => {
               />
             )}
             ItemSeparatorComponent={() => <View style={[styles.missionSeperate]} />}
-            ListFooterComponent={() => (
-              <TouchableOpacity
-                onPress={() => {
-                  setMissionManageModal('STOPALL');
-                }}
-                style={[styles.missionStopButtonWrap]}
-              >
-                <View>
-                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>
-                    전체 배포 중지 요청
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            // ListFooterComponent={() => (
+            //   <TouchableOpacity
+            //     onPress={() => {
+            //       setMissionManageModal('STOPALL');
+            //     }}
+            //     style={[styles.missionStopButtonWrap]}
+            //   >
+            //     <View>
+            //       <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>
+            //         전체 배포 중지 요청
+            //       </Text>
+            //     </View>
+            //   </TouchableOpacity>
+            // )}
           />
         ) : (
           <Text>설정한 미션이 없는경우. 그럴수가 있나 ? ㅇㅁㅇ~</Text>
@@ -114,7 +115,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFC',
     borderBottomColor: '#EFEFEF',
     borderBottomWidth: 1,
-    marginBottom: 16,
   },
   missionSeperate: {
     marginTop: 10,
