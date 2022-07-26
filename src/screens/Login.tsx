@@ -167,7 +167,7 @@ const Login = ({navigation}: Props) => {
       <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
       <SafeAreaView style={styles.flex}>
         {/* 개발 단계시 홈과 가입으로 가는 버튼 */}
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity onPress={goMain}>
             <View style={{height: 30, width: 30, borderWidth: 1}}>
               <Text>홈</Text>
@@ -178,7 +178,7 @@ const Login = ({navigation}: Props) => {
               <Text>가입</Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={[styles.loginTitle]}>
           <Image
