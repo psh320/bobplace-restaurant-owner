@@ -201,6 +201,7 @@ const Mission = () => {
               <>
                 <View style={[styles.missionUserNumberWrap]}>
                   <Text style={[DesignSystem.body1Lt, DesignSystem.grey12]}>현재 </Text>
+                  {/* <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>_명</Text> */}
                   <Text style={[DesignSystem.title3SB, DesignSystem.purple5]}>
                     {DataMissionsProgress.data?.missionOnProgressCount}명
                   </Text>

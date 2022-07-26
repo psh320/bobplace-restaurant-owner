@@ -16,7 +16,7 @@ const RegisterForm = ({navigation, route}: Props) => {
   const [registerData, setRegisterData] = useState<RegisterInterface>(route.params.registerData);
   const [authError, setAuthError] = useState(true);
   const [authKey, setAuthKey] = useState('-1');
-
+  console.log('렛데타', registerData);
   //react-hook-form 사용
   const {
     control,
@@ -57,6 +57,10 @@ const RegisterForm = ({navigation, route}: Props) => {
   return (
     <SafeAreaView style={[styles.flex]}>
       <RegisterHeader goBack={goBack} pageNum={1} totalPage={1} />
+      {/* <KeyboardAvoidingView
+        style={[{flex: 1}]}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      > */}
       <KeyboardAwareScrollView
         style={[styles.flex, styles.formWrap]}
         showsVerticalScrollIndicator={false}

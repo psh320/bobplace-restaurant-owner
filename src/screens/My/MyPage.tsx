@@ -11,9 +11,18 @@ import {getUserInfo} from '../../api/user';
 import QuitModal from '../../modal/QuitModal';
 
 const MyPage = () => {
+  AsyncStorage.getItem('storeId').then((res) => console.log('get Async storeId', res));
   const navigation = useNavigation();
   const [quitModal, setQuitModal] = useState(false);
 
+  // const storeData = async (value: string) => {
+  //   try {
+  //     await AsyncStorage.setItem('userToken', value);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  //   navigation.navigate('AuthNavigator');
+  // };
   const logout = async () => {
     await AsyncStorage.multiSet([
       ['accessToken', ''],
@@ -23,7 +32,7 @@ const MyPage = () => {
   };
   console.log(AsyncStorage.getItem('userToken'));
   const {data, isError, refetch, isLoading} = useQuery<IgetUsersMe>(queryKey.USERINFO, getUserInfo);
-  // console.log('유저정보', data); // {"authentication": false, "email": "yejin9487@daum.net", "name": "23", "point": 0, "userId": 730}
+  // console.log('유저정보', data);// {"authentication": false, "email": "yejin9487@daum.net", "name": "23", "point": 0, "userId": 307}
 
   return (
     <>

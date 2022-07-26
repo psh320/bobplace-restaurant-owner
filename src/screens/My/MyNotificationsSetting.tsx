@@ -16,15 +16,18 @@ export const MyNotificationsSetting = ({navigation}: Props) => {
   const [onRequestSuccess, setOnRequestSuccess] = useState(false);
   const [onNewReview, setOnNewReview] = useState(false);
   const [onReplyInquiry, setOnReplyInquiry] = useState(false);
+  // const [onNewEvent, setOnNewEvent] = useState(false); //새로운 이벤트
 
   const DataNotifications = useQuery(queryKey.NOTIFICATIONS_SETTING, getNotiSettting);
-
+  // console.log('NOTI SEtting', DataNotifications.data);
+  // console.log(onRequestSuccess, onNewReview, onReplyInquiry);
   useEffect(() => {
     if (DataNotifications.data !== undefined) {
       setOnRequestSuccess(DataNotifications.data.mission); //성공요청 키값뭐냐
       setOnNewReview(DataNotifications.data.review);
       setOnReplyInquiry(DataNotifications.data.question); //문의내역답변
     }
+    console.log(onRequestSuccess, onNewReview, onReplyInquiry);
   }, [DataNotifications.data]);
   const queryClient = useQueryClient();
 

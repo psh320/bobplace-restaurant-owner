@@ -98,8 +98,8 @@ export const Notifications = ({navigation, route}: Props) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 60, marginTop: 12}}
             scrollEventThrottle={10}
-            data={DataNoti.data}
-            // data={dummy}
+            // data={DataNoti.data}
+            data={dummy}
             renderItem={({item}) => (
               <NotificationCard
                 checked={item.checked}
