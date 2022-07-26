@@ -157,7 +157,7 @@ const Mission = () => {
         DataMissionsSuccess.refetch();
         console.log('미션 messaging 업데이트!');
       }
-      if (remoteMessage.data.title === 'missionChallenge') {
+      if (remoteMessage.data.title === 'ownerMissionChallenge') {
         DataMissionsProgress.refetch();
         console.log('미션 messaging 업데이트!');
       }
