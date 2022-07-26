@@ -1,6 +1,7 @@
 export type IMissionDtoType = {
   mission: string;
   missionId: number;
+  phone: string;
   point: number;
   startDate: string;
   userId: number;

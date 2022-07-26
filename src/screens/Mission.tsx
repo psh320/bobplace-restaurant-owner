@@ -226,6 +226,7 @@ const Mission = () => {
                       <MissionUserCard
                         mission={item.mission}
                         missionId={item.missionId}
+                        phone={item.phone}
                         point={item.point}
                         startDate={item.startDate}
                         userId={item.userId}
