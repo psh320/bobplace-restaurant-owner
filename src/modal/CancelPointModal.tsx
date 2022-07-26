@@ -1,23 +1,41 @@
 import React, {useState} from 'react';
 import type {FC} from 'react';
-import {Modal, StyleSheet, TouchableOpacity, View, Text, Image, TouchableWithoutFeedback} from 'react-native';
+import {
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {DesignSystem} from '../assets/DesignSystem';
 import {postCancelPoint} from '../api/mission';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StoreStackParamList} from '../nav/StoreNavigator';
 
 type OperationTimeModalProps = {
   visible: boolean;
   closeCancelPointModal: () => void;
   missionId: number;
   reason: string;
+  navigation: StackNavigationProp<StoreStackParamList, 'StoreMissionPayment', undefined>;
 };
 
-export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCancelPointModal, missionId, reason}) => {
+export const CancelPointModal: FC<OperationTimeModalProps> = ({
+  visible,
+  closeCancelPointModal,
+  missionId,
+  reason,
+  navigation,
+}) => {
   const [selectYes, setSelectYes] = useState(false);
 
   const handleSubmit = () => {
+    closeCancelPointModal;
+    navigation.goBack();
     //post로 서버에 내용 보내기
     // postCancelPoint(missionId, reason); //이거 지금 이슈------------
-    closeCancelPointModal();
   };
   return (
     <Modal
@@ -36,8 +54,12 @@ export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCan
                   <Text style={[DesignSystem.title1SB, DesignSystem.grey17, {marginBottom: 14}]}>
                     결제 취소가 요청 되었습니다.
                   </Text>
-                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>해당 요청의 사실 확인을 위해</Text>
-                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>연락이 갈 수 있습니다.</Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
+                    해당 요청의 사실 확인을 위해
+                  </Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>
+                    연락이 갈 수 있습니다.
+                  </Text>
                 </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity onPress={handleSubmit} style={styles.buttonOk}>
@@ -52,7 +74,9 @@ export const CancelPointModal: FC<OperationTimeModalProps> = ({visible, closeCan
                     source={require('../assets/images/warning.png')}
                     style={{width: 50, height: 50}}
                   />
-                  <Text style={[DesignSystem.title3SB, DesignSystem.grey17]}>포인트 적립을 정말 취소하시겠습니까?</Text>
+                  <Text style={[DesignSystem.title3SB, DesignSystem.grey17]}>
+                    포인트 적립을 정말 취소하시겠습니까?
+                  </Text>
                 </View>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity onPress={closeCancelPointModal}>

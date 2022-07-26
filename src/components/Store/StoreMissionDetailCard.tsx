@@ -1,9 +1,6 @@
 import React from 'react';
 import type {FC} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Colors} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {DesignSystem} from '../../assets/DesignSystem';
@@ -37,14 +34,13 @@ export const StoreMissionDetailCard: FC<StoreMissionDetailCardProps> = ({
     SATURDAY: '토',
     SUNDAY: '일',
   };
-  console.log('sdfasf', successDate);
   return (
     <View style={[styles.missionCard]}>
       <View style={[styles.cancelWrap]}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('StoreMissionPayment', {
-              // dayOfWeek: dayOfWeek,
+              dayOfWeek: dayOfWeek,
               missionId: missionId,
               name: name,
               successDate: successDate,
