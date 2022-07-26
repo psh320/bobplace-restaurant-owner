@@ -1,6 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {View, StyleSheet, Text, Image, SafeAreaView, Animated} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Image, SafeAreaView, Animated} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {RCstoreId} from '../state';
 import {getStoreId} from '../api/store';
@@ -8,13 +7,13 @@ import {getStoreId} from '../api/store';
 const moveUp = (progressValue: Animated.Value) => {
   Animated.timing(progressValue, {
     toValue: 60, //
-    duration: 400, //
+    duration: 300, //
     useNativeDriver: false,
   }).start();
 };
 
 const Splash = () => {
-  const [progressValue] = useState(new Animated.Value(30));
+  const [progressValue] = useState(new Animated.Value(50));
 
   setTimeout(() => {
     moveUp(progressValue);
@@ -32,13 +31,8 @@ const Splash = () => {
 
   return (
     <SafeAreaView style={[styles.flex]}>
-      {/* <View style={[styles.textWrap]}>
-        <Text style={[styles.splashTitle]}>BOB</Text>
-        <Text style={[styles.splashTitle]}>PLACE.</Text>
-      </View> */}
-
       <View style={[styles.imageWrap]}>
-        <Image source={require('../assets/images/bobpool.png')} style={[styles.logoImage]} />
+        <Image source={require('../assets/images/splashAll.png')} style={[styles.logoImage]} />
         <Animated.View style={[styles.postionAbs, {bottom: progressValue}]}>
           <Image source={require('../assets/images/bobpoolFace.png')} style={[styles.logoFace]} />
         </Animated.View>
@@ -48,7 +42,7 @@ const Splash = () => {
 };
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#615DFF', alignItems: 'center'},
+  flex: {flex: 1, backgroundColor: '#2A2A2A', alignItems: 'center'},
   splashTitle: {
     fontFamily: 'Poppins-Bold',
     fontSize: 34,
@@ -57,10 +51,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   logoImage: {
-    width: 134,
-    height: 88,
+    width: 230,
+    height: 151,
   },
   logoFace: {
+    right: 4,
     width: 24,
     height: 10,
   },
@@ -73,6 +68,7 @@ const styles = StyleSheet.create({
   imageWrap: {
     marginTop: 300,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

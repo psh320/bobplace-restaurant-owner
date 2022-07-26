@@ -42,121 +42,124 @@ const Register = ({navigation}: Props) => {
   };
 
   return (
-    <SafeAreaView style={[styles.flex]}>
-      <RegisterHeader goBack={goBack} pageNum={0} />
-      <View style={[styles.flex, styles.CheckBoxWrap]}>
-        <View style={[styles.RegisterHeadWrap]}>
-          <Text style={[DesignSystem.h1SB, DesignSystem.grey17]}>서비스 이용 동의</Text>
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex]}>
+        <RegisterHeader goBack={goBack} pageNum={0} />
+        <View style={[styles.flex, styles.CheckBoxWrap]}>
+          <View style={[styles.RegisterHeadWrap]}>
+            <Text style={[DesignSystem.h1SB, DesignSystem.grey17]}>서비스 이용 동의</Text>
+          </View>
+          <View>
+            <CheckBox
+              onPress={() => {
+                setCheckAll(!checkAll);
+                setCheck14(!checkAll);
+                setCheckService(!checkAll);
+                setCheckPrivacy(!checkAll);
+                setCheckLocation(!checkAll);
+                setCheckMarketing(!checkAll);
+                setRegisterData({
+                  ...registerData,
+                  overAge14: !checkAll,
+                  termsOfService: !checkAll,
+                  privacyPolicy: !checkAll,
+                  locationInfo: !checkAll,
+                  marketing: !checkAll,
+                });
+              }}
+              title="약관 전체 동의"
+              isChecked={checkAll}
+              isCheckAll={true}
+            />
+          </View>
+          <View style={styles.seperateLine} />
+          <View style={styles.CheckBoxRow}>
+            <CheckBox
+              onPress={() => {
+                setCheck14(!check14);
+                setRegisterData({...registerData, overAge14: !check14});
+              }}
+              title="만 14세 이상입니다"
+              isChecked={check14}
+            />
+          </View>
+          <View style={styles.CheckBoxRow}>
+            <CheckBox
+              onPress={() => {
+                setCheckService(!checkService);
+                setRegisterData({...registerData, termsOfService: !checkService});
+              }}
+              title="(필수) 서비스 이용약관"
+              isChecked={checkService}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('RegisterContract', {type: 0});
+              }}
+            >
+              <Icon name="chevron-right" size={18} color="#111111" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.CheckBoxRow}>
+            <CheckBox
+              onPress={() => {
+                setCheckPrivacy(!checkPrivacy);
+                setRegisterData({...registerData, privacyPolicy: !checkPrivacy});
+              }}
+              title="(필수) 개인정보 수집/이용 동의"
+              isChecked={checkPrivacy}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('RegisterContract', {type: 1});
+              }}
+            >
+              <Icon name="chevron-right" size={18} color="#111111" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.CheckBoxRow}>
+            <CheckBox
+              onPress={() => {
+                setCheckLocation(!checkLocation);
+                setRegisterData({...registerData, locationInfo: !checkLocation});
+              }}
+              title="(선택) 위치정보 제공"
+              isChecked={checkLocation}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('RegisterContract', {type: 2});
+              }}
+            >
+              <Icon name="chevron-right" size={18} color="#111111" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.CheckBoxRow}>
+            <CheckBox
+              onPress={() => {
+                setCheckMarketing(!checkMarketing);
+                setRegisterData({...registerData, marketing: !checkMarketing});
+              }}
+              title="(선택) 마케팅 수신 동의"
+              isChecked={checkMarketing}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('RegisterContract', {type: 3});
+              }}
+            >
+              <Icon name="chevron-right" size={18} color="#111111" />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View>
-          <CheckBox
-            onPress={() => {
-              setCheckAll(!checkAll);
-              setCheck14(!checkAll);
-              setCheckService(!checkAll);
-              setCheckPrivacy(!checkAll);
-              setCheckLocation(!checkAll);
-              setCheckMarketing(!checkAll);
-              setRegisterData({
-                ...registerData,
-                overAge14: !checkAll,
-                termsOfService: !checkAll,
-                privacyPolicy: !checkAll,
-                locationInfo: !checkAll,
-                marketing: !checkAll,
-              });
-            }}
-            title="약관 전체 동의"
-            isChecked={checkAll}
-            isCheckAll={true}
-          />
-        </View>
-        <View style={styles.seperateLine} />
-        <View style={styles.CheckBoxRow}>
-          <CheckBox
-            onPress={() => {
-              setCheck14(!check14);
-              setRegisterData({...registerData, overAge14: !check14});
-            }}
-            title="만 14세 이상입니다"
-            isChecked={check14}
-          />
-        </View>
-        <View style={styles.CheckBoxRow}>
-          <CheckBox
-            onPress={() => {
-              setCheckService(!checkService);
-              setRegisterData({...registerData, termsOfService: !checkService});
-            }}
-            title="(필수) 서비스 이용약관"
-            isChecked={checkService}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('RegisterContract', {type: 0});
-            }}
-          >
-            <Icon name="chevron-right" size={18} color="#111111" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.CheckBoxRow}>
-          <CheckBox
-            onPress={() => {
-              setCheckPrivacy(!checkPrivacy);
-              setRegisterData({...registerData, privacyPolicy: !checkPrivacy});
-            }}
-            title="(필수) 개인정보 수집/이용 동의"
-            isChecked={checkPrivacy}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('RegisterContract', {type: 1});
-            }}
-          >
-            <Icon name="chevron-right" size={18} color="#111111" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.CheckBoxRow}>
-          <CheckBox
-            onPress={() => {
-              setCheckLocation(!checkLocation);
-              setRegisterData({...registerData, locationInfo: !checkLocation});
-            }}
-            title="(선택) 위치정보 제공"
-            isChecked={checkLocation}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('RegisterContract', {type: 2});
-            }}
-          >
-            <Icon name="chevron-right" size={18} color="#111111" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.CheckBoxRow}>
-          <CheckBox
-            onPress={() => {
-              setCheckMarketing(!checkMarketing);
-              setRegisterData({...registerData, marketing: !checkMarketing});
-            }}
-            title="(선택) 마케팅 수신 동의"
-            isChecked={checkMarketing}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('RegisterContract', {type: 3});
-            }}
-          >
-            <Icon name="chevron-right" size={18} color="#111111" />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <RegisterNextButton
-        goNext={goNext}
-        disabled={buttonDisabled}
-        buttonState={buttonDisabled ? 0 : 1}
-      />
-    </SafeAreaView>
+        <RegisterNextButton
+          goNext={goNext}
+          disabled={buttonDisabled}
+          buttonState={buttonDisabled ? 0 : 1}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 

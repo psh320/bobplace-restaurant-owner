@@ -20,40 +20,43 @@ export const MyInquiry = ({navigation}: Props) => {
   };
   const [nowWrite, setNowWrite] = useRecoilState(RCnowWrite);
   return (
-    <SafeAreaView style={[styles.flex, {backgroundColor: '#FFFFFF'}]}>
-      <MyHeader goBack={goBack} title={'1:1 문의'} />
-      <View style={[styles.menuView]}>
-        <TouchableOpacity
-          style={[styles.inquiryMenu, nowWrite && styles.now]}
-          onPress={() => setNowWrite(true)}
-        >
-          <Text
-            style={
-              nowWrite
-                ? [DesignSystem.title4Md, DesignSystem.grey17]
-                : [DesignSystem.body1Lt, DesignSystem.grey8]
-            }
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex, {backgroundColor: '#FFFFFF'}]}>
+        <MyHeader goBack={goBack} title={'1:1 문의'} />
+        <View style={[styles.menuView]}>
+          <TouchableOpacity
+            style={[styles.inquiryMenu, nowWrite && styles.now]}
+            onPress={() => setNowWrite(true)}
           >
-            문의하기
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.inquiryMenu, !nowWrite && styles.now]}
-          onPress={() => setNowWrite(false)}
-        >
-          <Text
-            style={
-              !nowWrite
-                ? [DesignSystem.title4Md, DesignSystem.grey17]
-                : [DesignSystem.body1Lt, DesignSystem.grey8]
-            }
+            <Text
+              style={
+                nowWrite
+                  ? [DesignSystem.title4Md, DesignSystem.grey17]
+                  : [DesignSystem.body1Lt, DesignSystem.grey8]
+              }
+            >
+              문의하기
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.inquiryMenu, !nowWrite && styles.now]}
+            onPress={() => setNowWrite(false)}
           >
-            나의 문의 내역
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {nowWrite ? <MyWriteInquiry /> : <MyInquiryList />}
-    </SafeAreaView>
+            <Text
+              style={
+                !nowWrite
+                  ? [DesignSystem.title4Md, DesignSystem.grey17]
+                  : [DesignSystem.body1Lt, DesignSystem.grey8]
+              }
+            >
+              나의 문의 내역
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {nowWrite ? <MyWriteInquiry /> : <MyInquiryList />}
+      </SafeAreaView>
+    </>
   );
 };
 

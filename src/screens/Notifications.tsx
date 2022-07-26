@@ -83,7 +83,7 @@ export const Notifications = ({navigation, route}: Props) => {
       console.log('ERR', err);
     },
   });
-  console.log('DataNoti', DataNoti); //스웨거에서result인 배열
+  // console.log('DataNoti', DataNoti); //스웨거에서result인 배열
   const goBack = () => {
     navigation.goBack();
   };

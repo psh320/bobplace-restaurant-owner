@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -56,13 +57,15 @@ const StoreReview = ({navigation, route}: Props) => {
   const reviewInfo = useQuery(queryKey.STOREID, () => getStoreData(storeId)); //평점, 리뷰수는 여기 api에서 얻음..
   // console.log('평점, 리뷰수 용 reviewInfo.data', reviewInfo.data);
   const refreshStoreReview = () => {
+    console.log('review refetch');
     reviewList.refetch();
     reviewInfo.refetch();
   };
+  refreshStoreReview;
   return (
     <>
-      <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
-      <View style={[styles.flex]}>
+      <SafeAreaView style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
         </View>
@@ -144,7 +147,7 @@ const StoreReview = ({navigation, route}: Props) => {
             closePhotoModal={() => setPhotoModal(false)}
           />
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };

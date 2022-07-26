@@ -55,98 +55,101 @@ const RegisterForm = ({navigation, route}: Props) => {
   };
 
   return (
-    <SafeAreaView style={[styles.flex]}>
-      <RegisterHeader goBack={goBack} pageNum={1} totalPage={1} />
-      <KeyboardAwareScrollView
-        style={[styles.flex, styles.formWrap]}
-        showsVerticalScrollIndicator={false}
-        enableOnAndroid={true}
-        enableAutomaticScroll={Platform.OS === 'ios'}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Text style={[styles.RegisterFormTitle]}>가입자 정보</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => {
-            return (
-              <RegisterName
-                setRegisterData={setRegisterData}
-                registerData={registerData}
-                onChange={onChange}
-                value={value}
-                error={errors.name !== undefined}
-              />
-            );
-          }}
-          name="name"
-        />
-        {errors.name?.type === 'required' && (
-          <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-        )}
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => {
-            return (
-              <RegisterGender
-                setRegisterData={setRegisterData}
-                registerData={registerData}
-                onChange={onChange}
-                value={value}
-                error={errors.gender !== undefined}
-              />
-            );
-          }}
-          name="gender"
-        />
-        {errors.gender?.type === 'required' && (
-          <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-        )}
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex]}>
+        <RegisterHeader goBack={goBack} pageNum={1} totalPage={1} />
+        <KeyboardAwareScrollView
+          style={[styles.flex, styles.formWrap]}
+          showsVerticalScrollIndicator={false}
+          enableOnAndroid={true}
+          enableAutomaticScroll={Platform.OS === 'ios'}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Text style={[styles.RegisterFormTitle]}>가입자 정보</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, value}}) => {
+              return (
+                <RegisterName
+                  setRegisterData={setRegisterData}
+                  registerData={registerData}
+                  onChange={onChange}
+                  value={value}
+                  error={errors.name !== undefined}
+                />
+              );
+            }}
+            name="name"
+          />
+          {errors.name?.type === 'required' && (
+            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, value}}) => {
+              return (
+                <RegisterGender
+                  setRegisterData={setRegisterData}
+                  registerData={registerData}
+                  onChange={onChange}
+                  value={value}
+                  error={errors.gender !== undefined}
+                />
+              );
+            }}
+            name="gender"
+          />
+          {errors.gender?.type === 'required' && (
+            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+          )}
 
-        {/* 휴대폰 인증  - 차라리 널로해야 userInfo받을수있대*/}
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-            // validate: {
-            //   authValid: (value) => {
-            //     return !authError;
-            //   },
-            // },
-          }}
-          render={({field: {onChange, value}}) => {
-            return (
-              <RegisterPhone
-                setRegisterData={setRegisterData}
-                registerData={registerData}
-                onChange={onChange}
-                value={value}
-                authError={authError}
-                setAuthError={setAuthError}
-                authKey={authKey}
-                setAuthKey={setAuthKey}
-                isError={errors.phone !== undefined}
-              />
-            );
-          }}
-          name="phone"
-        />
-        {authError && authKey !== '-1' && (
-          <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>
-        )}
-        {registerData.phone.length !== 0 &&
-          registerData.phone.length < 12 &&
-          authKey === '-1' &&
-          authError && <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>}
-        {!authError && <Text style={[styles.clearMessage]}>인증이 완료되었습니다.</Text>}
-      </KeyboardAwareScrollView>
-      <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
-    </SafeAreaView>
+          {/* 휴대폰 인증  - 차라리 널로해야 userInfo받을수있대*/}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+              // validate: {
+              //   authValid: (value) => {
+              //     return !authError;
+              //   },
+              // },
+            }}
+            render={({field: {onChange, value}}) => {
+              return (
+                <RegisterPhone
+                  setRegisterData={setRegisterData}
+                  registerData={registerData}
+                  onChange={onChange}
+                  value={value}
+                  authError={authError}
+                  setAuthError={setAuthError}
+                  authKey={authKey}
+                  setAuthKey={setAuthKey}
+                  isError={errors.phone !== undefined}
+                />
+              );
+            }}
+            name="phone"
+          />
+          {authError && authKey !== '-1' && (
+            <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>
+          )}
+          {registerData.phone.length !== 0 &&
+            registerData.phone.length < 12 &&
+            authKey === '-1' &&
+            authError && <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>}
+          {!authError && <Text style={[styles.clearMessage]}>인증이 완료되었습니다.</Text>}
+        </KeyboardAwareScrollView>
+        <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
+      </SafeAreaView>
+    </>
   );
 };
 

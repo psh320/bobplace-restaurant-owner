@@ -10,7 +10,8 @@ import {createRegister, createStore} from '../data';
 import {AuthStackParamList} from '../nav';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {customAxios} from '../api';
-
+import {calWidth} from '../assets/CalculateLength';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const Login = ({navigation}: Props) => {
@@ -162,62 +163,78 @@ const Login = ({navigation}: Props) => {
   const goMain = useCallback(() => navigation.navigate('MainNavigator'), []);
   const goRegister = useCallback(() => navigation.navigate('Register'), []);
   return (
-    <SafeAreaView style={styles.flex}>
-      {/* 개발 단계시 홈과 가입으로 가는 버튼 */}
-      {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <TouchableOpacity onPress={goMain}>
-          <View style={{height: 30, width: 30, borderWidth: 1}}>
-            <Text>홈</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={goRegister}>
-          <View style={{height: 30, width: 30, borderWidth: 1}}>
-            <Text>가입</Text>
-          </View>
-        </TouchableOpacity>
-      </View> */}
+    <>
+      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
+      <SafeAreaView style={styles.flex}>
+        {/* 개발 단계시 홈과 가입으로 가는 버튼 */}
+        {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TouchableOpacity onPress={goMain}>
+            <View style={{height: 30, width: 30, borderWidth: 1}}>
+              <Text>홈</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={goRegister}>
+            <View style={{height: 30, width: 30, borderWidth: 1}}>
+              <Text>가입</Text>
+            </View>
+          </TouchableOpacity>
+        </View> */}
 
-      <View style={[styles.loginTitle]}>
-        <Text style={[styles.loginHeadText]}>BOB PLACE</Text>
-        <Text style={[styles.loginSubHeadText]}> 맛있는 한끼하고 포인트를 모으자!</Text>
-      </View>
-      <View style={[styles.logoWrap]}>
-        <Image source={require('../assets/images/LoginLogo.png')} style={[styles.logoImage]} />
-      </View>
-      <SocialWebviewModal
-        visible={loginModal}
-        source={source}
-        closeSocialModal={() => setLoginModal(false)}
-      />
-      <View style={[styles.loginButtonWrap]}>
-        <TouchableOpacity onPress={() => signUpWithSNS('kakao')}>
-          <Image style={[styles.iconButton]} source={require('../assets/images/kakaoButton.png')} />
-        </TouchableOpacity>
-        {/* <TouchableOpacity onPress={() => signUpWithSNS('naver')}>
-          <Image style={[styles.iconButton]} source={require('../assets/images/naverButton.png')} />
-        </TouchableOpacity> */}
-        {Platform.OS === 'ios' && (
-          <TouchableOpacity onPress={() => onAppleButtonPress()}>
+        <View style={[styles.loginTitle]}>
+          <Image
+            source={require('../assets/images/ownerAll.png')}
+            style={styles.titleImage}
+            resizeMode="contain"
+          />
+        </View>
+        {/* <View style={[styles.logoWrap]}>
+          <Image
+            source={require('../assets/images/bobpool/ownerBob.png')}
+            style={[styles.logoImage]}
+          />
+        </View> */}
+        <SocialWebviewModal
+          visible={loginModal}
+          source={source}
+          closeSocialModal={() => setLoginModal(false)}
+        />
+        <View style={[styles.loginButtonWrap]}>
+          <TouchableOpacity onPress={() => signUpWithSNS('kakao')}>
             <Image
               style={[styles.iconButton]}
-              source={require('../assets/images/AppleLogin.png')}
+              source={require('../assets/images/kakaoButton.png')}
             />
           </TouchableOpacity>
-        )}
-        <TouchableOpacity onPress={() => onGoogleButtonPress()}>
-          <Image style={[styles.iconButton]} source={require('../assets/images/GoogleLogin.png')} />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          {/* <TouchableOpacity onPress={() => signUpWithSNS('naver')}>
+          <Image style={[styles.iconButton]} source={require('../assets/images/naverButton.png')} />
+        </TouchableOpacity> */}
+          {Platform.OS === 'ios' && (
+            <TouchableOpacity onPress={() => onAppleButtonPress()}>
+              <Image
+                style={[styles.iconButton]}
+                source={require('../assets/images/AppleLogin.png')}
+              />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity onPress={() => onGoogleButtonPress()}>
+            <Image
+              style={[styles.iconButton]}
+              source={require('../assets/images/GoogleLogin.png')}
+            />
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: '#FFFFFF'},
+  flex: {flex: 1, backgroundColor: '#F8F8F8'},
   loginTitle: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 23, //디버깅용 메뉴 사라지면 53
+    // marginTop: 80, //디버깅용 메뉴 사라지면 53
   },
   loginHeadText: {
     fontFamily: 'Poppins-Bold',
@@ -229,6 +246,10 @@ const styles = StyleSheet.create({
     color: '#616161',
     fontSize: 23,
   },
+  titleImage: {
+    width: wp(calWidth(344)),
+    height: 329,
+  },
   logoWrap: {
     flex: 1,
     justifyContent: 'center',
@@ -236,7 +257,7 @@ const styles = StyleSheet.create({
   },
   logoImage: {
     width: 230,
-    height: 150,
+    height: 226,
   },
   loginButtonWrap: {
     marginBottom: 30,
