@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
   },
   ImageSelectContainer: {
     width: '100%',
-    marginTop: 24,
   },
   removeImageX: {
     backgroundColor: '#2A2A2A',

@@ -84,7 +84,7 @@ export const RegisterMenuImages: FC<RegisterMenuImagesProps> = ({onChange, value
 
   return (
     <View style={[styles.ImageSelectContainer]}>
-      <View style={[styles.flexRow, {alignItems: 'baseline'}]}>
+      <View style={[styles.flexRow, {alignItems: 'baseline', marginBottom: 8}]}>
         <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>대표메뉴 사진 등록</Text>
         <Text style={[DesignSystem.body2Lt, DesignSystem.grey9]}> {menuImages.length}/3</Text>
       </View>

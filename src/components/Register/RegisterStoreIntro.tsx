@@ -18,7 +18,7 @@ export const RegisterStoreIntro: FC<RegisterStoreIntroProps> = ({onChange, value
   return (
     <View style={[styles.addressWrap]}>
       <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-        <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>가게 한줄 소개</Text>
+        <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>가게 한줄 소개</Text>
       </View>
       <TextInput
         style={[

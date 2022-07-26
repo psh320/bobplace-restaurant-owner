@@ -17,7 +17,7 @@ export const RegisterMenuName: FC<RegisterMenuNameProps> = ({onChange, value, er
   const [RCstoreData, setRCstoreData] = useRecoilState(storeData);
 
   return (
-    <View style={[styles.nameWrap]}>
+    <View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>대표메뉴</Text>
         <Text style={{color: '#6C69FF'}}> * </Text>
@@ -51,9 +51,6 @@ export const RegisterMenuName: FC<RegisterMenuNameProps> = ({onChange, value, er
 };
 
 const styles = StyleSheet.create({
-  nameWrap: {
-    marginTop: 24,
-  },
   nameInput: {
     width: '100%',
     borderRadius: 10,

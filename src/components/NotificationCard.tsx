@@ -122,7 +122,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
           <View style={!checked ? [styles.dot] : [styles.noDot]} />
           <View style={[styles.notiView]}>
             <Text style={[DesignSystem.title4Md, {color: 'black', marginBottom: 4}]}>{title}</Text>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}></Text>{subTitle}1:1문의 답옴.</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey10, {marginBottom: 8}]}><Text style={[DesignSystem.purple5]}></Text>{subTitle}</Text>
             <Text style={[DesignSystem.caption1Lt, {color: '#7D7D7D'}]}>
               {date.slice(0, 4)}.{date.slice(5, 7)}.{date.slice(8, 10)} {date.slice(11,16)}
             </Text>

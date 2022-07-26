@@ -12,6 +12,7 @@ import {Image} from 'react-native';
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
   return {
     headerShown: false,
+    tabBarHideOnKeyboard: true,
     tabBarShowLabel: true,
     tabBarActiveTintColor: 'black',
     tabBarInactiveTintColor: 'gray',

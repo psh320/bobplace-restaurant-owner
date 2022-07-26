@@ -19,7 +19,7 @@ export const RegisterStoreName: FC<RegisterStoreNameProps> = ({onChange, value, 
   return (
     <View style={[styles.addressWrap]}>
       <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-        <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>상호명</Text>
+        <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>상호명</Text>
         <View style={{flexDirection: 'row'}}>
           <Text style={{color: '#6C69FF'}}> * </Text>
         </View>

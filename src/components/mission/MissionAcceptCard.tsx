@@ -89,7 +89,6 @@ export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mis
           <View style={[styles.nameBox]}>
             <Text style={[DesignSystem.body2Lt, {color: '#E03D32'}]}>성공요청 • {timeForToday(nowDate, new Date(date))}</Text>
             <Text style={[DesignSystem.title3SB, DesignSystem.grey14]}>{userName}</Text>
-            <Text style={[DesignSystem.body2Lt, {color: '#616161'}]}>{userId}</Text>
           </View>
           <View style={[styles.missionBox]}>
             <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     width: '100%',
     borderBottomColor: '#DFDFDF',
     paddingBottom: 10,
