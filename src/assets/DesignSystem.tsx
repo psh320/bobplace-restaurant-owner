@@ -1,10 +1,9 @@
 import {StyleSheet} from 'react-native';
-// import {DesignSystem} from '../../assets/DesignSystem';
 
 export const DesignSystem = StyleSheet.create({
   centerArrange: {
-    alignItems: 'center', //가로축정렬
-    justifyContent: 'center', //세로축정렬
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   h1SB: {
     fontSize: 24,

@@ -106,7 +106,7 @@ export const RegisterTime = () => {
 
   return (
     <View style={[styles.TimeWrap]}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 18}}>
         <Text style={[DesignSystem.h2SB, DesignSystem.grey17]}>운영시간</Text>
         <Text style={{color: '#6C69FF'}}> * </Text>
       </View>

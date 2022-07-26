@@ -7,7 +7,7 @@ import {calHeight} from '../../assets/CalculateLength';
 import {IMissionDtoType} from '../../data/IMissions';
 
 //prettier-ignore
-export const MissionUserCard: FC<IMissionDtoType> = ({mission, missionId, point, startDate, userId, userName}) => {
+export const MissionUserCard: FC<IMissionDtoType> = ({mission, missionId, phone, point, startDate, userId, userName}) => {
     //const navigation = useNavigation();
     return (
     <View style={[styles.missionCardWrap]}>
@@ -16,7 +16,7 @@ export const MissionUserCard: FC<IMissionDtoType> = ({mission, missionId, point,
           <View style={[styles.nameBox]}>
               <Text style={[DesignSystem.body2Lt, {color: '#558FFF'}]}>{startDate.slice(11,16)} 미션시작</Text>
               <Text style={[DesignSystem.title3SB, {color: '#2A2A2A'}]}>{userName}</Text>
-              <Text style={[DesignSystem.body2Lt, {color: '#616161', marginBottom: 8}]}>{userId}</Text>
+              <Text style={[DesignSystem.body2Lt, {color: '#616161', marginBottom: 8}]}>{phone}</Text>
           </View>
           <View>
             <Text>

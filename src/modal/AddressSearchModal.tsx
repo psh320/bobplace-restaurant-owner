@@ -39,6 +39,7 @@ const AddressSearchModal: FC<AddressSearchModalProps> = ({
           jsOptions={{animation: false, hideMapBtn: true}}
           onSelected={async (data) => {
             const coordiate = await kakaoGeocoder(data.address);
+            console.log('CCCCOR', coordiate);
             if (coordiate !== undefined) {
               setRCstoreData({
                 ...RCstoreData,

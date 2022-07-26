@@ -66,7 +66,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({checked, date, id, 
       </TouchableOpacity>
       :
       // 미션도전했습니다
-      pushType === 'OWNER_PROGRESS' ?
+      pushType === 'OWNER_CHALLENGE' ?
       <TouchableOpacity
         style={[styles.notiCard, checked && {opacity: 0.5}]}
         onPress={() => {

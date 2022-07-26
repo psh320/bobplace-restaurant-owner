@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {useForm, Controller} from 'react-hook-form';
-import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {customAxios} from '../../api';
 import {RegisterHeader, RegisterNextButton, RegisterTime} from '../../components';
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
@@ -61,26 +61,27 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
       <SafeAreaView style={[styles.flex]}>
         <RegisterHeader goBack={() => goBack()} pageNum={2} totalPage={2} />
         <ScrollView style={[styles.flex, styles.formWrap]}>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, value}}) => {
-              return (
-                <RegisterStoreImages
-                  onChange={onChange}
-                  value={value}
-                  error={errors.storeImage !== undefined}
-                />
-              );
-            }}
-            name="storeImage"
-          />
-          {errors.storeImage?.type === 'required' && (
-            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-          )}
-
+          <View style={{marginBottom: 20}}>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreImages
+                    onChange={onChange}
+                    value={value}
+                    error={errors.storeImage !== undefined}
+                  />
+                );
+              }}
+              name="storeImage"
+            />
+            {errors.storeImage?.type === 'required' && (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            )}
+          </View>
           <Controller
             control={control}
             rules={{
