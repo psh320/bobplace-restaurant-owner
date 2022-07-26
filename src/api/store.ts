@@ -88,7 +88,7 @@ export const getMissionManageDetail = async (missionGroupId: number) => {
 
 // 미션 배포 중지
 export const patchMissionStop = async (missionGroupId: number) => {
-  // console.log(missionGroupId, '번번');
+  console.log(missionGroupId, '번번');
   const response = await customAxios().patch(
     `/api/v1/missions/owners/mission-stop/${missionGroupId}`,
   );

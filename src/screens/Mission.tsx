@@ -181,18 +181,16 @@ const Mission = () => {
       <SafeAreaView style={[styles.flex, {backgroundColor: '#F8F8F8'}]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>미션</Text>
-          {progressNow && (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Notifications', {newNotiCount: newNotiCount})}
-            >
-              {newNotiCount > 0 && (
-                <View style={styles.notificationBadge}>
-                  <Text style={styles.notificationCount}>{newNotiCount}</Text>
-                </View>
-              )}
-              <Icon name="bell-outline" size={24} color="#323232" />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Notifications', {newNotiCount: newNotiCount})}
+          >
+            {newNotiCount > 0 && (
+              <View style={styles.notificationBadge}>
+                <Text style={styles.notificationCount}>{newNotiCount}</Text>
+              </View>
+            )}
+            <Icon name="bell-outline" size={24} color="#323232" />
+          </TouchableOpacity>
         </View>
         <View style={{flex: 1}}>
           {/* 스위치 '진행중' 일때 */}
