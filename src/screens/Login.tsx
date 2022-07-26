@@ -193,9 +193,9 @@ const Login = ({navigation}: Props) => {
         <TouchableOpacity onPress={() => signUpWithSNS('kakao')}>
           <Image style={[styles.iconButton]} source={require('../assets/images/kakaoButton.png')} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => signUpWithSNS('naver')}>
+        {/* <TouchableOpacity onPress={() => signUpWithSNS('naver')}>
           <Image style={[styles.iconButton]} source={require('../assets/images/naverButton.png')} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {Platform.OS === 'ios' && (
           <TouchableOpacity onPress={() => onAppleButtonPress()}>
             <Image

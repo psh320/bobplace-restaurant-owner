@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import type {FC} from 'react';
-import {StyleSheet, Text, TouchableOpacity, Switch, View, Image} from 'react-native';
+import {Text, Switch, View} from 'react-native';
 import {DesignSystem} from '../../assets/DesignSystem';
 
 export type MyNotificationsSwitchProps = {
@@ -9,7 +9,11 @@ export type MyNotificationsSwitchProps = {
   onValueChange: () => void;
 };
 
-export const MyNotificationsSwitch: FC<MyNotificationsSwitchProps> = ({text, value, onValueChange}) => {
+export const MyNotificationsSwitch: FC<MyNotificationsSwitchProps> = ({
+  text,
+  value,
+  onValueChange,
+}) => {
   return (
     <View>
       <Text style={[DesignSystem.body1Lt, {marginLeft: 21.88, color: '#000000'}]}>{text}</Text>
@@ -23,13 +27,3 @@ export const MyNotificationsSwitch: FC<MyNotificationsSwitchProps> = ({text, val
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  eachAlarm: {
-    height: 68,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-});

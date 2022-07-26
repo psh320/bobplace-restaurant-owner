@@ -54,7 +54,7 @@ export const getQuestionDetail = async (questionId: number) => {
 //회원탈퇴
 export const patchQuit = async () => {
   console.log('탈퇴요청');
-  const response = await customAxios().patch('/api/v1/users/me/quit');
+  const response = await customAxios().patch('/api/v1/owners/me/quit');
   console.log('탈퇴토티퉤퇴텥티퉤퉤토티퉤', response.data);
   return response.data;
 };

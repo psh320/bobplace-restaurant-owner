@@ -16,13 +16,9 @@ const processTime = (time: string) => {
 
 export const StoreEditTime = () => {
   const [editTimeModal, setEditTimeModal] = useState(false);
-  // const [operationTime, setOperationTime] = useState<OperationTime[]>(registerData.operationTimeVO);
   const [dayIndex, setDayIndex] = useState<number>(0);
   const [RCOperationTime, setRCOperationTime] = useRecoilState(editOperationTime);
 
-  // useEffect(() => {
-  //   setOperationTime(registerData.operationTimeVO);
-  // }, [registerData]);
   const renderedTimeTable = () => {
     return (
       <>
