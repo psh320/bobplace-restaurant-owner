@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StoreInfo} from '../../components/Store/StoreInfo';
@@ -8,7 +8,7 @@ import {editOperationTime, storeData} from '../../state';
 import {useRecoilState} from 'recoil';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {queryKey} from '../../api/queryKey';
-import {getMenuImage, getOperationTime, getStoreImage, getStoreInfo} from '../../api/store';
+import {getOperationTime, getStoreInfo} from '../../api/store';
 import {useQuery} from 'react-query';
 
 const Store = () => {
@@ -32,7 +32,8 @@ const Store = () => {
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
-      <SafeAreaView style={[styles.flex, {paddingTop: insets.top}]}>
+      <SafeAreaView style={[styles.flex]}>
+        <StatusBar barStyle={'dark-content'} backgroundColor="white" />
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
           <TouchableOpacity onPress={() => navigation.navigate('StoreEdit')}>

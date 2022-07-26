@@ -46,7 +46,7 @@ export const StoreInfo = () => {
             <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>{store.addressStreet}</Text>
           </View>
           <View style={[styles.fieldBox]}>
-            <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>{store.addressDong}</Text>
+            <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>{store.addressDetail}</Text>
           </View>
         </View>
         <View style={[styles.infoFieldWrap]}>

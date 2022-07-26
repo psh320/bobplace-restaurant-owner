@@ -217,3 +217,8 @@ export const RCstoreId = atom({
   key: 'RCstoreId',
   default: 0,
 });
+
+export const RCtimeIndex = atom({
+  key: 'RCtimeIndex',
+  default: 0,
+});

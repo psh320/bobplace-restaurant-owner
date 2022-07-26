@@ -21,7 +21,6 @@ export const MyInquiry = ({navigation}: Props) => {
   const [nowWrite, setNowWrite] = useRecoilState(RCnowWrite);
   return (
     <>
-      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex, {backgroundColor: '#FFFFFF'}]}>
         <MyHeader goBack={goBack} title={'1:1 문의'} />
         <View style={[styles.menuView]}>

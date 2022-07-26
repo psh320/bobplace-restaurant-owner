@@ -5,7 +5,7 @@ import {CheckBoxRectangle} from '../common/CheckBoxRectangle';
 import {RegisterTimeModal} from '../../modal';
 import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
-import {editOperationTime} from '../../state';
+import {editOperationTime, RCtimeIndex} from '../../state';
 import {EditTimeModal} from '../../modal/EditTimeModal';
 
 const MapIndexToDay = ['월', '화', '수', '목', '금', '토', '일'];
@@ -16,8 +16,8 @@ const processTime = (time: string) => {
 
 export const StoreEditTime = () => {
   const [editTimeModal, setEditTimeModal] = useState(false);
-  const [dayIndex, setDayIndex] = useState<number>(0);
   const [RCOperationTime, setRCOperationTime] = useRecoilState(editOperationTime);
+  const [timeIndex, setTimeIndex] = useRecoilState(RCtimeIndex);
 
   const renderedTimeTable = () => {
     return (
@@ -46,7 +46,7 @@ export const StoreEditTime = () => {
                   <TouchableOpacity
                     style={{height: 50, justifyContent: 'center'}}
                     onPress={() => {
-                      setDayIndex(index);
+                      setTimeIndex(index);
                       setEditTimeModal(true);
                     }}
                   >
@@ -60,7 +60,13 @@ export const StoreEditTime = () => {
                 <View
                   style={{flex: 0.39, height: 30, alignItems: 'center', justifyContent: 'center'}}
                 >
-                  <TouchableOpacity style={{height: 50, justifyContent: 'center'}}>
+                  <TouchableOpacity
+                    style={{height: 50, justifyContent: 'center'}}
+                    onPress={() => {
+                      setTimeIndex(index);
+                      setEditTimeModal(true);
+                    }}
+                  >
                     <View>
                       <Text>
                         {processTime(item.breakStartTime)}~{processTime(item.breakEndTime)}
@@ -118,11 +124,7 @@ export const StoreEditTime = () => {
         </View>
       </View>
       {renderedTimeTable()}
-      <EditTimeModal
-        visible={editTimeModal}
-        closeEditTimeModal={() => setEditTimeModal(false)}
-        index={dayIndex}
-      />
+      <EditTimeModal visible={editTimeModal} closeEditTimeModal={() => setEditTimeModal(false)} />
     </View>
   );
 };

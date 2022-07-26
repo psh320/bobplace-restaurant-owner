@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -46,7 +45,6 @@ const StoreEdit = ({navigation}: Props) => {
   const storeImages = useQuery(queryKey.STOREIMAGES, getStoreImage);
   const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
   const [imageSwiperModal, setImageSwiperModal] = useState(false); //수정전 주석중
-  const insets = useSafeAreaInsets();
   const {
     control,
     handleSubmit,
@@ -76,163 +74,76 @@ const StoreEdit = ({navigation}: Props) => {
   return (
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
-      <View style={[styles.flex, {paddingTop: insets.top}]}>
-        <View style={[styles.screenHeaderWrap]}>
-          <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
-          <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-            <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>저장</Text>
-          </TouchableOpacity>
-        </View>
-        <StoreMenuBar
-          toggleStore={() => navigation.navigate('Store')}
-          toggleMission={() => navigation.navigate('StoreMission')}
-          toggleReview={() => navigation.navigate('StoreReview')}
-          storeStatus={0}
-        />
-        <KeyboardAvoidingView
-          style={[{flex: 1}]}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <ScrollView style={{backgroundColor: '#FFFFFF'}}>
-            <View>
-              <ImageSwiperModal
-                visible={imageSwiperModal}
-                closeImageSwiperModal={() => setImageSwiperModal(false)}
-              />
-              <ImageSwiper height={220} imageList={storeImages.data} />
-              <TouchableOpacity
-                style={[styles.editImageSwiperButton]}
-                onPress={() => setImageSwiperModal(true)}
-              >
-                <View style={[styles.editImageSwiperIcon]}>
-                  <Icon name="pencil" size={18} color="#323232" />
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={[styles.storeInfoWrap]}>
-              <View style={{marginBottom: 28}}>
-                <Controller
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({field: {onChange, value}}) => {
-                    return (
-                      <RegisterStoreName
-                        onChange={onChange}
-                        value={value}
-                        error={errors.storeName !== undefined}
-                      />
-                    );
-                  }}
-                  name="storeName"
+      <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+        <View style={[styles.flex]}>
+          <View style={[styles.screenHeaderWrap]}>
+            <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
+            <TouchableOpacity onPress={handleSubmit(onSubmit)}>
+              <Text style={[DesignSystem.title4Md, DesignSystem.purple5]}>저장</Text>
+            </TouchableOpacity>
+          </View>
+          <StoreMenuBar
+            toggleStore={() => navigation.navigate('Store')}
+            toggleMission={() => navigation.navigate('StoreMission')}
+            toggleReview={() => navigation.navigate('StoreReview')}
+            storeStatus={0}
+          />
+          <KeyboardAvoidingView
+            style={[{flex: 1}]}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
+            <ScrollView style={{backgroundColor: '#FFFFFF'}}>
+              <View>
+                <ImageSwiperModal
+                  visible={imageSwiperModal}
+                  closeImageSwiperModal={() => setImageSwiperModal(false)}
                 />
-                {errors.storeName?.type === 'required' && (
-                  <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-                )}
+                <ImageSwiper height={220} imageList={storeImages.data} />
+                <TouchableOpacity
+                  style={[styles.editImageSwiperButton]}
+                  onPress={() => setImageSwiperModal(true)}
+                >
+                  <View style={[styles.editImageSwiperIcon]}>
+                    <Icon name="pencil" size={18} color="#323232" />
+                  </View>
+                </TouchableOpacity>
               </View>
-
-              <View style={{marginBottom: 28}}>
-                <Controller
-                  control={control}
-                  rules={{
-                    required: false,
-                  }}
-                  render={({field: {onChange, value}}) => {
-                    return <RegisterStoreIntro onChange={onChange} value={value} error={false} />;
-                  }}
-                  name="intro"
-                />
-              </View>
-
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({field: {onChange, value}}) => {
-                  return (
-                    <RegisterAddress
-                      onChange={onChange}
-                      value={value}
-                      error={errors.addressStreet !== undefined}
-                    />
-                  );
-                }}
-                name="addressStreet"
-              />
-              {errors.addressStreet?.type === 'required' && (
-                <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-              )}
-
-              <View style={{marginBottom: 28}}>
-                {/* 상세주소 */}
-                <Controller
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({field: {onChange, value}}) => {
-                    return (
-                      <>
-                        <RegisterStoreAddressDetail
+              <View style={[styles.storeInfoWrap]}>
+                <View style={{marginBottom: 28}}>
+                  <Controller
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({field: {onChange, value}}) => {
+                      return (
+                        <RegisterStoreName
                           onChange={onChange}
                           value={value}
-                          error={errors.addressDetail !== undefined}
+                          error={errors.storeName !== undefined}
                         />
-                      </>
-                    );
-                  }}
-                  name="addressDetail"
-                />
-                {errors.addressDetail?.type === 'required' && (
-                  <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-                )}
-              </View>
-              <View style={{marginBottom: 28}}>
-                <Controller
-                  control={control}
-                  rules={{
-                    min: 0,
-                  }}
-                  render={({field: {onChange, value}}) => {
-                    return (
-                      <RegisterStoreType
-                        onChange={onChange}
-                        value={value}
-                        error={errors.storeTypeId !== undefined}
-                      />
-                    );
-                  }}
-                  name="storeTypeId"
-                />
-                {errors.storeTypeId?.type === 'min' && (
-                  <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-                )}
-              </View>
-              <View style={{marginBottom: 28}}>
-                <Controller
-                  control={control}
-                  rules={{
-                    min: 0,
-                  }}
-                  render={({field: {onChange, value}}) => {
-                    return (
-                      <RegisterStoreTable
-                        onChange={onChange}
-                        value={value}
-                        error={errors.tableNum !== undefined}
-                      />
-                    );
-                  }}
-                  name="tableNum"
-                />
-                {errors.tableNum?.type === 'min' && (
-                  <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-                )}
-              </View>
+                      );
+                    }}
+                    name="storeName"
+                  />
+                  {errors.storeName?.type === 'required' && (
+                    <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+                  )}
+                </View>
 
-              <View style={{marginBottom: 28}}>
+                <View style={{marginBottom: 28}}>
+                  <Controller
+                    control={control}
+                    rules={{
+                      required: false,
+                    }}
+                    render={({field: {onChange, value}}) => {
+                      return <RegisterStoreIntro onChange={onChange} value={value} error={false} />;
+                    }}
+                    name="intro"
+                  />
+                </View>
+
                 <Controller
                   control={control}
                   rules={{
@@ -240,27 +151,116 @@ const StoreEdit = ({navigation}: Props) => {
                   }}
                   render={({field: {onChange, value}}) => {
                     return (
-                      <RegisterMenuName
+                      <RegisterAddress
                         onChange={onChange}
                         value={value}
-                        error={errors.representativeMenuName !== undefined}
+                        error={errors.addressStreet !== undefined}
                       />
                     );
                   }}
-                  name="representativeMenuName"
+                  name="addressStreet"
                 />
-                {errors.representativeMenuName?.type === 'required' && (
+                {errors.addressStreet?.type === 'required' && (
                   <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
                 )}
-              </View>
-              {/* 메뉴이미지 */}
-              <StoreEditMenuImages />
 
-              <StoreEditTime />
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
+                <View style={{marginBottom: 28}}>
+                  {/* 상세주소 */}
+                  <Controller
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({field: {onChange, value}}) => {
+                      return (
+                        <>
+                          <RegisterStoreAddressDetail
+                            onChange={onChange}
+                            value={value}
+                            error={errors.addressDetail !== undefined}
+                          />
+                        </>
+                      );
+                    }}
+                    name="addressDetail"
+                  />
+                  {errors.addressDetail?.type === 'required' && (
+                    <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+                  )}
+                </View>
+                <View style={{marginBottom: 28}}>
+                  <Controller
+                    control={control}
+                    rules={{
+                      min: 0,
+                    }}
+                    render={({field: {onChange, value}}) => {
+                      return (
+                        <RegisterStoreType
+                          onChange={onChange}
+                          value={value}
+                          error={errors.storeTypeId !== undefined}
+                        />
+                      );
+                    }}
+                    name="storeTypeId"
+                  />
+                  {errors.storeTypeId?.type === 'min' && (
+                    <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+                  )}
+                </View>
+                <View style={{marginBottom: 28}}>
+                  <Controller
+                    control={control}
+                    rules={{
+                      min: 0,
+                    }}
+                    render={({field: {onChange, value}}) => {
+                      return (
+                        <RegisterStoreTable
+                          onChange={onChange}
+                          value={value}
+                          error={errors.tableNum !== undefined}
+                        />
+                      );
+                    }}
+                    name="tableNum"
+                  />
+                  {errors.tableNum?.type === 'min' && (
+                    <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+                  )}
+                </View>
+
+                <View style={{marginBottom: 28}}>
+                  <Controller
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({field: {onChange, value}}) => {
+                      return (
+                        <RegisterMenuName
+                          onChange={onChange}
+                          value={value}
+                          error={errors.representativeMenuName !== undefined}
+                        />
+                      );
+                    }}
+                    name="representativeMenuName"
+                  />
+                  {errors.representativeMenuName?.type === 'required' && (
+                    <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+                  )}
+                </View>
+                {/* 메뉴이미지 */}
+                <StoreEditMenuImages />
+
+                <StoreEditTime />
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </View>
+      </SafeAreaView>
     </>
   );
 };

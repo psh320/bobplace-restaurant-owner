@@ -5,24 +5,36 @@ import {OperationTime} from '../data';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
 import {TimeList} from '../data/TimeList';
-import {useRecoilState} from 'recoil';
-import {editOperationTime} from '../state';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {editOperationTime, RCtimeIndex} from '../state';
 import {putEditTime} from '../api/store';
+import {useMutation, useQueryClient} from 'react-query';
+import {queryKey} from '../api/queryKey';
 
 type EditTimeModalProps = {
   visible: boolean;
   closeEditTimeModal: () => void;
-  index: number;
 };
 
-export const EditTimeModal: FC<EditTimeModalProps> = ({visible, closeEditTimeModal, index}) => {
+export const EditTimeModal: FC<EditTimeModalProps> = ({visible, closeEditTimeModal}) => {
+  const timeIndex = useRecoilValue(RCtimeIndex);
   const [editTime, setEditTime] = useRecoilState(editOperationTime);
-  const [editOperationData, setEditOperationData] = useState<OperationTime>(editTime[index]);
+  const [editOperationData, setEditOperationData] = useState<OperationTime>(editTime[timeIndex]);
+  console.log(timeIndex);
+  console.log('시간!!!!!!!!!!', editOperationData);
+  const queryClient = useQueryClient();
+  const timeMutation = useMutation(
+    (operationTimeId: number) => putEditTime(editOperationData, operationTimeId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKey.OPERATIONTIME);
+      },
+    },
+  );
 
   const submitChangedDate = () => {
     const operationTimeId = editOperationData.operationTimeId;
-    const response = putEditTime(editOperationData, operationTimeId);
-    console.log(response.data);
+    timeMutation.mutate(operationTimeId as number);
     closeEditTimeModal();
   };
 

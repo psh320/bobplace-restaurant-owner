@@ -1,5 +1,5 @@
 import React, {useCallback, useState, useEffect} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image, Platform} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import SocialWebviewModal from '../modal/SocialWebviewModal';
@@ -79,12 +79,7 @@ const Login = ({navigation}: Props) => {
         navigation.navigate('RegisterDone', {status: 1});
       }
       if (response.data.result.registerStatus === 'APPROVED') {
-        const tempRegisterStore = createStore();
-        navigation.navigate('RegisterStoreInfo', {
-          storeData: tempRegisterStore,
-          menuImageData: [],
-          storeImageData: [],
-        });
+        navigation.navigate('RegisterStoreInfo');
       }
       if (response.data.result.registerStatus === 'DONE') {
         navigation.navigate('MainNavigator');
@@ -166,6 +161,7 @@ const Login = ({navigation}: Props) => {
     <>
       <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
       <SafeAreaView style={styles.flex}>
+        <StatusBar barStyle={'dark-content'} backgroundColor="white" />
         {/* 개발 단계시 홈과 가입으로 가는 버튼 */}
         {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity onPress={goMain}>
