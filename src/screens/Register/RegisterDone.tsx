@@ -47,9 +47,12 @@ const RegisterDone = ({navigation, route}: Props) => {
   };
 
   return (
-    <SafeAreaView style={[styles.flex]}>
-      {route.params.status === 0 ? ownerRegister() : storeRegister()}
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex]}>
+        {route.params.status === 0 ? ownerRegister() : storeRegister()}
+      </SafeAreaView>
+    </>
   );
 };
 

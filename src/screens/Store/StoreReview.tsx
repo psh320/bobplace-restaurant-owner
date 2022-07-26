@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -63,8 +64,8 @@ const StoreReview = ({navigation, route}: Props) => {
   refreshStoreReview;
   return (
     <>
-      <View style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
-      <View style={[styles.flex]}>
+      <SafeAreaView style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
         </View>
@@ -146,7 +147,7 @@ const StoreReview = ({navigation, route}: Props) => {
             closePhotoModal={() => setPhotoModal(false)}
           />
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };

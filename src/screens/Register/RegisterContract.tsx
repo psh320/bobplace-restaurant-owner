@@ -9,46 +9,50 @@ const RegisterContract = ({navigation, route}: Props) => {
     navigation.goBack();
   };
   return (
-    <SafeAreaView style={[styles.flex]}>
-      <View style={[styles.modalHeader]}>
-        <TouchableOpacity onPress={goBack}>
-          <View style={[styles.backButton]}>
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+
+      <SafeAreaView style={[styles.flex]}>
+        <View style={[styles.modalHeader]}>
+          <TouchableOpacity onPress={goBack}>
+            <View style={[styles.backButton]}>
+              <Icon name="arrow-left" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+
+          <View>
+            <Text style={[styles.storeHeaderText]}>이용 약관</Text>
+          </View>
+
+          <View style={[styles.backButton, {opacity: 0}]}>
             <Icon name="arrow-left" size={24} color="black" />
           </View>
-        </TouchableOpacity>
-
-        <View>
-          <Text style={[styles.storeHeaderText]}>이용 약관</Text>
         </View>
-
-        <View style={[styles.backButton, {opacity: 0}]}>
-          <Icon name="arrow-left" size={24} color="black" />
-        </View>
-      </View>
-      <ScrollView contentContainerStyle={{margin: 16}}>
-        {route.params.type === 0 ? (
-          <Image
-            source={require('../../assets/images/contract/ServiceContract.png')}
-            style={{width: 343, height: 10200}}
-          />
-        ) : route.params.type === 1 ? (
-          <Image
-            source={require('../../assets/images/contract/PrivacyContract.png')}
-            style={{width: 343, height: 1108}}
-          />
-        ) : route.params.type === 2 ? (
-          <Image
-            source={require('../../assets/images/contract/MarketingContract.png')}
-            style={{width: 343, height: 432}}
-          />
-        ) : (
-          <Image
-            source={require('../../assets/images/contract/LocationContract.png')}
-            style={{width: 343, height: 5382}}
-          />
-        )}
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView contentContainerStyle={{margin: 16}}>
+          {route.params.type === 0 ? (
+            <Image
+              source={require('../../assets/images/contract/ServiceContract.png')}
+              style={{width: 343, height: 10200}}
+            />
+          ) : route.params.type === 1 ? (
+            <Image
+              source={require('../../assets/images/contract/PrivacyContract.png')}
+              style={{width: 343, height: 1108}}
+            />
+          ) : route.params.type === 2 ? (
+            <Image
+              source={require('../../assets/images/contract/MarketingContract.png')}
+              style={{width: 343, height: 432}}
+            />
+          ) : (
+            <Image
+              source={require('../../assets/images/contract/LocationContract.png')}
+              style={{width: 343, height: 5382}}
+            />
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 

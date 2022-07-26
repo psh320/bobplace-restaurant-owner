@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -26,7 +26,7 @@ const StoreMission = ({navigation, route}: Props) => {
 
   return (
     <>
-      <View style={{backgroundColor: '#FFFFFF', flex: 0}} />
+      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
       <View>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>
