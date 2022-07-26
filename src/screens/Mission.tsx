@@ -157,6 +157,10 @@ const Mission = () => {
         DataMissionsSuccess.refetch();
         console.log('미션 messaging 업데이트!');
       }
+      if (remoteMessage.data.title === 'missionChallenge') {
+        DataMissionsProgress.refetch();
+        console.log('미션 messaging 업데이트!');
+      }
     });
     return unsubscribe;
   }, []);
