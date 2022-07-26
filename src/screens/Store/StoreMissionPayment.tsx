@@ -1,11 +1,19 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreStackParamList} from '../../nav/StoreNavigator';
 import {StackScreenProps} from '@react-navigation/stack';
 import {CancelPointModal} from '../../modal/CancelPointModal';
 import {DesignSystem} from '../../assets/DesignSystem';
-import { ScrollView } from 'react-native-gesture-handler';
 
 type Props = StackScreenProps<StoreStackParamList, 'StoreMissionPayment'>;
 
@@ -42,7 +50,9 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
               <View style={[styles.seperateLine]} />
               <View style={[styles.infoRow]}>
                 <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>고객명</Text>
-                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.name}</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>
+                  {route.params.name}
+                </Text>
               </View>
               <View style={[styles.infoRow]}>
                 <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>결제일</Text>
@@ -52,11 +62,15 @@ const StoreMissionPayment = ({navigation, route}: Props) => {
               </View>
               <View style={[styles.infoRow]}>
                 <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>포인트</Text>
-                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.point}P</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>
+                  {route.params.point}P
+                </Text>
               </View>
               <View style={[styles.infoRow]}>
                 <Text style={[DesignSystem.body1Lt, DesignSystem.grey10]}>구분번호</Text>
-                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>{route.params.phone}</Text>
+                <Text style={[DesignSystem.title4Md, DesignSystem.grey17]}>
+                  {route.params.phone}
+                </Text>
               </View>
             </View>
             <View style={[styles.cancelBox]}>

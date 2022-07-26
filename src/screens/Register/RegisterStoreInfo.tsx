@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React from 'react';
 import {
   KeyboardAvoidingView,
   SafeAreaView,
@@ -49,153 +49,160 @@ const RegisterStoreInfo = ({navigation, route}: Props) => {
     navigation.navigate('RegisterStoreTime');
   };
   return (
-    <SafeAreaView style={[styles.flex]}>
-      <RegisterHeader goBack={() => goBack()} pageNum={1} totalPage={2} />
-      <KeyboardAvoidingView
-        style={[{flex: 1}]}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <ScrollView style={[styles.flex, styles.formWrap]}>
-          <View
-            style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline'}}
-          >
-            <Text style={[styles.RegisterFormTitle]}>영업정보</Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{color: '#6C69FF'}}>* </Text>
-              <Text style={[DesignSystem.caption1Lt, DesignSystem.grey10]}>필수입력</Text>
+    <>
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={[styles.flex]}>
+        <RegisterHeader goBack={() => goBack()} pageNum={1} totalPage={2} />
+        <KeyboardAvoidingView
+          style={[{flex: 1}]}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <ScrollView style={[styles.flex, styles.formWrap]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'baseline',
+              }}
+            >
+              <Text style={[styles.RegisterFormTitle]}>영업정보</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{color: '#6C69FF'}}>* </Text>
+                <Text style={[DesignSystem.caption1Lt, DesignSystem.grey10]}>필수입력</Text>
+              </View>
             </View>
-          </View>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, value}}) => {
-              return (
-                <RegisterStoreName
-                  onChange={onChange}
-                  value={value}
-                  error={errors.storeName !== undefined}
-                />
-              );
-            }}
-            name="storeName"
-          />
-          {errors.storeName?.type === 'required' ? (
-            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-          ) : (
-            <View style={{height: 20}} />
-          )}
-
-          <Controller
-            control={control}
-            rules={{
-              required: false,
-            }}
-            render={({field: {onChange, value}}) => {
-              return <RegisterStoreIntro onChange={onChange} value={value} error={false} />;
-            }}
-            name="storeIntro"
-          />
-          <View style={{height: 20}} />
-
-          {/* 주소 */}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, value}}) => {
-              return (
-                <>
-                  <RegisterAddress
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreName
                     onChange={onChange}
                     value={value}
-                    error={errors.address !== undefined}
+                    error={errors.storeName !== undefined}
                   />
-                </>
-              );
-            }}
-            name="address"
-          />
-          {errors.address?.type === 'required' && (
-            <Text style={[styles.errorMessage, {marginBottom: 0}]}>필수 입력사항입니다.</Text>
-          )}
-          {/* 상세주소 */}
-          <View style={{marginBottom: 20}}>
+                );
+              }}
+              name="storeName"
+            />
+            {errors.storeName?.type === 'required' ? (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            ) : (
+              <View style={{height: 20}} />
+            )}
+
             <Controller
               control={control}
               rules={{
                 required: false,
               }}
               render={({field: {onChange, value}}) => {
+                return <RegisterStoreIntro onChange={onChange} value={value} error={false} />;
+              }}
+              name="storeIntro"
+            />
+            <View style={{height: 20}} />
+
+            {/* 주소 */}
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({field: {onChange, value}}) => {
                 return (
                   <>
-                    <RegisterStoreAddressDetail
+                    <RegisterAddress
                       onChange={onChange}
                       value={value}
-                      error={errors.addressDetail !== undefined}
+                      error={errors.address !== undefined}
                     />
                   </>
                 );
               }}
-              name="addressDetail"
+              name="address"
             />
-          </View>
-          {/* {errors.addressDetail?.type === 'required' ? (
+            {errors.address?.type === 'required' && (
+              <Text style={[styles.errorMessage, {marginBottom: 0}]}>필수 입력사항입니다.</Text>
+            )}
+            {/* 상세주소 */}
+            <View style={{marginBottom: 20}}>
+              <Controller
+                control={control}
+                rules={{
+                  required: false,
+                }}
+                render={({field: {onChange, value}}) => {
+                  return (
+                    <>
+                      <RegisterStoreAddressDetail
+                        onChange={onChange}
+                        value={value}
+                        error={errors.addressDetail !== undefined}
+                      />
+                    </>
+                  );
+                }}
+                name="addressDetail"
+              />
+            </View>
+            {/* {errors.addressDetail?.type === 'required' ? (
             <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
           ) : (
             <View style={{height: 20}} />
           )} */}
 
-          {/* 가게유형 */}
-          <Controller
-            control={control}
-            rules={{
-              min: 0,
-            }}
-            render={({field: {onChange, value}}) => {
-              return (
-                <RegisterStoreType
-                  onChange={onChange}
-                  value={value}
-                  error={errors.storeTypeId !== undefined}
-                />
-              );
-            }}
-            name="storeTypeId"
-          />
-          {errors.storeTypeId?.type === 'min' ? (
-            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-          ) : (
-            <View style={{height: 20}} />
-          )}
+            {/* 가게유형 */}
+            <Controller
+              control={control}
+              rules={{
+                min: 0,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreType
+                    onChange={onChange}
+                    value={value}
+                    error={errors.storeTypeId !== undefined}
+                  />
+                );
+              }}
+              name="storeTypeId"
+            />
+            {errors.storeTypeId?.type === 'min' ? (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            ) : (
+              <View style={{height: 20}} />
+            )}
 
-          <Controller
-            control={control}
-            rules={{
-              min: 0,
-            }}
-            render={({field: {onChange, value}}) => {
-              return (
-                <RegisterStoreTable
-                  onChange={onChange}
-                  value={value}
-                  error={errors.tableNum !== undefined}
-                />
-              );
-            }}
-            name="tableNum"
-          />
-          {errors.tableNum?.type === 'min' ? (
-            <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
-          ) : (
-            <View style={{height: 20}} />
-          )}
-        </ScrollView>
-      </KeyboardAvoidingView>
-      <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
-    </SafeAreaView>
+            <Controller
+              control={control}
+              rules={{
+                min: 0,
+              }}
+              render={({field: {onChange, value}}) => {
+                return (
+                  <RegisterStoreTable
+                    onChange={onChange}
+                    value={value}
+                    error={errors.tableNum !== undefined}
+                  />
+                );
+              }}
+              name="tableNum"
+            />
+            {errors.tableNum?.type === 'min' ? (
+              <Text style={[styles.errorMessage]}>필수 입력사항입니다.</Text>
+            ) : (
+              <View style={{height: 20}} />
+            )}
+          </ScrollView>
+        </KeyboardAvoidingView>
+        <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
+      </SafeAreaView>
+    </>
   );
 };
 

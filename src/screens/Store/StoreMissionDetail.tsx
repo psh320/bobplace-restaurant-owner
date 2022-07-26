@@ -2,6 +2,7 @@ import React from 'react';
 import {
   FlatList,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -27,7 +28,7 @@ const StoreMissionDetail = ({navigation, route}: Props) => {
   console.log(DataMissionManageDetail);
   return (
     <>
-      <View style={{flex: 0, backgroundColor: 'white'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
       <View style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap, {marginBottom: 8}]}>
           <TouchableOpacity
