@@ -11,7 +11,7 @@ import {postStoreAuthImages} from '../../api/register';
 
 const options: ImageLibraryOptions = {
   mediaType: 'photo',
-  quality: 0.5,
+  quality: 1,
   maxHeight: 1600,
   maxWidth: 1000,
 };

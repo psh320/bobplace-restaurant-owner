@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, Platform} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {StyleSheet, Text, Platform, SafeAreaView} from 'react-native';
 import {RegisterNextButton, RegisterHeader, RegisterName, RegisterGender} from '../../components';
 import {RegisterInterface} from '../../data/IRegister';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -147,7 +146,7 @@ const RegisterForm = ({navigation, route}: Props) => {
             authError && <Text style={[styles.errorMessage]}>인증이 완료되지 않았습니다.</Text>}
           {!authError && <Text style={[styles.clearMessage]}>인증이 완료되었습니다.</Text>}
         </KeyboardAwareScrollView>
-        <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={isValid ? 1 : 0} />
+        <RegisterNextButton goNext={handleSubmit(onSubmit)} buttonState={1} />
       </SafeAreaView>
     </>
   );

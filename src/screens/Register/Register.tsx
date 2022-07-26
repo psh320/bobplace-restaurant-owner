@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {View, StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import {RegisterNextButton, RegisterHeader, CheckBox} from '../../components';
 import {createRegister} from '../../data/createRegister';
 import {RegisterInterface} from '../../data/IRegister';
@@ -43,7 +42,6 @@ const Register = ({navigation}: Props) => {
 
   return (
     <>
-      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex]}>
         <RegisterHeader goBack={goBack} pageNum={0} />
         <View style={[styles.flex, styles.CheckBoxWrap]}>
@@ -174,6 +172,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'baseline',
     justifyContent: 'space-between',
+    marginRight: 16,
   },
 });
 

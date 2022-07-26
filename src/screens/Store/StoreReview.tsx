@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -30,8 +29,6 @@ const RATEHALFWIDTH = (Dimensions.get('screen').width - 27) / 2;
 type Props = StackScreenProps<StoreStackParamList, 'StoreReview'>;
 
 const StoreReview = ({navigation, route}: Props) => {
-  const insets = useSafeAreaInsets();
-
   const [photoModal, setPhotoModal] = useState(false);
   const [reviewPhoto, setReviewPhoto] = useState<{uri: string}>({uri: 'string'});
   const openPhotoModal = (imageSource: string) => {
@@ -64,7 +61,7 @@ const StoreReview = ({navigation, route}: Props) => {
   refreshStoreReview;
   return (
     <>
-      <SafeAreaView style={{height: insets.top, backgroundColor: '#FFFFFF'}} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FFFFFF'}} />
       <SafeAreaView style={[styles.flex]}>
         <View style={[styles.screenHeaderWrap]}>
           <Text style={[DesignSystem.h2SB, {color: 'black'}]}>가게 관리</Text>

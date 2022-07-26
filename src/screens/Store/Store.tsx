@@ -1,6 +1,5 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StoreMenuBar} from '../../components/Store/StoreMenuBar';
 import {StoreInfo} from '../../components/Store/StoreInfo';
 import {useNavigation} from '@react-navigation/native';
@@ -14,7 +13,6 @@ import {useQuery} from 'react-query';
 const Store = () => {
   const [store, setStore] = useRecoilState(storeData);
   const [storeTime, setStoreTime] = useRecoilState(editOperationTime);
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const DataStoreInfo = useQuery(queryKey.STOREINFO, getStoreInfo, {
     onSuccess: (data) => {

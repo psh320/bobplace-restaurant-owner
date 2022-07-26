@@ -13,7 +13,7 @@ type CheckBoxProps = {
 export const CheckBox: FC<CheckBoxProps> = ({onPress, title, isChecked, isCheckAll}) => {
   return (
     <View style={styles.container}>
-      <Pressable onPress={onPress}>
+      <Pressable onPress={onPress} style={{flexDirection: 'row'}}>
         <View style={isChecked ? styles.markedCircle : styles.unmarkedCircle}>
           <Icon
             name="check"
@@ -22,8 +22,9 @@ export const CheckBox: FC<CheckBoxProps> = ({onPress, title, isChecked, isCheckA
             style={isChecked ? styles.markedCheck : styles.unmarkedCheck}
           />
         </View>
+
+        <Text style={[styles.title, {fontWeight: isCheckAll ? '600' : '400'}]}>{title}</Text>
       </Pressable>
-      <Text style={[styles.title, {fontWeight: isCheckAll ? '600' : '400'}]}>{title}</Text>
     </View>
   );
 };

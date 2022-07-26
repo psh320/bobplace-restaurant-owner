@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MyStackParamList} from '../../nav/MyNavigator';
 import {MyHeader} from '../../components/My/MyHeader';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {MyWriteInquiry} from '../../components/My/MyWriteInquiry';
 import {MyInquiryList} from '../../components/My/MyInquiryList';
 import {DesignSystem} from '../../assets/DesignSystem';

@@ -1,6 +1,14 @@
 import React, {useCallback, useState, useEffect} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image, Platform, StatusBar} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  Platform,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import SocialWebviewModal from '../modal/SocialWebviewModal';
 import auth from '@react-native-firebase/auth';
@@ -159,7 +167,6 @@ const Login = ({navigation}: Props) => {
   const goRegister = useCallback(() => navigation.navigate('Register'), []);
   return (
     <>
-      <SafeAreaView style={{backgroundColor: '#FFFFFF', flex: 0}} />
       <SafeAreaView style={styles.flex}>
         <StatusBar barStyle={'dark-content'} backgroundColor="white" />
         {/* 개발 단계시 홈과 가입으로 가는 버튼 */}
@@ -256,7 +263,7 @@ const styles = StyleSheet.create({
     height: 226,
   },
   loginButtonWrap: {
-    marginBottom: 30,
+    marginBottom: 60,
     alignItems: 'center',
   },
   iconButton: {

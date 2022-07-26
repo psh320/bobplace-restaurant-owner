@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
-import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Modal, StyleSheet, TouchableOpacity, View, SafeAreaView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SocialWebview from './SocialWebview';
 
