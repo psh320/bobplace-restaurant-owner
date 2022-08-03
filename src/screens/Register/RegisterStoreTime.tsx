@@ -7,20 +7,19 @@ import {RegisterHeader, RegisterNextButton, RegisterTime} from '../../components
 import {RegisterMenuName} from '../../components/Register/RegisterMenuName';
 import {RegisterStoreImages} from '../../components/Register/RegisterStoreImages';
 import {AuthStackParamList} from '../../nav';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {registerMenuImage, registerOperationTime, registerStoreImage, storeData} from '../../state';
 import {RegisterMenuImages} from '../../components/Register/RegisterMenuImages';
 import {postStoreImages, postStoreMenuImages} from '../../api/register';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStoreTime'>;
 
-const RegisterStoreTime = ({navigation, route}: Props) => {
+const RegisterStoreTime = ({navigation}: Props) => {
   const storeImages = useRecoilValue(registerStoreImage);
   const menuImages = useRecoilValue(registerMenuImage);
   const RCstoreData = useRecoilValue(storeData);
   const registerTime = useRecoilValue(registerOperationTime);
-  const postData = {...RCstoreData, operationTimeVO: registerTime};
-  console.log(postData);
+
   const postRegister = async (data: any) => {
     try {
       const response = await customAxios().post('/api/v1/stores', data);
@@ -34,7 +33,7 @@ const RegisterStoreTime = ({navigation, route}: Props) => {
   const {
     control,
     handleSubmit,
-    formState: {errors, isValid},
+    formState: {errors},
   } = useForm({
     mode: 'onChange',
     defaultValues: {

@@ -17,7 +17,7 @@ const options: ImageLibraryOptions = {
 };
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterStore'>;
 
-const RegisterStore = ({navigation, route}: Props) => {
+const RegisterStore = ({navigation}: Props) => {
   const [imageUri, setImageUri] = useState<ImageInterface[]>([]);
   const goResult = () => {
     navigation.navigate('RegisterDone', {status: 0});
