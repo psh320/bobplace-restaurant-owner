@@ -23,6 +23,7 @@ export const RegisterStoreIntro: FC<RegisterStoreIntroProps> = ({onChange, value
       <TextInput
         style={[
           styles.nameInput,
+          DesignSystem.grey17,
           error && focusedIntro
             ? styles.errorBorderFocus
             : error && !focusedIntro

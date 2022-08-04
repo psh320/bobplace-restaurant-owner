@@ -28,6 +28,7 @@ export const RegisterMenuName: FC<RegisterMenuNameProps> = ({onChange, value, er
       <TextInput
         style={[
           styles.nameInput,
+          DesignSystem.grey17,
           error && focusedName
             ? styles.errorBorderFocus
             : error && !focusedName

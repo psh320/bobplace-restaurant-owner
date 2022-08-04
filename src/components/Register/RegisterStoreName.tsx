@@ -27,6 +27,7 @@ export const RegisterStoreName: FC<RegisterStoreNameProps> = ({onChange, value, 
       <TextInput
         style={[
           styles.nameInput,
+          DesignSystem.grey17,
           error && focusedName
             ? styles.errorBorderFocus
             : error && !focusedName
