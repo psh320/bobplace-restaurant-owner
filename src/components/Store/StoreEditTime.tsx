@@ -28,7 +28,11 @@ export const StoreEditTime = () => {
     (index: number) => putEditTime(RCOperationTime[index], RCOperationTime[index].operationTimeId),
     {
       onSuccess: () => {
+        console.log('체크박스 업데이트 성공!');
         queryClient.invalidateQueries(queryKey.OPERATIONTIME);
+      },
+      onError: (err) => {
+        console.log(err);
       },
     },
   );
@@ -43,13 +47,13 @@ export const StoreEditTime = () => {
                 <View style={[styles.checkboxWrap]}>
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    onPress={() => {
+                    onPress={async () => {
                       let tempData = [...RCOperationTime];
                       tempData[index] = {
                         ...tempData[index],
                         hasOperationTime: !item.hasOperationTime,
                       };
-                      setRCOperationTime(tempData);
+                      await setRCOperationTime(tempData);
                       timeMutation.mutate(index);
                     }}
                     isChecked={RCOperationTime[index].hasOperationTime}
@@ -97,13 +101,13 @@ export const StoreEditTime = () => {
                 <View style={[styles.checkboxWrap]}>
                   <CheckBoxRectangle
                     title={MapIndexToDay[index]}
-                    onPress={() => {
+                    onPress={async () => {
                       let tempData = [...RCOperationTime];
                       tempData[index] = {
                         ...tempData[index],
                         hasOperationTime: !item.hasOperationTime,
                       };
-                      setRCOperationTime(tempData);
+                      await setRCOperationTime(tempData);
                       timeMutation.mutate(index);
                     }}
                     isChecked={item.hasOperationTime}
