@@ -7,6 +7,9 @@ import {DesignSystem} from '../../assets/DesignSystem';
 import {useRecoilState} from 'recoil';
 import {editOperationTime, RCtimeIndex} from '../../state';
 import {EditTimeModal} from '../../modal/EditTimeModal';
+import {putEditTime} from '../../api/store';
+import {useMutation, useQueryClient} from 'react-query';
+import {queryKey} from '../../api/queryKey';
 
 const MapIndexToDay = ['월', '화', '수', '목', '금', '토', '일'];
 
@@ -15,9 +18,20 @@ const processTime = (time: string) => {
 };
 
 export const StoreEditTime = () => {
+  const queryClient = useQueryClient();
+
   const [editTimeModal, setEditTimeModal] = useState(false);
   const [RCOperationTime, setRCOperationTime] = useRecoilState(editOperationTime);
   const [timeIndex, setTimeIndex] = useRecoilState(RCtimeIndex);
+
+  const timeMutation = useMutation(
+    (index: number) => putEditTime(RCOperationTime[index], RCOperationTime[index].operationTimeId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKey.OPERATIONTIME);
+      },
+    },
+  );
 
   const renderedTimeTable = () => {
     return (
@@ -36,6 +50,7 @@ export const StoreEditTime = () => {
                         hasOperationTime: !item.hasOperationTime,
                       };
                       setRCOperationTime(tempData);
+                      timeMutation.mutate(index);
                     }}
                     isChecked={RCOperationTime[index].hasOperationTime}
                   />
@@ -51,7 +66,7 @@ export const StoreEditTime = () => {
                     }}
                   >
                     <View>
-                      <Text>
+                      <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>
                         {processTime(item.startTime)}~{processTime(item.endTime)}
                       </Text>
                     </View>
@@ -68,7 +83,7 @@ export const StoreEditTime = () => {
                     }}
                   >
                     <View>
-                      <Text>
+                      <Text style={[DesignSystem.body1Lt, DesignSystem.grey17]}>
                         {processTime(item.breakStartTime)}~{processTime(item.breakEndTime)}
                       </Text>
                     </View>
@@ -89,6 +104,7 @@ export const StoreEditTime = () => {
                         hasOperationTime: !item.hasOperationTime,
                       };
                       setRCOperationTime(tempData);
+                      timeMutation.mutate(index);
                     }}
                     isChecked={item.hasOperationTime}
                   />
@@ -96,7 +112,7 @@ export const StoreEditTime = () => {
                 <View
                   style={{flex: 0.78, height: 30, alignItems: 'center', justifyContent: 'center'}}
                 >
-                  <Text>휴무</Text>
+                  <Text style={[DesignSystem.body1Lt, DesignSystem.grey8]}>휴무</Text>
                 </View>
               </View>
             );
