@@ -9,7 +9,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {RCstoreId, registerMenuImage} from '../../state';
 import {queryKey} from '../../api/queryKey';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
-import {getMenuImage, getStoreImage, patchDeleteMenuImage} from '../../api/store';
+import {getMenuImage, getStoreId, getStoreImage, patchDeleteMenuImage} from '../../api/store';
 import {postStoreMenuImages} from '../../api/register';
 
 const options: ImageLibraryOptions = {
@@ -23,7 +23,7 @@ export const StoreEditMenuImages = () => {
   const queryClient = useQueryClient();
   const menuImages = useQuery(queryKey.MENUIMAGES, getMenuImage);
   const menuImagesMutation = useMutation(
-    (data: ImageInterface[]) => postStoreMenuImages(data, storeId),
+    (data: ImageInterface[]) => postStoreMenuImages(data, storeId.data),
 
     {
       onMutate: async (image) => {
@@ -83,7 +83,8 @@ export const StoreEditMenuImages = () => {
       queryClient.invalidateQueries(queryKey.MENUIMAGES);
     },
   });
-  const storeId = useRecoilValue(RCstoreId);
+  const storeId = useQuery(queryKey.STOREID, () => getStoreId());
+
   //이미지 등록 시작!
   const openImagePicker = () => {
     Alert.alert('사진', '어떻게 가져올까요?', [

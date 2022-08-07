@@ -24,4 +24,5 @@ export const queryKey = {
   MISSIONSSUCCESS: 'missionsSuccess',
   MISSIONMANAGE: 'missionManage',
   MISSIONMANAGEDETAIL: 'missionManageDetail',
+  STORERATING: 'storeRating',
 };
