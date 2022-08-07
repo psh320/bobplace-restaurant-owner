@@ -25,4 +25,5 @@ export const queryKey = {
   MISSIONMANAGE: 'missionManage',
   MISSIONMANAGEDETAIL: 'missionManageDetail',
   STORERATING: 'storeRating',
+  EYEBALLS: 'eyeballs',
 };
