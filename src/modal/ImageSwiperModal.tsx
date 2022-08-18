@@ -38,7 +38,7 @@ export const ImageSwiperModal: FC<ImageSwiperModalProps> = ({visible, closeImage
   const queryClient = useQueryClient();
   const storeImageList = useQuery(queryKey.STOREIMAGES, getStoreImage);
   const storeImagesMutation = useMutation(
-    (data: ImageInterface[]) => postStoreImages(data, storeId),
+    (data: ImageInterface[]) => postStoreImages(data, storeId.data),
     {
       onMutate: async (image) => {
         // Cancel any outgoing refetches (so they don't overwrite our optimistic update)

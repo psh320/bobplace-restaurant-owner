@@ -38,6 +38,7 @@ export const RegisterStoreIntro: FC<RegisterStoreIntroProps> = ({onChange, value
         }}
         value={value}
         placeholder="가게 소개 입력"
+        placeholderTextColor="#949494"
         selectionColor={'#6C69FF'}
         onBlur={() => setFocusedIntro(false)}
         onFocus={() => setFocusedIntro(true)}

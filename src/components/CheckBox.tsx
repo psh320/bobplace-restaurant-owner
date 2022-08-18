@@ -14,7 +14,7 @@ type CheckBoxProps = {
 export const CheckBox: FC<CheckBoxProps> = ({onPress, title, isChecked, isCheckAll}) => {
   return (
     <View style={styles.container}>
-      <Pressable onPress={onPress} style={{flexDirection: 'row'}}>
+      <Pressable onPress={onPress} style={{flexDirection: 'row', alignItems: 'center'}}>
         <View style={isChecked ? styles.markedCircle : styles.unmarkedCircle}>
           <Icon
             name="check"
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 16,
   },
   unmarkedCircle: {
     width: 18,
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     borderColor: '#DFDFDF',
     borderWidth: 2,
+    marginRight: 16,
   },
   markedCheck: {opacity: 1},
   unmarkedCheck: {opacity: 0},
