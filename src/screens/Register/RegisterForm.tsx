@@ -46,7 +46,8 @@ const RegisterForm = ({navigation, route}: Props) => {
   const onSubmit = async () => {
     await postRegister();
     console.log('다음 누름');
-    navigation.navigate('RegisterDone', {status: 0});
+    // navigation.navigate('RegisterDone', {status: 0});
+    navigation.navigate('RegisterStoreInfo'); //영업정보 화면으로 보냈어
   };
 
   const goBack = () => {
