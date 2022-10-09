@@ -7,6 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import {TimeList} from '../data/TimeList';
 import {useRecoilState} from 'recoil';
 import {registerOperationTime} from '../state';
+import {DesignSystem} from '../assets/DesignSystem';
 
 type RegisterTimeModalProps = {
   visible: boolean;
@@ -84,7 +85,9 @@ export const RegisterTimeModal: FC<RegisterTimeModalProps> = ({
           </TouchableOpacity>
 
           <View style={{width: '100%', marginTop: 28}}>
-            <Text style={{fontSize: 16, lineHeight: 22, marginBottom: 8}}>영업시간</Text>
+            <Text style={[{fontSize: 16, lineHeight: 22, marginBottom: 8}, DesignSystem.grey17]}>
+              영업시간
+            </Text>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
             >
@@ -132,7 +135,9 @@ export const RegisterTimeModal: FC<RegisterTimeModalProps> = ({
           </View>
 
           <View style={{width: '100%', marginTop: 18}}>
-            <Text style={{fontSize: 16, lineHeight: 22, marginBottom: 8}}>브레이크 타임</Text>
+            <Text style={[{fontSize: 16, lineHeight: 22, marginBottom: 8}, DesignSystem.grey17]}>
+              브레이크 타임
+            </Text>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
             >
