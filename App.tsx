@@ -9,14 +9,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {AuthNavigator, MainNavigator} from './src/nav';
 import {RecoilRoot} from 'recoil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getRegisterStatus, postFcmToken, postToken} from './src/api';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import messaging from '@react-native-firebase/messaging';
 import {AppRegistry} from 'react-native';
 import codePush from 'react-native-code-push';
 
-Icon.loadFont();
 enableScreens();
 const queryClient = new QueryClient();
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-Icon.loadFont();
 import {RouteProp, ParamListBase} from '@react-navigation/native';
 import {StoreNavigator} from './StoreNavigator';
 import {MyNavigator} from './MyNavigator';

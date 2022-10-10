@@ -9,8 +9,8 @@ import {DesignSystem} from '../../assets/DesignSystem';
 type Props = NativeStackScreenProps<AuthStackParamList, 'RegisterDone'>;
 
 const RegisterDone = ({navigation, route}: Props) => {
-  const goInfo = () => {
-    navigation.navigate('Login'); //입점요청 승낙받을때까지 로그인으로 슝
+  const goBack = () => {
+    navigation.navigate('Login');
   };
 
   const goRegisterStore = () => {
@@ -41,7 +41,7 @@ const RegisterDone = ({navigation, route}: Props) => {
             1 영업일 이내에 가입이 완료됩니다.
           </Text>
         </View>
-        <RegisterNextButton goNext={() => goInfo()} buttonState={2} />
+        <RegisterNextButton goNext={() => goBack()} buttonState={2} />
       </>
     );
   };
