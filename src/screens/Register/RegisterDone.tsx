@@ -35,7 +35,7 @@ const RegisterDone = ({navigation, route}: Props) => {
       <>
         <View style={styles.doneWrap}>
           <Icon name="check" size={100} color="#7879F7" />
-          <Text style={[DesignSystem.h1SB, styles.purpleText]}>입정요청이</Text>
+          <Text style={[DesignSystem.h1SB, styles.purpleText]}>입점요청이</Text>
           <Text style={[DesignSystem.h1SB, styles.purpleText]}>접수되었습니다.</Text>
           <Text style={[DesignSystem.body1Long, DesignSystem.grey10, {marginTop: 24}]}>
             1 영업일 이내에 가입이 완료됩니다.

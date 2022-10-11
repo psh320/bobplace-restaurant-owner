@@ -85,7 +85,7 @@ const RegisterStoreTime = ({navigation}: Props) => {
   const goNext = async () => {
     const postData = {...RCstoreData, operationTimeVO: registerTime};
     registerMutation.mutate(postData);
-    navigation.navigate('RegisterDone', {status: 1});
+    navigation.navigate('MainNavigator');
   };
   return (
     <>
