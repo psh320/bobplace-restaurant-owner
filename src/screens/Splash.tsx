@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, SafeAreaView, Animated} from 'react-native';
+import {View, StyleSheet, Image, SafeAreaView, Animated, Text} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {RCstoreId} from '../state';
 import {getStoreId} from '../api/store';
@@ -27,6 +27,7 @@ const Splash = () => {
 
   return (
     <SafeAreaView style={[styles.flex]}>
+      <Text style={{color: 'white', fontSize: 12, fontFamily: 'Pretendard-Regular'}}>v1.2.0</Text>
       <View style={[styles.imageWrap]}>
         <Image source={require('../assets/images/splashAll.png')} style={[styles.logoImage]} />
         <Animated.View style={[styles.postionAbs, {bottom: progressValue}]}>

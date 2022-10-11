@@ -14,10 +14,12 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import messaging from '@react-native-firebase/messaging';
 import {AppRegistry} from 'react-native';
 import codePush from 'react-native-code-push';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+Icon.loadFont();
 
 enableScreens();
 const queryClient = new QueryClient();
-
+let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_RESUME};
 //FCM 권한 요청
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -107,4 +109,4 @@ const App = () => {
   );
 };
 
-export default codePush(App);
+export default codePush(codePushOptions)(App);
