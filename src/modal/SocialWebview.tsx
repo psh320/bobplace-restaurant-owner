@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {FC, useRef} from 'react';
-import {StyleSheet} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import {WebView} from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createStore} from '../data';
@@ -49,25 +49,31 @@ const SocialWebview: FC<SocialWebViewProps> = ({source, closeSocialModal}) => {
       console.log(e);
     }
     closeSocialModal();
-    if (data.registerStatus === 'NEW') {
-      navigation.navigate('Register');
-    }
-    if (data.registerStatus === 'JOINED') {
-      navigation.navigate('RegisterDone', {status: 0});
-    }
-    if (data.registerStatus === 'WAIT') {
-      navigation.navigate('RegisterDone', {status: 1});
-    }
-    if (data.registerStatus === 'APPROVED') {
-      const tempRegisterStore = createStore();
-      navigation.navigate('RegisterStoreInfo', {
-        storeData: tempRegisterStore,
-        menuImageData: [],
-        storeImageData: [],
-      });
-    }
-    if (data.registerStatus === 'DONE') {
-      navigation.navigate('MainNavigator');
+
+    if (data.role === 'USER') {
+      Alert.alert('이미 고객님으로 가입되어있는 계정입니다.');
+    } else {
+      if (data.registerStatus === 'NEW') {
+        navigation.navigate('Register');
+      }
+      if (data.registerStatus === 'JOINED') {
+        navigation.navigate('RegisterDone', {status: 0});
+      }
+      if (data.registerStatus === 'WAIT') {
+        navigation.navigate('RegisterDone', {status: 1});
+      }
+      if (data.registerStatus === 'APPROVED') {
+        const tempRegisterStore = createStore();
+        navigation.navigate('RegisterStoreInfo', {
+          storeData: tempRegisterStore,
+          menuImageData: [],
+          storeImageData: [],
+        });
+        navigation.navigate('RegisterStoreInfo');
+      }
+      if (data.registerStatus === 'DONE') {
+        navigation.navigate('MainNavigator');
+      }
     }
   };
   return (

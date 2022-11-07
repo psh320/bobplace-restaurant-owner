@@ -7,6 +7,7 @@ import {
   Platform,
   StatusBar,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import SocialWebviewModal from '../modal/SocialWebviewModal';
@@ -37,22 +38,27 @@ const Login = ({navigation}: Props) => {
       } catch (e) {
         console.log('로그인 로컬 저장 에러남...');
       }
-      if (response.data.result.registerStatus === 'NEW') {
-        navigation.navigate('Register');
+      if (response.data.result.role === 'USER') {
+        Alert.alert('이미 고객님으로 가입되어있는 계정입니다.');
+      } else {
+        if (response.data.result.registerStatus === 'NEW') {
+          navigation.navigate('Register');
+        }
+        if (response.data.result.registerStatus === 'JOINED') {
+          navigation.navigate('RegisterDone', {status: 0});
+        }
+        if (response.data.result.registerStatus === 'WAIT') {
+          navigation.navigate('RegisterDone', {status: 1});
+        }
+        if (response.data.result.registerStatus === 'APPROVED') {
+          // const tempRegisterStore = createStore(); //초기 빈값으로 틀 만들기 - 리코일하며 없어도될듯
+          navigation.navigate('RegisterStoreInfo');
+        }
+        if (response.data.result.registerStatus === 'DONE') {
+          navigation.navigate('MainNavigator');
+        }
       }
-      if (response.data.result.registerStatus === 'JOINED') {
-        navigation.navigate('RegisterDone', {status: 0});
-      }
-      if (response.data.result.registerStatus === 'WAIT') {
-        navigation.navigate('RegisterDone', {status: 1});
-      }
-      if (response.data.result.registerStatus === 'APPROVED') {
-        // const tempRegisterStore = createStore(); //초기 빈값으로 틀 만들기 - 리코일하며 없어도될듯
-        navigation.navigate('RegisterStoreInfo');
-      }
-      if (response.data.result.registerStatus === 'DONE') {
-        navigation.navigate('MainNavigator');
-      }
+
       return response.data;
       // messaging()
       //   .getToken()
@@ -75,21 +81,28 @@ const Login = ({navigation}: Props) => {
       } catch (e) {
         console.log('로그인 로컬 저장 에러남...');
       }
-      if (response.data.result.registerStatus === 'NEW') {
-        navigation.navigate('Register');
+
+      if (response.data.result.role === 'USER') {
+        Alert.alert('이미 고객님으로 가입되어있는 계정입니다.');
+      } else {
+        if (response.data.result.registerStatus === 'NEW') {
+          navigation.navigate('Register');
+        }
+        if (response.data.result.registerStatus === 'JOINED') {
+          navigation.navigate('RegisterDone', {status: 0});
+        }
+        if (response.data.result.registerStatus === 'WAIT') {
+          navigation.navigate('RegisterDone', {status: 1});
+        }
+        if (response.data.result.registerStatus === 'APPROVED') {
+          // const tempRegisterStore = createStore(); //초기 빈값으로 틀 만들기 - 리코일하며 없어도될듯
+          navigation.navigate('RegisterStoreInfo');
+        }
+        if (response.data.result.registerStatus === 'DONE') {
+          navigation.navigate('MainNavigator');
+        }
       }
-      if (response.data.result.registerStatus === 'JOINED') {
-        navigation.navigate('RegisterDone', {status: 0});
-      }
-      if (response.data.result.registerStatus === 'WAIT') {
-        navigation.navigate('RegisterDone', {status: 1});
-      }
-      if (response.data.result.registerStatus === 'APPROVED') {
-        navigation.navigate('RegisterStoreInfo');
-      }
-      if (response.data.result.registerStatus === 'DONE') {
-        navigation.navigate('MainNavigator');
-      }
+
       return response.data;
       // messaging()
       //   .getToken()
