@@ -18,9 +18,9 @@ export type IMissionSuccessType = {
   dayOfWeek: string;
   mission: string;
   missionId: number;
-  point: number;
-  userId: number;
+  point: string;
   userName: string;
+  phone: number;
   seperate?: any;
 };
 export type dayofweekType = {

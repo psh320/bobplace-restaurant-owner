@@ -265,7 +265,7 @@ const Mission = () => {
                     mission={item.mission}
                     missionId={item.missionId}
                     point={item.point}
-                    userId={item.userId}
+                    phone={item.phone}
                     userName={item.userName}
                     seperate={seperate}
                   />

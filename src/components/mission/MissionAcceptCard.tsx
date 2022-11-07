@@ -8,7 +8,7 @@ import {patchMissionAccept, patchMissionDeny} from '../../api/mission';
 import {queryKey} from '../../api/queryKey';
 
 //prettier-ignore
-export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mission, missionId, point, userId, userName, seperate}) => {
+export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mission, missionId, point, phone, userName, seperate}) => {
   const nowDate = new Date();
   function timeForToday(now: any, cutomerTime: any) {
     const betweenTime = Math.floor((now.getTime() - cutomerTime.getTime()) / 1000 / 60);
@@ -89,6 +89,7 @@ export const MissionAcceptCard: FC<IMissionSuccessType> = ({date, dayOfWeek, mis
           <View style={[styles.nameBox]}>
             <Text style={[DesignSystem.body2Lt, {color: '#E03D32'}]}>성공요청 • {timeForToday(nowDate, new Date(date))}</Text>
             <Text style={[DesignSystem.title3SB, DesignSystem.grey14]}>{userName}</Text>
+            <Text style={[DesignSystem.body2Lt, {color: '#616161'}]}>{phone}</Text>
           </View>
           <View style={[styles.missionBox]}>
             <Text style={[DesignSystem.title4Md, {color: 'black'}]}>{mission} </Text>
